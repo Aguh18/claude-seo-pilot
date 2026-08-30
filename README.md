@@ -67,32 +67,24 @@ cd claude-seo-pilot
 
 ## 💡 Example Workflow
 
-### 1. Initialize Project
-
 ```bash
-cp ~/.claude/skills/seo-pilot/templates/.seo-project.template.md .seo-project.md
-# Edit with your business info
-```
+# 1. Setup
+/seo-pilot init
 
-### 2. Research Competitor
+# 2. Research everything
+/seo-pilot research all "keripik singkong"
 
-```bash
-defuddle parse https://kompetitor.com --md -o research/kompetitor.md
-```
+# 3. Create content
+/seo-pilot content all "Resep Keripik Singkong Original"
 
-### 3. Create Content
+# 4. Optimize SEO
+/seo-pilot optimize all content/resep-keripik.md
 
-```bash
-/blog brief "Your Blog Topic"
-/blog write "Your Blog Topic"
-```
+# 5. Publish
+/seo-pilot publish all content/resep-keripik.md
 
-### 4. Optimize SEO
-
-```bash
-/blog seo-check blog/your-post.md
-/blog geo blog/your-post.md
-/blog schema blog/your-post.md
+# 6. Check progress
+/seo-pilot status
 ```
 
 ## 🏗️ Project Structure
