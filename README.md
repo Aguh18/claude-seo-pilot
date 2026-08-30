@@ -1,23 +1,56 @@
 # ✈️ SEO Pilot for Claude Code
 
-Complete SEO workflow — 4 commands, each does a complete job. Research, write, optimize, audit — all orchestrated automatically.
+Complete SEO workflow — 4 commands, each does a complete job. Keyword research, content creation, SEO optimization, site auditing — all orchestrated automatically with parallel subagents.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skills-blue)
-![Version](https://img.shields.io/badge/Version-1.0.0-green)
+![Version](https://img.shields.io/badge/Version-2.0.0-green)
 
 ## How It Works
 
-![SEO Pilot Workflow](docs/diagrams/workflow.png)
+![SEO Pilot Workflow](docs/diagrams/workflow.svg)
+
+SEO Pilot runs in **waves** — independent tasks launch as parallel subagents, dependent tasks wait for their inputs. Every subagent **loads relevant skills** before executing.
+
+```
+/seo-pilot init
+  Wave 1 (parallel): Scrape + Competitors + Keywords + Questions
+  Wave 2 (parallel): SEO Report + Diagrams
+  Wave 3 (single):   Config files
+
+/seo-pilot blog-write <topic>
+  Wave 1 (parallel): Keyword Research + Discourse
+  Wave 2 (sequential): Brief → Outline
+  Wave 3 (single):   Write Article
+  Wave 4 (parallel): SEO Check + Schema
+  Wave 5 (single):   Final Assembly
+
+/seo-pilot audit <url>
+  Wave 1 (5 parallel): Technical + On-Page + Schema + GEO + Content Quality
+  Wave 2 (single):     Combined Report
+```
 
 ## Commands
 
 | Command | What It Does |
 |---------|--------------|
-| `/seo-pilot init` | Scrape site → Competitors → Keywords → BRAND.md + VOICE.md → Diagrams + Vault |
-| `/seo-pilot write <topic>` | Research → Brief → Outline → Write → SEO → Schema → Publish |
-| `/seo-pilot audit <url>` | Technical SEO → On-Page → Schema → GEO → Report |
+| `/seo-pilot init` | Scrape site → Competitors → Keywords → SEO Report + Diagrams |
+| `/seo-pilot blog-write <topic>` | Keyword research → Brief → Outline → Write → SEO Check → Schema → Publish |
+| `/seo-pilot audit <url>` | Technical SEO + On-Page + Schema + GEO + Content Quality → Report |
 | `/seo-pilot status` | Show pipeline progress |
+
+## Mandatory Skill Loading
+
+Every subagent loads **all relevant skills** before executing. More context = better output.
+
+| Domain | Skills Loaded |
+|--------|--------------|
+| SEO | `seo-technical`, `seo-content`, `seo-geo`, `seo-schema`, `seo-page`, `seo-performance`, `seo-cluster`, `seo-flow` |
+| Blog | `blog-write`, `blog-brief`, `blog-outline`, `blog-seo-check`, `blog-analyze`, `blog-schema`, `blog-strategy`, `blog-persona`, `blog-style`, `blog-discourse`, `blog-chart` |
+| Content | `seo-content-brief`, `seo-content`, `blog-analyze` |
+| Web | `defuddle`, `serper-api` |
+| Visuals | `diagram-design`, `dataviz` |
+| AI/GEO | `seo-geo`, `seo-flow`, `blog-geo` |
 
 ## Install
 
@@ -38,45 +71,50 @@ cd claude-seo-pilot
 ## Example
 
 ```bash
-# First time — research everything about your project
+# First time — SEO research for your project
 /seo-pilot init
-# Enter URL: https://mysite.com
-# → Creates: BRAND.md, VOICE.md, diagrams, vault, config
+# → Enter URL: https://mysite.com
+# → Creates: seo-strategy.html, diagrams, keyword research, competitor analysis
 
-# Write a blog post — full pipeline
-/seo-pilot write "How to Choose the Best [Product]"
-# → Researches topic, writes article, optimizes SEO, publishes
+# Write blog post — full SEO pipeline
+/seo-pilot blog-write "How to Choose the Best [Product]"
+# → Keyword research → Brief → Write → SEO Check → Schema → Published
 
-# Audit your site
+# Audit site — all SEO dimensions
 /seo-pilot audit https://mysite.com
-# → Full report with prioritized fixes
+# → 5 parallel audits → combined prioritized report
 
-# Check what's done
+# Check progress
 /seo-pilot status
 ```
 
 ## What Gets Created
 
-After `init`:
+After `init`, everything lives in `seo-pilot/`:
 
 ```
-your-project/
-├── .seo-project.md          # Config (products, keywords, competitors)
-├── .seo-state.json          # Pipeline tracker
-├── BRAND.md                 # Brand identity
-├── VOICE.md                 # Writing tone & style
+seo-pilot/
+├── seo-strategy.html              # SEO strategy report (open in browser)
+├── .seo-project.md                # Site config, keywords, competitors
+├── .seo-state.json                # Pipeline tracker
+├── diagrams/
+│   ├── keyword-gap.html           # Keyword gap vs competitors
+│   ├── content-cluster.html       # Hub-and-spoke content map
+│   └── seo-priority.html          # Action items by impact/effort
 ├── research/
-│   ├── competitors/         # Competitor analysis
-│   ├── keywords/            # Keyword research
-│   └── market/              # Market landscape
-├── content/                 # Created content
-├── reports/                 # Audit reports
-├── diagrams/                # Visual diagrams
-│   ├── architecture.html
-│   ├── customer-journey.html
-│   └── erd.html
-└── obsidian-vault/          # Knowledge base
+│   ├── website-analysis.md        # Site SEO elements
+│   ├── competitors/*.md           # Per-competitor SEO analysis
+│   ├── keywords/keyword-strategy.md
+│   └── discourse/questions.md
+├── content/                       # Generated blog posts
+└── reports/                       # Audit reports
 ```
+
+## Precondition
+
+`blog-write`, `audit`, and `status` require `seo-pilot/` to exist. If missing:
+
+> Run `/seo-pilot init` first to set up the project.
 
 ## Built-in Skills
 
@@ -85,7 +123,6 @@ your-project/
 | seo-pilot | [Aguh18](https://github.com/Aguh18) |
 | blog | [Agrici Daniel](https://github.com/AgriciDaniel) |
 | seo | [Agrici Daniel](https://github.com/AgriciDaniel) |
-| obsidian-skills | [kepano](https://github.com/kepano/obsidian-skills) |
 | diagram-design | [cathrynlavery](https://github.com/cathrynlavery/diagram-design) |
 | defuddle | [Notion Labs](https://github.com/makenotion/defuddle) |
 | Serper API | [serper.dev](https://serper.dev) |
