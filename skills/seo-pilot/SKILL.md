@@ -18,6 +18,19 @@ description: Complete SEO workflow orchestrator. 4 commands that each run a full
 
 ---
 
+## Output Directory
+
+**ALL generated files go to `seo-pilot/` folder in the project root.** Never scatter files across the project root.
+
+On first run, create the directory:
+```
+mkdir -p seo-pilot/{research/{market,competitors,keywords,discourse},content,reports,diagrams}
+```
+
+All file paths in this skill are relative to `seo-pilot/`.
+
+---
+
 ## Execution Model
 
 **All commands use parallel subagents.** Never run steps sequentially when they're independent.
@@ -34,7 +47,7 @@ Use the `Agent` tool. Each subagent gets a focused prompt with the data it needs
 | Competitor analysis | `general-purpose` | Scrape and analyze each competitor |
 | Keyword research | `seo-dataforseo` | SERP data, volume, difficulty |
 | Discourse research | `general-purpose` | Reddit, X, YouTube, HN via WebSearch |
-| Brand docs (BRAND.md, VOICE.md) | `blog-brand` | After research completes |
+| Brand docs (BRAND.md, VOICE.md) | `general-purpose` | After research completes |
 | Content writing | `blog-writer` | Consumes brief + brand docs |
 | SEO check | `blog-seo` | Post-write validation |
 | Schema markup | `seo-schema` | JSON-LD generation |
@@ -42,7 +55,6 @@ Use the `Agent` tool. Each subagent gets a focused prompt with the data it needs
 | On-page audit | `seo-content` | Content quality, E-E-A-T |
 | GEO audit | `seo-geo` | AI citation readiness |
 | Diagrams | `diagram-design` | HTML/SVG architecture diagrams |
-| Obsidian vault | `general-purpose` | File organization |
 
 ---
 
@@ -50,28 +62,30 @@ Use the `Agent` tool. Each subagent gets a focused prompt with the data it needs
 
 One command to set up everything. Scrapes your site, researches the market, creates all docs.
 
+**First:** `mkdir -p seo-pilot/{research/{market,competitors,keywords,discourse},content,reports,diagrams}`
+
 **Execution — spawn these in parallel (Wave 1):**
 
 ```
 Agent 1: Scrape target website
   - URL provided by user
   - Extract: products, pricing, structure, content, positioning
-  - Save to research/market/site-analysis.md
+  - Save to seo-pilot/research/market/site-analysis.md
 
 Agent 2: Competitor analysis
   - Identify top 3-5 competitors from market context
   - Scrape each competitor site
-  - Save per-competitor to research/competitors/*.md
+  - Save per-competitor to seo-pilot/research/competitors/*.md
 
 Agent 3: Keyword research
   - Primary + secondary keywords from site context
   - SERP analysis, volume, difficulty, intent
-  - Save to research/keywords/primary-keywords.md
+  - Save to seo-pilot/research/keywords/primary-keywords.md
 
 Agent 4: Discourse research
   - Reddit, X, YouTube, HN for topic space
   - What people ask, complain, praise
-  - Save to research/discourse/topic-discourse.md
+  - Save to seo-pilot/research/discourse/topic-discourse.md
 ```
 
 **Wave 2 (after Wave 1 completes) — spawn these in parallel:**
@@ -79,62 +93,55 @@ Agent 4: Discourse research
 ```
 Agent 5: Generate brand docs
   - Input: site analysis + competitor data + discourse
-  - Output: BRAND.md + VOICE.md
+  - Output: seo-pilot/BRAND.md + seo-pilot/VOICE.md
 
 Agent 6: Create diagrams
   - Input: site analysis
-  - Output: diagrams/architecture.html, customer-journey.html, erd.html
-
-Agent 7: Setup Obsidian vault
-  - Input: all research from Wave 1
-  - Output: obsidian-vault/ structure with notes
+  - Output: seo-pilot/diagrams/architecture.html, customer-journey.html, erd.html
 ```
 
 **Wave 3 (after Wave 2):**
 
 ```
-Agent 8: Create config files
-  - .seo-project.md (products, keywords, competitors)
-  - .seo-state.json (pipeline tracker)
+Agent 7: Create config + consolidated report
+  - seo-pilot/.seo-project.md (products, keywords, competitors)
+  - seo-pilot/.seo-state.json (pipeline tracker)
+  - seo-pilot/seo-pilot-init.md (compiled research summary)
 ```
 
 **Files created:**
 
 ```
-.seo-project.md              # Products, keywords, competitors config
-.seo-state.json              # Pipeline tracker
-BRAND.md                     # Brand identity & positioning
-VOICE.md                     # Writing tone & style guide
-
-research/
-├── competitors/             # Competitor analysis (per site)
-│   ├── kompetitor1.md
-│   └── kompetitor2.md
-├── keywords/                # Keyword research
-│   └── primary-keywords.md
-├── discourse/               # Social listening
-│   └── topic-discourse.md
-└── market/                  # Market landscape
-    └── market-overview.md
-
-diagrams/
-├── architecture.html        # Backend architecture
-├── customer-journey.html    # Customer journey map
-└── erd.html                 # Database diagram
-
-obsidian-vault/
-├── 00-index.md              # Hub
-├── notes/                   # All research notes
-├── products/                # Product docs
-└── strategy/                # Strategy docs
+seo-pilot/
+├── .seo-project.md              # Products, keywords, competitors config
+├── .seo-state.json              # Pipeline tracker
+├── BRAND.md                     # Brand identity & positioning
+├── VOICE.md                     # Writing tone & style guide
+├── seo-pilot-init.md            # Compiled research summary
+├── research/
+│   ├── market/
+│   │   └── site-analysis.md     # Scraped site data
+│   ├── competitors/
+│   │   ├── kompetitor1.md       # Per-competitor analysis
+│   │   └── kompetitor2.md
+│   ├── keywords/
+│   │   └── primary-keywords.md  # Keyword research
+│   └── discourse/
+│       └── topic-discourse.md   # Social listening
+├── content/                     # Generated blog posts
+├── reports/                     # Audit reports
+└── diagrams/
+    ├── architecture.html        # Backend architecture
+    ├── customer-journey.html    # Customer journey map
+    └── erd.html                 # Database diagram
 ```
 
 **Usage:**
 ```bash
 /seo-pilot init
 # → "Enter your website URL: https://keripikmangdedi.id"
-# → (4 agents scrape + research in parallel, then 3 agents create docs in parallel)
-# → "Done! 15 files created. Next: /seo-pilot blog-write <topic>"
+# → (4 agents scrape + research in parallel, then 2 agents create docs in parallel)
+# → "Done! Files saved to seo-pilot/. Next: /seo-pilot blog-write <topic>"
 ```
 
 ---
@@ -143,17 +150,19 @@ obsidian-vault/
 
 Full content pipeline for a topic. From research to published post.
 
+**First:** `mkdir -p seo-pilot/content`
+
 **Execution — Wave 1: Research (parallel)**
 
 ```
 Agent 1: Discourse research for this specific topic
   - What people say about <topic> on Reddit, X, YouTube
-  - Save to research/discourse/<topic-slug>-discourse.md
+  - Save to seo-pilot/research/discourse/<topic-slug>-discourse.md
 
 Agent 2: SERP + keyword analysis for this topic
   - Competitor content ranking for this topic
   - Keyword gaps, search volume, intent
-  - Save to research/keywords/<topic-slug>-keywords.md
+  - Save to seo-pilot/research/keywords/<topic-slug>-keywords.md
 ```
 
 **Wave 2: Brief + Outline (sequential — brief needs research)**
@@ -174,8 +183,8 @@ Agent 4: Create outline
 
 ```
 Agent 5: Write full article
-  - Input: brief + outline + BRAND.md + VOICE.md
-  - Output: complete article in content/<topic-slug>.md
+  - Input: brief + outline + seo-pilot/BRAND.md + seo-pilot/VOICE.md
+  - Output: complete article in seo-pilot/content/<topic-slug>.md
   - Use blog-writer skill
 ```
 
@@ -203,27 +212,14 @@ Agent 8: Diagram/chart (if data-heavy topic)
 ```
 Agent 9: Final assembly + save
   - Merge article + schema + chart
-  - Save to content/<topic-slug>.md
-  - Copy to obsidian-vault/notes/
-  - Update .seo-state.json
+  - Save to seo-pilot/content/<topic-slug>.md
+  - Update seo-pilot/.seo-state.json
 ```
 
 **Usage:**
 ```bash
 /seo-pilot blog-write "Resep Keripik Singkong Original"
-# → Wave 1: 2 agents (discourse + keywords) in parallel
-# → Wave 2: 2 agents (brief + outline) in parallel
-# → Wave 3: 1 agent (write)
-# → Wave 4: 3 agents (SEO + schema + chart) in parallel
-# → Wave 5: publish
-# → Saved to content/resep-keripik-singkong-original.md
-```
-
-**Also works for:**
-```bash
-/seo-pilot blog-write "Why Our Chips Are Better"       # Blog post
-/seo-pilot blog-write "Kripset Jadul"                   # Product page
-/seo-pilot blog-write "Complete Guide to Cassava Chips" # Pillar page
+# → Saved to seo-pilot/content/resep-keripik-singkong-original.md
 ```
 
 ---
@@ -231,6 +227,8 @@ Agent 9: Final assembly + save
 ## `/seo-pilot audit <url>`
 
 Full SEO audit with actionable report. All audit types run in parallel.
+
+**First:** `mkdir -p seo-pilot/reports`
 
 **Execution — spawn ALL 5 in parallel (single wave):**
 
@@ -274,15 +272,13 @@ Agent 5: Content quality analysis
 Agent 6: Generate combined report
   - Input: all 5 audit results
   - Output: prioritized report (Critical → High → Medium → Low)
-  - Save to reports/audit-<domain>-<date>.md
+  - Save to seo-pilot/reports/audit-<domain>-<date>.md
 ```
 
 **Usage:**
 ```bash
 /seo-pilot audit https://keripikmangdedi.id
-# → 5 audit agents run in parallel
-# → 1 agent merges into final report
-# → "Report saved to reports/audit-keripikmangdedi.id-2026-08-30.md"
+# → Report saved to seo-pilot/reports/audit-keripikmangdedi.id-2026-08-30.md
 ```
 
 ---
@@ -291,10 +287,10 @@ Agent 6: Generate combined report
 
 Check pipeline progress.
 
-**Execution: single agent, reads .seo-state.json**
+**Execution: single agent, reads seo-pilot/.seo-state.json**
 
 ```
-Agent 1: Read .seo-state.json + scan content/ and research/ dirs
+Agent 1: Read seo-pilot/.seo-state.json + scan seo-pilot/content/ and seo-pilot/research/ dirs
   - Report: what's done, what's in progress, what's next
 ```
 
@@ -308,18 +304,19 @@ Agent 1: Read .seo-state.json + scan content/ and research/ dirs
 
 ## Project Files
 
-After init, these files exist in your project:
+After init, everything lives under `seo-pilot/`:
 
 | File | Purpose |
 |------|---------|
-| `.seo-project.md` | Products, keywords, competitors, config |
-| `.seo-state.json` | Pipeline progress tracker |
-| `BRAND.md` | Brand identity, positioning, audience |
-| `VOICE.md` | Writing tone, style, do's and don'ts |
-| `research/` | Research results |
-| `content/` | Created content |
-| `reports/` | Audit reports |
-| `obsidian-vault/` | Knowledge base |
+| `seo-pilot/.seo-project.md` | Products, keywords, competitors, config |
+| `seo-pilot/.seo-state.json` | Pipeline progress tracker |
+| `seo-pilot/BRAND.md` | Brand identity, positioning, audience |
+| `seo-pilot/VOICE.md` | Writing tone, style, do's and don'ts |
+| `seo-pilot/seo-pilot-init.md` | Compiled research summary |
+| `seo-pilot/research/` | Research results |
+| `seo-pilot/content/` | Created content |
+| `seo-pilot/reports/` | Audit reports |
+| `seo-pilot/diagrams/` | Visual diagrams |
 
 ## Example: First Time Setup
 
@@ -327,17 +324,15 @@ After init, these files exist in your project:
 # 1. Initialize — research everything about your project
 /seo-pilot init
 # Enter URL: https://mysite.com
-# → 4 agents parallel (scrape + competitors + keywords + discourse)
-# → 3 agents parallel (brand docs + diagrams + vault)
-# → Config created
+# → All output saved to seo-pilot/
 
 # 2. Create your first blog post
 /seo-pilot blog-write "How to Choose the Best [Your Product]"
-# → Full pipeline: research → write → optimize
+# → Saved to seo-pilot/content/
 
 # 3. Audit your site
 /seo-pilot audit https://mysite.com
-# → 5 audit agents parallel → combined report
+# → Report saved to seo-pilot/reports/
 
 # 4. Check progress
 /seo-pilot status
