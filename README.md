@@ -22,23 +22,35 @@ Research → Content → SEO → Visual → Knowledge Base
 
 ## 🚀 Quick Start
 
-### Install
+### Option 1: One-Command Install (Recommended)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Aguh18/claude-seo-pilot/main/install.sh | bash
+```
+
+### Option 2: Clone & Install
 
 ```bash
 git clone https://github.com/Aguh18/claude-seo-pilot.git
-cd seo-pilot
+cd claude-seo-pilot
 ./install.sh
+```
+
+### Option 3: Claude Code Plugin
+
+```bash
+/plugin marketplace add Aguh18/claude-seo-pilot
+/plugin install seo-pilot@claude-seo-pilot
 ```
 
 ### Usage
 
 ```bash
-# One command to rule them all
 /seo-pilot init          # Setup project context
+/seo-pilot status        # Check progress
 /seo-pilot research      # Research phase
 /seo-pilot content       # Create content
 /seo-pilot optimize      # SEO optimization
-/seo-pilot diagram       # Visual diagrams
 ```
 
 ## 📦 Included Skills

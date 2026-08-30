@@ -1,51 +1,107 @@
 #!/bin/bash
 
 # ✈️ SEO Pilot - Installer
-# Installs all skills to ~/.claude/skills/
+# Install: curl -fsSL https://raw.githubusercontent.com/Aguh18/claude-seo-pilot/main/install.sh | bash
+# Repo: https://github.com/Aguh18/claude-seo-pilot
 
 set -e
 
-echo "✈️  SEO Pilot Installer"
-echo "======================"
+VERSION="1.0.0"
+SKILLS_DIR="$HOME/.claude/skills"
+
+# Colors
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+NC='\033[0m'
+
+echo ""
+echo -e "${CYAN}✈️  SEO Pilot v${VERSION}${NC}"
+echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
-# Check if ~/.claude/skills exists
-SKILLS_DIR="$HOME/.claude/skills"
-if [ ! -d "$SKILLS_DIR" ]; then
-    echo "📁 Creating skills directory..."
-    mkdir -p "$SKILLS_DIR"
+# Create skills directory if needed
+mkdir -p "$SKILLS_DIR"
+
+# Determine source
+if [ -n "${SEO_PILOT_REF:-}" ]; then
+    BRANCH="$SEO_PILOT_REF"
+else
+    BRANCH="main"
 fi
 
-# Get script location
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Clone or use local
+TEMP_DIR=$(mktemp -d)
+trap "rm -rf $TEMP_DIR" EXIT
 
-echo "📦 Installing skills..."
+if [ -d "./skills" ] && [ -f "./skills/seo-pilot/SKILL.md" ]; then
+    echo -e "${BOLD}📦 Installing from local...${NC}"
+    SRC_DIR="."
+else
+    echo -e "${BOLD}📥 Downloading SEO Pilot (${BRANCH})...${NC}"
+    git clone --depth 1 -b "$BRANCH" "https://github.com/Aguh18/claude-seo-pilot.git" "$TEMP_DIR/seo-pilot" 2>/dev/null
+    SRC_DIR="$TEMP_DIR/seo-pilot"
+fi
+
 echo ""
 
-# Install each skill
+# Install skills
+echo -e "${BOLD}📦 Installing skills...${NC}"
+echo ""
+
 for skill in seo-pilot blog seo obsidian-tools diagram-design; do
-    if [ -d "$SCRIPT_DIR/skills/$skill" ]; then
-        echo "  ✅ Installing $skill..."
-        cp -r "$SCRIPT_DIR/skills/$skill" "$SKILLS_DIR/"
+    if [ -d "$SRC_DIR/skills/$skill" ]; then
+        echo -e "  ${GREEN}✅${NC} $skill"
+        cp -r "$SRC_DIR/skills/$skill" "$SKILLS_DIR/"
     fi
 done
 
+# Install sub-skills (blog-*, seo-*)
 echo ""
-echo "📦 Installing defuddle CLI..."
+echo -e "${BOLD}📦 Installing sub-skills...${NC}"
+echo ""
+
+for skill_dir in "$SRC_DIR/skills/blog-"*/ "$SRC_DIR/skills/seo-"*/; do
+    if [ -d "$skill_dir" ]; then
+        name=$(basename "$skill_dir")
+        echo -e "  ${GREEN}✅${NC} $name"
+        cp -r "$skill_dir" "$SKILLS_DIR/"
+    fi
+done
+
+# Install defuddle
+echo ""
+echo -e "${BOLD}📦 Installing defuddle CLI...${NC}"
 if command -v npm &> /dev/null; then
-    npm install -g defuddle 2>/dev/null || echo "  ⚠️  defuddle install failed - install manually: npm install -g defuddle"
+    npm install -g defuddle 2>/dev/null && echo -e "  ${GREEN}✅${NC} defuddle" || echo -e "  ${YELLOW}⚠️${NC} defuddle failed — install manually: npm install -g defuddle"
 else
-    echo "  ⚠️  npm not found - install defuddle manually: npm install -g defuddle"
+    echo -e "  ${YELLOW}⚠️${NC} npm not found — install defuddle manually"
+fi
+
+# Install orchestrator script
+echo ""
+echo -e "${BOLD}📦 Installing orchestrator...${NC}"
+mkdir -p "$HOME/.seo-pilot"
+if [ -f "$SRC_DIR/scripts/seo-pilot.sh" ]; then
+    cp "$SRC_DIR/scripts/seo-pilot.sh" "$HOME/.seo-pilot/"
+    chmod +x "$HOME/.seo-pilot/seo-pilot.sh"
+    echo -e "  ${GREEN}✅${NC} seo-pilot.sh"
+
+    # Create symlink for easy access
+    mkdir -p "$HOME/.local/bin"
+    ln -sf "$HOME/.seo-pilot/seo-pilot.sh" "$HOME/.local/bin/seo-pilot" 2>/dev/null || true
 fi
 
 echo ""
-echo "✅ Installation complete!"
+echo -e "${GREEN}${BOLD}✅ Installation complete!${NC}"
 echo ""
-echo "🔄 Restart Claude Code to use new skills."
+echo -e "  🔄 Restart Claude Code to activate."
 echo ""
-echo "📚 Quick start:"
-echo "   /seo-pilot init       # Setup project"
-echo "   /seo-pilot research   # Research phase"
-echo "   /seo-pilot content    # Create content"
-echo "   /seo-pilot optimize   # SEO optimization"
+echo -e "  ${BOLD}Quick start:${NC}"
+echo "    /seo-pilot init          Setup project"
+echo "    /seo-pilot status        Check progress"
+echo "    /seo-pilot research      Research phase"
+echo "    /seo-pilot content       Content phase"
+echo "    /seo-pilot optimize      SEO phase"
 echo ""
