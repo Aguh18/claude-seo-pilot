@@ -21,61 +21,90 @@ description: Complete SEO workflow orchestrator. 5 commands that each run a full
 
 ## `/seo-pilot init`
 
-One command to understand your project completely.
+One command to set up everything. Scrapes your site, researches the market, creates all docs.
 
 **What it does:**
-1. Asks for website URL
-2. Scrapes website → understand products, pricing, structure
-3. Analyizes competitors from the market
-4. Researches keywords and search demand
-5. Creates all project files:
+
+1. **Scrape website** — understand products, pricing, structure, content
+2. **Analyze competitors** — scrape top 3-5 competitors
+3. **Research keywords** — SERP analysis, autocomplete, demand scoring
+4. **Research discourse** — what people say about this topic (Reddit, X, YouTube)
+5. **Generate brand docs** — BRAND.md, VOICE.md
+6. **Create diagrams** — architecture, customer journey
+7. **Setup Obsidian vault** — knowledge base structure
+8. **Create config** — .seo-project.md, .seo-state.json
+
+**Files created:**
 
 ```
-.seo-project.md          # Project config (products, keywords, competitors)
-.seo-state.json          # Pipeline tracker
-BRAND.md                 # Brand identity & positioning
-VOICE.md                 # Writing tone & style guide
-research/                # Research results
-├── competitors/         # Competitor analysis
-├── keywords/            # Keyword research
-└── market/              # Market landscape
+.seo-project.md              # Products, keywords, competitors config
+.seo-state.json              # Pipeline tracker
+BRAND.md                     # Brand identity & positioning
+VOICE.md                     # Writing tone & style guide
+
+research/
+├── competitors/             # Competitor analysis (per site)
+│   ├── kompetitor1.md
+│   └── kompetitor2.md
+├── keywords/                # Keyword research
+│   └── primary-keywords.md
+├── discourse/               # Social listening
+│   └── topic-discourse.md
+└── market/                  # Market landscape
+    └── market-overview.md
+
+diagrams/
+├── architecture.html        # Backend architecture
+├── customer-journey.html    # Customer journey map
+└── erd.html                 # Database diagram
+
+obsidian-vault/
+├── 00-index.md              # Hub
+├── notes/                   # All research notes
+├── products/                # Product docs
+└── strategy/                # Strategy docs
 ```
 
 **After init, you have:**
-- Complete understanding of your business
-- Competitor landscape mapped
-- Keywords identified
-- Brand & voice docs ready for content creation
+- ✅ Complete understanding of your business
+- ✅ Competitor landscape mapped
+- ✅ Keywords identified with demand scores
+- ✅ Brand & voice docs for consistent content
+- ✅ Visual diagrams for strategy
+- ✅ Obsidian vault as knowledge base
+- ✅ Everything linked and organized
 
 **Usage:**
 ```bash
 /seo-pilot init
 # → "Enter your website URL: https://keripikmangdedi.id"
-# → (runs research automatically)
-# → "✅ Project initialized. Next: /seo-pilot run <topic>"
+# → (scrapes site, researches market, creates everything)
+# → "✅ Done! 15 files created. Next: /seo-pilot run <topic>"
 ```
 
 ---
 
 ## `/seo-pilot run <topic>`
 
-Full content pipeline for a topic.
+Full content pipeline for a topic. From research to published post.
 
 **What it does:**
-1. Reads BRAND.md + VOICE.md for consistent tone
-2. Researches topic (discourse, keywords, SERP)
-3. Creates content brief
-4. Writes optimized article
-5. Runs SEO check
-6. Generates schema markup
-7. Saves to content folder
-8. Updates status
+
+1. **Research** — discourse, keywords, SERP analysis
+2. **Brief** — content brief with target keywords
+3. **Outline** — SERP-informed structure
+4. **Write** — full article using BRAND.md + VOICE.md
+5. **SEO check** — on-page optimization
+6. **Schema** — JSON-LD markup
+7. **Diagram** — chart if data-heavy
+8. **Publish** — save to content/ + obsidian-vault/
+9. **Status** — update progress
 
 **Usage:**
 ```bash
 /seo-pilot run "Resep Keripik Singkong Original"
-# → (runs: discourse → brief → outline → write → SEO → schema)
-# → "✅ Saved to content/resep-keripik-singkong-original.md"
+# → Full pipeline: research → write → optimize → publish
+# → Saved to content/resep-keripik-singkong-original.md
 ```
 
 **Also works for:**
