@@ -1,152 +1,169 @@
 ---
 name: seo-pilot
-description: Complete SEO workflow orchestrator. Single entry point for research, content creation, SEO optimization, and publishing. Routes internally to blog, seo, defuddle, diagram-design, and obsidian skills. Use when user says "seo", "seo-pilot", "research competitor", "write blog", "optimize seo", "seo audit", "content refresh", "keyword research", "product page".
+description: Complete SEO workflow orchestrator. 5 commands that each run a full multi-skill workflow. Init project, create content, audit SEO, check status, update skills. Use when user says "seo", "seo-pilot", "init project", "write blog", "seo audit", "site audit".
 ---
 
 # SEO Pilot
 
-Single command for everything. Each command runs a complete workflow combining multiple skills.
+5 commands. Each one does a complete job.
 
 ## Commands
 
-### 📊 Research
-
 | Command | What It Does |
 |---------|--------------|
-| `/seo-pilot competitor <url>` | Scrape site, analyze products/pricing, compare with us |
-| `/seo-pilot keywords <topic>` | Keyword research + SERP + autocomplete analysis |
-| `/seo-pilot discourse <topic>` | What people are saying last 30 days (Reddit, X, YouTube) |
-| `/seo-pilot market <topic>` | Market landscape: competitors, trends, gaps |
-
-### ✍️ Content
-
-| Command | What It Does |
-|---------|--------------|
-| `/seo-pilot blog-post <topic>` | Brief → outline → write → SEO check → schema |
-| `/seo-pilot rewrite <file>` | Analyze existing post → rewrite → optimize |
-| `/seo-pilot content-refresh <file>` | Check decay → update stats → re-optimize |
-| `/seo-pilot product-page <product>` | E-commerce product page with schema |
-| `/seo-pilot pillar-page <topic>` | Long-form pillar content with internal links |
-
-### 🔍 SEO
-
-| Command | What It Does |
-|---------|--------------|
-| `/seo-pilot site-audit <url>` | Full technical SEO audit (speed, schema, crawlability) |
-| `/seo-pilot page-audit <url>` | Single page: onpage + geo + schema + performance |
-| `/seo-pilot schema <file>` | Generate JSON-LD for any content |
-| `/seo-pilot geo-audit <file>` | AI citation readiness (ChatGPT, Perplexity, Gemini) |
-
-### 📐 Visual & Docs
-
-| Command | What It Does |
-|---------|--------------|
-| `/seo-pilot diagram architecture` | Backend architecture diagram |
-| `/seo-pilot diagram erd` | Database ER diagram |
-| `/seo-pilot diagram flow <process>` | Process flowchart |
-| `/seo-pilot diagram journey` | Customer journey map |
-
-### 🔄 System
-
-| Command | What It Does |
-|---------|--------------|
-| `/seo-pilot init` | Initialize project |
-| `/seo-pilot status` | Show pipeline progress |
+| `/seo-pilot init` | Research project → create brand docs, voice, config |
+| `/seo-pilot run <topic>` | Full pipeline → research → write → optimize → publish |
+| `/seo-pilot audit <url>` | Full SEO audit → technical + content + GEO + report |
+| `/seo-pilot status` | Show what's done and what's next |
 | `/seo-pilot update` | Check & update upstream skills |
 
-## How Each Command Works
+---
 
-### `/seo-pilot competitor <url>`
+## `/seo-pilot init`
 
-Internally runs:
-1. `defuddle parse <url>` — scrape website
-2. Extract products, pricing, structure
-3. Compare with `.seo-project.md` data
-4. Save to `research/competitors/<domain>.md`
-5. Update `.seo-state.json`
+One command to understand your project completely.
 
-### `/seo-pilot blog-post <topic>`
+**What it does:**
+1. Asks for website URL
+2. Scrapes website → understand products, pricing, structure
+3. Analyizes competitors from the market
+4. Researches keywords and search demand
+5. Creates all project files:
 
-Internally runs:
-1. Read `.seo-project.md` for context
-2. `/blog discourse <topic>` — what people are saying
-3. `/blog brief <topic>` — content brief
-4. `/blog outline <topic>` — SERP-informed outline
-5. `/blog write <topic>` — full article
-6. `/blog seo-check <file>` — SEO validation
-7. `/blog schema <file>` — schema markup
-8. Save to `content/<slug>.md`
-9. Update `.seo-state.json`
-
-### `/seo-pilot site-audit <url>`
-
-Internally runs:
-1. `/seo-technical <url>` — technical SEO
-2. `/seo-performance <url>` — Core Web Vitals
-3. `/seo-schema <url>` — schema validation
-4. `/seo-geo <url>` — AI citation audit
-5. Generate combined report
-6. Save to `reports/audit-<domain>-<date>.md`
-
-### `/seo-pilot content-refresh <file>`
-
-Internally runs:
-1. Analyze current content
-2. Check for outdated stats/info
-3. Research fresh data
-4. Rewrite with updates
-5. Re-run SEO check
-6. Save updated version
-
-### `/seo-pilot product-page <product>`
-
-Internally runs:
-1. Read product data from `.seo-project.md`
-2. Research competitor product pages
-3. Write optimized product description
-4. Generate Product schema JSON-LD
-5. Add FAQ section
-6. Save to `content/products/<slug>.md`
-
-## Example Workflows
-
-### New Blog Post
-
-```bash
-/seo-pilot blog-post "10 Resep Keripik Singkong Kekinian"
+```
+.seo-project.md          # Project config (products, keywords, competitors)
+.seo-state.json          # Pipeline tracker
+BRAND.md                 # Brand identity & positioning
+VOICE.md                 # Writing tone & style guide
+research/                # Research results
+├── competitors/         # Competitor analysis
+├── keywords/            # Keyword research
+└── market/              # Market landscape
 ```
 
-### Check Competitor
+**After init, you have:**
+- Complete understanding of your business
+- Competitor landscape mapped
+- Keywords identified
+- Brand & voice docs ready for content creation
 
+**Usage:**
 ```bash
-/seo-pilot competitor https://kompetitor.com
+/seo-pilot init
+# → "Enter your website URL: https://keripikmangdedi.id"
+# → (runs research automatically)
+# → "✅ Project initialized. Next: /seo-pilot run <topic>"
 ```
 
-### Full Site Audit
+---
 
+## `/seo-pilot run <topic>`
+
+Full content pipeline for a topic.
+
+**What it does:**
+1. Reads BRAND.md + VOICE.md for consistent tone
+2. Researches topic (discourse, keywords, SERP)
+3. Creates content brief
+4. Writes optimized article
+5. Runs SEO check
+6. Generates schema markup
+7. Saves to content folder
+8. Updates status
+
+**Usage:**
 ```bash
-/seo-pilot site-audit https://mysite.com
+/seo-pilot run "Resep Keripik Singkong Original"
+# → (runs: discourse → brief → outline → write → SEO → schema)
+# → "✅ Saved to content/resep-keripik-singkong-original.md"
 ```
 
-### Refresh Old Content
-
+**Also works for:**
 ```bash
-/seo-pilot content-refresh content/resep-keripik.md
+/seo-pilot run "Why Our Chips Are Better"       # Blog post
+/seo-pilot run "Kripset Jadul"                   # Product page
+/seo-pilot run "Complete Guide to Cassava Chips" # Pillar page
 ```
 
-### Build Product Page
+---
 
+## `/seo-pilot audit <url>`
+
+Full SEO audit with actionable report.
+
+**What it does:**
+1. Technical SEO (crawlability, speed, mobile)
+2. On-page SEO (title, headings, links, images)
+3. Schema markup validation
+4. AI citation readiness (ChatGPT, Perplexity, Gemini)
+5. Content quality analysis
+6. Generates combined report with prioritized fixes
+
+**Usage:**
 ```bash
-/seo-pilot product-page "Kripset Jadul"
+/seo-pilot audit https://keripikmangdedi.id
+# → (runs: technical + onpage + schema + GEO + content)
+# → "✅ Report saved to reports/audit-keripikmangdedi.id-2026-08-30.md"
 ```
 
-## Project Context
+---
 
-All commands read `.seo-project.md` automatically for:
-- Business info, products, pricing
-- Target keywords & competitors
-- Brand voice & audience
+## `/seo-pilot status`
 
-## Pipeline State
+Check pipeline progress.
 
-Progress tracked in `.seo-state.json` automatically.
+**Shows:**
+- Which research is done
+- Which content is created
+- Which SEO checks passed
+- What's pending next
+
+---
+
+## `/seo-pilot update`
+
+Check upstream skills for new versions and sync.
+
+**What it does:**
+1. Checks AgriciDaniel/claude-blog for updates
+2. Checks AgriciDaniel/claude-seo for updates
+3. Checks kepano/obsidian-skills for updates
+4. Checks cathrynlavery/diagram-design for updates
+5. Downloads and syncs to ~/.claude/skills/
+
+---
+
+## Project Files
+
+After init, these files exist in your project:
+
+| File | Purpose |
+|------|---------|
+| `.seo-project.md` | Products, keywords, competitors, config |
+| `.seo-state.json` | Pipeline progress tracker |
+| `BRAND.md` | Brand identity, positioning, audience |
+| `VOICE.md` | Writing tone, style, do's and don'ts |
+| `research/` | Research results |
+| `content/` | Created content |
+| `reports/` | Audit reports |
+| `obsidian-vault/` | Knowledge base |
+
+## Example: First Time Setup
+
+```bash
+# 1. Initialize — research everything about your project
+/seo-pilot init
+# Enter URL: https://mysite.com
+# → Scrapes site, creates BRAND.md, VOICE.md, .seo-project.md
+
+# 2. Create your first blog post
+/seo-pilot run "How to Choose the Best [Your Product]"
+# → Full pipeline: research → write → optimize
+
+# 3. Audit your site
+/seo-pilot audit https://mysite.com
+# → Full report with fixes
+
+# 4. Check progress
+/seo-pilot status
+```
