@@ -138,4 +138,4 @@ MIT License — see [LICENSE](LICENSE)
 
 ---
 
-**Made with ❤️ for anyone who wants to rank on Google**
+> Made with ❤️ for anyone who wants to rank on Google
