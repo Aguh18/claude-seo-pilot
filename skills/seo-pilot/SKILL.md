@@ -95,56 +95,78 @@ Agent 5: Generate brand docs
   - Input: site analysis + competitor data + discourse
   - Output: seo-pilot/BRAND.md + seo-pilot/VOICE.md
 
-Agent 6: Create diagrams
-  - Input: site analysis
-  - Output: seo-pilot/diagrams/architecture.html, customer-journey.html, erd.html
+Agent 6: Generate full interactive HTML report
+  - Input: all Wave 1 research data
+  - Output: seo-pilot/report.html
   - MUST be completed before init is considered done
+  - See "Report Requirements" below for details
 ```
 
-**Wave 3 (after Wave 2 completes) — spawn these in parallel:**
+**Wave 3 (after Wave 2 completes) — single agent:**
 
 ```
-Agent 7: Create config + consolidated report
+Agent 7: Create config files
   - seo-pilot/.seo-project.md (products, keywords, competitors)
   - seo-pilot/.seo-state.json (pipeline tracker)
-  - seo-pilot/seo-pilot-init.md (compiled research summary)
 ```
 
 **Init is NOT complete until Wave 3 finishes. All 3 waves must run to completion — no partial init.**
+
+### Report Requirements
+
+The `seo-pilot/report.html` is the **hero output** of init — a single, self-contained HTML file that opens in any browser. It serves as the complete project blueprint.
+
+**Requirements:**
+- Single HTML file, no external dependencies (all CSS/JS inline)
+- Dark theme (#0f0f1a background, light text), responsive
+- Charts and diagrams rendered as inline SVG or CSS (no chart libraries)
+- Interactive: collapsible sections, hover tooltips on charts
+- Professional, polished design — this is what gets shared with stakeholders
+
+**Sections to include (minimum):**
+
+1. **Hero Header** — Project name, URL, date, one-line positioning
+2. **Website Overview** — Product table (all variants + pricing), site structure diagram
+3. **Competitor Landscape** — Bar chart comparing price ranges, radar/spider chart for dimensions (brand recognition, social media, authenticity, DTC, product range), per-competitor cards
+4. **Keyword Strategy** — Horizontal bar chart for search volume by keyword, color-coded by intent (transactional/informational/mixed), priority matrix table
+5. **Voice of Customer** — Sentiment breakdown (positive/negative pie chart), top complaints bar chart, trending topics tags
+6. **Customer Journey** — 3 persona flow diagrams (housephone snacker, oleh-oleh buyer, reseller)
+7. **Content Architecture** — Site architecture tree, blog cluster map, internal linking zones
+8. **Strategic Plan** — Prioritized action items (Critical/High/Medium/Low) with timeline, quick wins section
+9. **Brand & Voice** — Tone dimension sliders, do's/don'ts cards
 
 **Files created:**
 
 ```
 seo-pilot/
-├── .seo-project.md              # Products, keywords, competitors config
-├── .seo-state.json              # Pipeline tracker
-├── BRAND.md                     # Brand identity & positioning
-├── VOICE.md                     # Writing tone & style guide
-├── seo-pilot-init.md            # Compiled research summary
+├── report.html                   # Full interactive HTML report (HERO OUTPUT)
+├── .seo-project.md               # Products, keywords, competitors config
+├── .seo-state.json               # Pipeline tracker
+├── BRAND.md                      # Brand identity & positioning
+├── VOICE.md                      # Writing tone & style guide
 ├── research/
 │   ├── market/
-│   │   └── site-analysis.md     # Scraped site data
+│   │   └── site-analysis.md      # Scraped site data
 │   ├── competitors/
-│   │   ├── kompetitor1.md       # Per-competitor analysis
-│   │   └── kompetitor2.md
+│   │   ├── maicih.md             # Per-competitor analysis
+│   │   ├── qtela.md
+│   │   ├── diplomat.md
+│   │   ├── garudafood.md
+│   │   └── artisanal.md
 │   ├── keywords/
-│   │   └── primary-keywords.md  # Keyword research
+│   │   └── primary-keywords.md   # Keyword research
 │   └── discourse/
-│       └── topic-discourse.md   # Social listening
-├── content/                     # Generated blog posts
-├── reports/                     # Audit reports
-└── diagrams/
-    ├── architecture.html        # Backend architecture
-    ├── customer-journey.html    # Customer journey map
-    └── erd.html                 # Database diagram
+│       └── topic-discourse.md    # Social listening
+├── content/                      # Generated blog posts (empty until blog-write)
+└── reports/                      # Audit reports (empty until audit)
 ```
 
 **Usage:**
 ```bash
 /seo-pilot init
 # → "Enter your website URL: https://keripikmangdedi.id"
-# → (4 agents scrape + research in parallel, then 2 agents create docs in parallel)
-# → "Done! Files saved to seo-pilot/. Next: /seo-pilot blog-write <topic>"
+# → (4 agents scrape + research in parallel, then brand docs + HTML report in parallel)
+# → "Done! Open seo-pilot/report.html in your browser. Next: /seo-pilot blog-write <topic>"
 ```
 
 ---
