@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# 🔧 SEO Marketing Toolkit - Installer
+# ✈️ SEO Pilot - Installer
 # Installs all skills to ~/.claude/skills/
 
 set -e
 
-echo "🔧 SEO Marketing Toolkit Installer"
-echo "=================================="
+echo "✈️  SEO Pilot Installer"
+echo "======================"
 echo ""
 
 # Check if ~/.claude/skills exists
@@ -23,7 +23,7 @@ echo "📦 Installing skills..."
 echo ""
 
 # Install each skill
-for skill in seo-marketing blog seo obsidian-tools diagram-design; do
+for skill in seo-pilot blog seo obsidian-tools diagram-design; do
     if [ -d "$SCRIPT_DIR/skills/$skill" ]; then
         echo "  ✅ Installing $skill..."
         cp -r "$SCRIPT_DIR/skills/$skill" "$SKILLS_DIR/"
@@ -44,7 +44,8 @@ echo ""
 echo "🔄 Restart Claude Code to use new skills."
 echo ""
 echo "📚 Quick start:"
-echo "   /seo-marketing research <url>"
-echo "   /blog write <topic>"
-echo "   /seo-audit <url>"
+echo "   /seo-pilot init       # Setup project"
+echo "   /seo-pilot research   # Research phase"
+echo "   /seo-pilot content    # Create content"
+echo "   /seo-pilot optimize   # SEO optimization"
 echo ""

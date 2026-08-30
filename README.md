@@ -1,14 +1,12 @@
-# 🔧 SEO Marketing Toolkit for Claude Code
+# ✈️ SEO Pilot for Claude Code
 
-Complete SEO marketing workflow combining web research, content creation, SEO optimization, and visual documentation for small businesses.
+Complete SEO workflow — research → content → optimize → publish. Built for anyone who wants to rank on Google.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skills-blue)
 ![Version](https://img.shields.io/badge/Version-1.0.0-green)
 
 ## 🎯 What This Does
-
-One toolkit to rule them all:
 
 ```
 Research → Content → SEO → Visual → Knowledge Base
@@ -24,115 +22,94 @@ Research → Content → SEO → Visual → Knowledge Base
 
 ## 🚀 Quick Start
 
-### Option 1: Install All Skills
+### Install
 
 ```bash
-git clone https://github.com/aguhh/seo-marketing-toolkit.git
-cd seo-marketing-toolkit
+git clone https://github.com/Aguh18/seo-pilot.git
+cd seo-pilot
 ./install.sh
 ```
 
-### Option 2: Install Individually
+### Usage
 
 ```bash
-# Copy specific skill to ~/.claude/skills/
-cp -r skills/seo-marketing ~/.claude/skills/
+# One command to rule them all
+/seo-pilot init          # Setup project context
+/seo-pilot research      # Research phase
+/seo-pilot content       # Create content
+/seo-pilot optimize      # SEO optimization
+/seo-pilot diagram       # Visual diagrams
 ```
 
 ## 📦 Included Skills
 
-| Skill | Description | Commands |
-|-------|-------------|----------|
-| **seo-marketing** | Master orchestrator | `/seo-marketing research`, `/seo-marketing content` |
-| **blog** | 31 blog sub-skills | `/blog write`, `/blog seo-check`, `/blog geo` |
-| **seo** | 15+ SEO sub-skills | `/seo-audit`, `/seo-technical` |
-| **defuddle** | Web scraping | `defuddle parse <url> --md` |
-| **obsidian-markdown** | Note formatting | Wikilinks, callouts, embeds |
-| **diagram-design** | Visual diagrams | Architecture, flowcharts, ERD |
+| Skill | Commands | Credit |
+|-------|----------|--------|
+| **seo-pilot** | `/seo-pilot research`, `/seo-pilot content` | Built by [Aguh18](https://github.com/Aguh18) |
+| **blog** | `/blog write`, `/blog seo-check`, `/blog geo` | [anthropics/claude-code](https://github.com/anthropics/claude-code) |
+| **seo** | `/seo-audit`, `/seo-technical` | [anthropics/claude-code](https://github.com/anthropics/claude-code) |
+| **defuddle** | `defuddle parse <url> --md` | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) |
+| **obsidian-markdown** | Wikilinks, callouts, embeds | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) |
+| **diagram-design** | Architecture, flowcharts, ERD | [cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design) |
+| **Serper API** | SERP & keyword research | [serper.dev](https://serper.dev) |
 
 ## 💡 Example Workflow
 
 ### 1. Initialize Project
 
 ```bash
-# Copy template to your project root
-cp ~/.claude/skills/seo-marketing/templates/.seo-project.template.md .seo-project.md
-
+cp ~/.claude/skills/seo-pilot/templates/.seo-project.template.md .seo-project.md
 # Edit with your business info
 ```
 
 ### 2. Research Competitor
 
 ```bash
-# Scrape competitor website
 defuddle parse https://kompetitor.com --md -o research/kompetitor.md
-
-# Keyword research via Serper API
-curl -s -X POST 'https://google.serper.dev/search' \
-  -H "X-API-KEY: $SERPER_API_KEY" \
-  -d '{"q": "your keyword", "gl": "id"}'
 ```
 
 ### 3. Create Content
 
 ```bash
-# Generate content brief
 /blog brief "Your Blog Topic"
-
-# Write optimized blog post
 /blog write "Your Blog Topic"
 ```
 
 ### 4. Optimize SEO
 
 ```bash
-# Check SEO quality
 /blog seo-check blog/your-post.md
-
-# AI citation optimization
 /blog geo blog/your-post.md
-
-# Generate schema markup
 /blog schema blog/your-post.md
-```
-
-### 5. Document Everything
-
-```bash
-# Save to Obsidian vault
-cp blog/your-post.md obsidian-vault/research/
-
-# Create architecture diagram
-# (use diagram-design skill)
 ```
 
 ## 🏗️ Project Structure
 
 ```
-seo-marketing-toolkit/
-├── skills/                 # All Claude Code skills
-│   ├── seo-marketing/     # Master orchestrator
+seo-pilot/
+├── skills/
+│   ├── seo-pilot/         # Master orchestrator
 │   ├── blog/              # 31 blog sub-skills
 │   ├── seo/               # 15+ SEO sub-skills
 │   ├── obsidian-tools/    # Web scraping & notes
 │   └── diagram-design/    # Visual diagrams
-├── templates/             # Project templates
+├── templates/
 │   ├── .seo-project.template.md
 │   └── .seo-state.template.json
-├── examples/              # Example projects
-│   └── keripik-mang-dedi/ # Demo: cassava chip business
-├── install.sh             # One-click installer
-├── LICENSE                # MIT License
-└── README.md              # This file
+├── examples/
+│   └── keripik-mang-dedi/ # Demo project
+├── install.sh
+├── LICENSE
+└── README.md
 ```
 
 ## 🎨 Built For
 
-- **UMKM / Small businesses** in Indonesia
+- **Small businesses** who want to rank on Google
 - **Bloggers** who want SEO-optimized content
 - **Marketers** who need competitor research
 - **Content creators** who want AI-powered workflow
-- **Anyone** who wants to rank on Google
+- **Anyone** who wants a complete SEO toolkit
 
 ## 🤝 Contributing
 
@@ -140,22 +117,25 @@ PRs welcome! See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 1. Fork the repo
 2. Create feature branch (`git checkout -b feature/amazing`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
+3. Commit changes (`git commit -m 'feat: add amazing feature'`)
 4. Push to branch (`git push origin feature/amazing`)
 5. Open Pull Request
 
 ## 📝 License
 
-MIT License - see [LICENSE](LICENSE)
+MIT License — see [LICENSE](LICENSE)
 
 ## 🙏 Credits
 
-Built with:
-- [Claude Code](https://claude.ai/code) - AI-powered coding assistant
-- [Obsidian](https://obsidian.md) - Knowledge management
-- [Serper API](https://serper.dev) - Google Search API
-- [Defuddle](https://github.com/makenotion/defuddle) - Web content extraction
+| Project | Author | License |
+|---------|--------|---------|
+| [claude-code](https://github.com/anthropics/claude-code) | Anthropic | MIT |
+| [obsidian-skills](https://github.com/kepano/obsidian-skills) | kepano | MIT |
+| [diagram-design](https://github.com/cathrynlavery/diagram-design) | cathrynlavery | MIT |
+| [defuddle](https://github.com/makenotion/defuddle) | Notion Labs | MIT |
+| [Serper API](https://serper.dev) | Serper | Commercial |
+| [Obsidian](https://obsidian.md) | obsidian.md | Free |
 
 ---
 
-**Made with ❤️ for small businesses who want to rank on Google**
+**Made with ❤️ for anyone who wants to rank on Google**

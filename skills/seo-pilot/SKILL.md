@@ -1,11 +1,11 @@
 ---
-name: seo-marketing
+name: seo-pilot
 description: Complete SEO marketing workflow combining web research, content creation, SEO optimization, and visual documentation. Uses defuddle for research, blog skills for content, SEO skills for optimization, obsidian for knowledge management, and diagram-design for visual strategy maps.
 ---
 
-# SEO Marketing Skill
+# SEO Pilot
 
-Gabungan lengkap untuk riset → konten → optimasi → dokumentasi.
+Complete SEO workflow — research → content → optimize → publish.
 
 ## First-Time Setup
 
@@ -14,16 +14,13 @@ Gabungan lengkap untuk riset → konten → optimasi → dokumentasi.
 Create `.seo-project.md` in your project root:
 
 ```bash
-# Copy template
-cp ~/.claude/skills/seo-marketing/templates/.seo-project.template.md .seo-project.md
-
-# Edit with your business info
+cp ~/.claude/skills/seo-pilot/templates/.seo-project.template.md .seo-project.md
 ```
 
 ### 2. Init Pipeline State
 
 ```bash
-cp ~/.claude/skills/seo-marketing/templates/.seo-state.template.json .seo-state.json
+cp ~/.claude/skills/seo-pilot/templates/.seo-state.template.json .seo-state.json
 ```
 
 ### 3. Verify Setup
@@ -36,17 +33,19 @@ ls -la .seo-project.md .seo-state.json
 
 | Command | Description |
 |---------|-------------|
-| `/seo-marketing init` | Initialize project (create .seo-project.md) |
-| `/seo-marketing status` | Show pipeline progress |
-| `/seo-marketing next` | Run next pending step |
-| `/seo-marketing run-all` | Run full pipeline |
-| `/seo-marketing research` | Run research phase |
-| `/seo-marketing content` | Run content phase |
-| `/seo-marketing optimize` | Run SEO optimization phase |
+| `/seo-pilot init` | Initialize project (create .seo-project.md) |
+| `/seo-pilot status` | Show pipeline progress |
+| `/seo-pilot next` | Run next pending step |
+| `/seo-pilot run-all` | Run full pipeline |
+| `/seo-pilot research` | Run research phase |
+| `/seo-pilot content` | Run content phase |
+| `/seo-pilot optimize` | Run SEO optimization phase |
+| `/seo-pilot diagram` | Create visual diagrams |
 
 ## Pipeline Phases
 
 ### Phase 1: Research
+
 ```bash
 # Web scraping
 defuddle parse <url> --md -o research/topic.md
@@ -72,6 +71,7 @@ curl -s -X POST 'https://google.serper.dev/search' \
 ```
 
 ### Phase 2: Content Creation
+
 ```bash
 /blog brief <topic>
 /blog outline <topic>
@@ -79,6 +79,7 @@ curl -s -X POST 'https://google.serper.dev/search' \
 ```
 
 ### Phase 3: SEO Optimization
+
 ```bash
 /blog seo-check <file>
 /blog geo <file>
@@ -87,21 +88,22 @@ curl -s -X POST 'https://google.serper.dev/search' \
 ```
 
 ### Phase 4: Knowledge Management
+
 ```bash
 # Save to obsidian vault
 cp blog/<file>.md obsidian-vault/research/
 ```
 
 ### Phase 5: Visual Strategy
+
 ```bash
-# Architecture diagram
-# Customer journey map
-# Competitor analysis
+# Architecture diagram, customer journey, competitor analysis
+# use diagram-design skill
 ```
 
 ## Project Context File
 
-Skill ini expects `.seo-project.md` di root project:
+Expects `.seo-project.md` di root project:
 
 ```yaml
 ---
@@ -135,7 +137,7 @@ Progress disimpan di `.seo-state.json`:
 
 ```
 ┌─────────────────────────────────────────────────┐
-│                SEO MARKETING                    │
+│                   SEO PILOT                     │
 ├─────────────────────────────────────────────────┤
 │                                                 │
 │  ┌─────────┐    ┌─────────┐    ┌─────────┐    │
@@ -155,34 +157,33 @@ Progress disimpan di `.seo-state.json`:
 
 ## Tools Used
 
-| Tool | Purpose | Skill |
-|------|---------|-------|
-| defuddle | Web scraping | obsidian-skills |
-| blog-write | Content creation | blog |
-| blog-seo | SEO validation | blog |
-| blog-geo | AI citation | blog |
-| seo-audit | Full audit | seo |
-| diagram-design | Visual maps | diagram-design |
-| obsidian-vault | Knowledge base | obsidian-skills |
+| Tool | Purpose | Credit |
+|------|---------|--------|
+| defuddle | Web scraping | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) |
+| blog-* | Content creation & SEO | [claude-blog](https://github.com/anthropics/claude-code) |
+| seo-* | Full SEO audit | [claude-seo](https://github.com/anthropics/claude-code) |
+| diagram-design | Visual diagrams | [cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design) |
+| obsidian-markdown | Knowledge notes | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) |
+| Serper API | SERP & keyword data | [serper.dev](https://serper.dev) |
 
 ## Vault Structure
 
 ```
 obsidian-vault/
-├── research/           # Research results
+├── research/
 │   ├── competitor/
 │   ├── keywords/
 │   └── serp/
-├── content/            # Content drafts
+├── content/
 │   ├── blog/
 │   ├── social/
 │   └── email/
-├── strategy/           # Strategies
+├── strategy/
 │   ├── seo/
 │   ├── marketing/
 │   └── product/
-├── docs/               # Documentation
+├── docs/
 │   ├── architecture/
 │   └── flow/
-└── archive/            # Old archives
+└── archive/
 ```
