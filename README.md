@@ -8,33 +8,7 @@ Complete SEO workflow — 4 commands, each does a complete job. Research, write,
 
 ## How It Works
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                            SEO PILOT WORKFLOW                               │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│  /seo-pilot init                                                            │
-│  ┌──────────┐  ┌────────────┐  ┌──────────┐                                │
-│  │ Scrape   │→ │ Competitor │→ │ Keywords │→ BRAND.md, VOICE.md, diagrams  │
-│  │ Website  │  │ Analysis   │  │ Research │  .seo-project.md, vault/       │
-│  └──────────┘  └────────────┘  └──────────┘                                │
-│                                                                             │
-│  /seo-pilot write                                                           │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐                   │
-│  │ Research │→ │ Brief +  │→ │ Write +  │→ │ SEO +    │→ content/*.md     │
-│  │ Topic    │  │ Outline  │  │ Content  │  │ Schema   │  obsidian-vault/  │
-│  └──────────┘  └──────────┘  └──────────┘  └──────────┘                   │
-│                                                                             │
-│  /seo-pilot audit                                                           │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐                   │
-│  │Technical │→ │ On-Page  │→ │ Schema   │→ │ GEO +    │→ reports/         │
-│  │ SEO      │  │ SEO      │  │ Check    │  │ Report   │  Fix priority list│
-│  └──────────┘  └──────────┘  └──────────┘  └──────────┘                   │
-│                                                                             │
-│  /seo-pilot status  →  Show what's done & what's next                      │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+![SEO Pilot Workflow](docs/diagrams/workflow.png)
 
 ## Commands
 
