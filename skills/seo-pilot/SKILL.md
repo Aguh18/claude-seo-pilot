@@ -150,6 +150,9 @@ seo-pilot/
 
 Full content pipeline for a topic. From research to published post.
 
+**Precondition:** Check that `seo-pilot/` folder exists and contains `BRAND.md`, `VOICE.md`, `.seo-project.md`. If missing, respond with:
+> "Project belum di-init. Jalankan `/seo-pilot init` dulu untuk setup brand docs, voice, dan config."
+
 **First:** `mkdir -p seo-pilot/content`
 
 **Execution — Wave 1: Research (parallel)**
@@ -228,6 +231,9 @@ Agent 9: Final assembly + save
 
 Full SEO audit with actionable report. All audit types run in parallel.
 
+**Precondition:** Check that `seo-pilot/` folder exists. If missing, respond with:
+> "Project belum di-init. Jalankan `/seo-pilot init` dulu untuk setup project."
+
 **First:** `mkdir -p seo-pilot/reports`
 
 **Execution — spawn ALL 5 in parallel (single wave):**
@@ -286,6 +292,9 @@ Agent 6: Generate combined report
 ## `/seo-pilot status`
 
 Check pipeline progress.
+
+**Precondition:** Check that `seo-pilot/` folder exists and contains `.seo-state.json`. If missing, respond with:
+> "Project belum di-init. Jalankan `/seo-pilot init` dulu untuk setup project."
 
 **Execution: single agent, reads seo-pilot/.seo-state.json**
 
