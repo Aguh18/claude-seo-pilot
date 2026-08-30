@@ -45,7 +45,7 @@ Use the `Agent` tool. Each subagent gets a focused prompt with the data it needs
 |------|-----------|-------|
 | Website scraping | `general-purpose` | Read site, extract products/pricing/structure |
 | Competitor analysis | `general-purpose` | Scrape and analyze each competitor |
-| Keyword research | `seo-dataforseo` | SERP data, volume, difficulty |
+| Keyword research | `general-purpose` | Uses serper-api skill via WebSearch for SERP data |
 | Discourse research | `general-purpose` | Reddit, X, YouTube, HN via WebSearch |
 | Brand docs (BRAND.md, VOICE.md) | `general-purpose` | After research completes |
 | Content writing | `blog-writer` | Consumes brief + brand docs |
@@ -98,9 +98,10 @@ Agent 5: Generate brand docs
 Agent 6: Create diagrams
   - Input: site analysis
   - Output: seo-pilot/diagrams/architecture.html, customer-journey.html, erd.html
+  - MUST be completed before init is considered done
 ```
 
-**Wave 3 (after Wave 2):**
+**Wave 3 (after Wave 2 completes) — spawn these in parallel:**
 
 ```
 Agent 7: Create config + consolidated report
@@ -108,6 +109,8 @@ Agent 7: Create config + consolidated report
   - seo-pilot/.seo-state.json (pipeline tracker)
   - seo-pilot/seo-pilot-init.md (compiled research summary)
 ```
+
+**Init is NOT complete until Wave 3 finishes. All 3 waves must run to completion — no partial init.**
 
 **Files created:**
 
