@@ -8,38 +8,15 @@ Complete SEO workflow — 5 commands, each does a complete job. Research, write,
 
 ## How It Works
 
-```mermaid
-flowchart LR
-    A["/seo-pilot init"] --> B["/seo-pilot write"]
-    B --> C["/seo-pilot audit"]
-    C --> D["/seo-pilot status"]
+![SEO Pilot Workflow](docs/diagrams/workflow.html)
 
-    A --> A1["Scrape Site"]
-    A --> A2["Competitors"]
-    A --> A3["Keywords"]
-    A --> A4["BRAND.md + VOICE.md"]
-    A --> A5["Diagrams + Vault"]
-
-    B --> B1["Research"]
-    B --> B2["Brief → Outline"]
-    B --> B3["Write → SEO"]
-    B --> B4["Schema + Publish"]
-
-    C --> C1["Technical SEO"]
-    C --> C2["On-Page"]
-    C --> C3["GEO + Report"]
-
-    E["/seo-pilot update"] -.-> |sync| F["Upstream Skills"]
-```
-
-```
-seo-pilot/
-├── init    → Scrape site → Competitors → Keywords → Brand docs → Diagrams → Vault
-├── write   → Research → Brief → Outline → Write → SEO → Schema → Publish
-├── audit   → Technical → On-page → Schema → GEO → Report
-├── status  → Check progress
-└── update  → Sync upstream skills
-```
+| Command | What It Does |
+|---------|--------------|
+| `/seo-pilot init` | Scrape site → Competitors → Keywords → BRAND.md + VOICE.md → Diagrams → Vault |
+| `/seo-pilot write` | Research → Brief → Outline → Write → SEO → Schema → Publish |
+| `/seo-pilot audit` | Technical SEO → On-Page → GEO → Report |
+| `/seo-pilot status` | Check pipeline progress |
+| `/seo-pilot update` | Sync upstream skills |
 
 ## 🚀 Install
 
