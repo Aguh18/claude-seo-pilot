@@ -1,6 +1,6 @@
 # ✈️ SEO Pilot for Claude Code
 
-Complete SEO workflow — 4 commands, each does a complete job. Keyword research, content creation, SEO optimization, site auditing — all orchestrated automatically with parallel subagents.
+SEO Pilot is a complete SEO workflow for Claude Code — 4 commands that handle everything from keyword research to site audits. Each command delegates to specialized skills automatically.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skills-blue)
@@ -10,25 +10,7 @@ Complete SEO workflow — 4 commands, each does a complete job. Keyword research
 
 ![SEO Pilot Workflow](docs/diagrams/workflow.svg)
 
-SEO Pilot runs in **waves** — independent tasks launch as parallel subagents, dependent tasks wait for their inputs. Every subagent **loads relevant skills** before executing.
-
-```
-/seo-pilot init
-  Wave 1 (parallel): Scrape + Competitors + Keywords + Questions
-  Wave 2 (parallel): SEO Report + Diagrams
-  Wave 3 (single):   Config files
-
-/seo-pilot blog-write <topic>
-  Wave 1 (parallel): Keyword Research + Discourse
-  Wave 2 (sequential): Brief → Outline
-  Wave 3 (single):   Write Article
-  Wave 4 (parallel): SEO Check + Schema
-  Wave 5 (single):   Final Assembly
-
-/seo-pilot audit <url>
-  Wave 1 (5 parallel): Technical + On-Page + Schema + GEO + Content Quality
-  Wave 2 (single):     Combined Report
-```
+SEO Pilot runs tasks in parallel where possible, then chains dependent steps together.
 
 ## Commands
 
@@ -38,19 +20,6 @@ SEO Pilot runs in **waves** — independent tasks launch as parallel subagents, 
 | `/seo-pilot blog-write <topic>` | Keyword research → Brief → Outline → Write → SEO Check → Schema → Publish |
 | `/seo-pilot audit <url>` | Technical SEO + On-Page + Schema + GEO + Content Quality → Report |
 | `/seo-pilot status` | Show pipeline progress |
-
-## Mandatory Skill Loading
-
-Every subagent loads **all relevant skills** before executing. More context = better output.
-
-| Domain | Skills Loaded |
-|--------|--------------|
-| SEO | `seo-technical`, `seo-content`, `seo-geo`, `seo-schema`, `seo-page`, `seo-performance`, `seo-cluster`, `seo-flow` |
-| Blog | `blog-write`, `blog-brief`, `blog-outline`, `blog-seo-check`, `blog-analyze`, `blog-schema`, `blog-strategy`, `blog-persona`, `blog-style`, `blog-discourse`, `blog-chart` |
-| Content | `seo-content-brief`, `seo-content`, `blog-analyze` |
-| Web | `defuddle`, `serper-api` |
-| Visuals | `diagram-design`, `dataviz` |
-| AI/GEO | `seo-geo`, `seo-flow`, `blog-geo` |
 
 ## Install
 
