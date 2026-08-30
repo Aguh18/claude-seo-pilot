@@ -7,10 +7,47 @@ description: Complete SEO marketing workflow combining web research, content cre
 
 Gabungan lengkap untuk riset → konten → optimasi → dokumentasi.
 
-## Workflow
+## First-Time Setup
+
+### 1. Init Project Context
+
+Create `.seo-project.md` in your project root:
+
+```bash
+# Copy template
+cp ~/.claude/skills/seo-marketing/templates/.seo-project.template.md .seo-project.md
+
+# Edit with your business info
+```
+
+### 2. Init Pipeline State
+
+```bash
+cp ~/.claude/skills/seo-marketing/templates/.seo-state.template.json .seo-state.json
+```
+
+### 3. Verify Setup
+
+```bash
+ls -la .seo-project.md .seo-state.json
+```
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `/seo-marketing init` | Initialize project (create .seo-project.md) |
+| `/seo-marketing status` | Show pipeline progress |
+| `/seo-marketing next` | Run next pending step |
+| `/seo-marketing run-all` | Run full pipeline |
+| `/seo-marketing research` | Run research phase |
+| `/seo-marketing content` | Run content phase |
+| `/seo-marketing optimize` | Run SEO optimization phase |
+
+## Pipeline Phases
 
 ### Phase 1: Research
-```
+```bash
 # Web scraping
 defuddle parse <url> --md -o research/topic.md
 
@@ -18,31 +55,31 @@ defuddle parse <url> --md -o research/topic.md
 curl -s -X POST 'https://google.serper.dev/search' \
   -H "X-API-KEY: $SERPER_API_KEY" \
   -H 'Content-Type: application/json' \
-  -d '{"q": "keripik singkong", "gl": "id", "hl": "id"}'
+  -d '{"q": "your keyword", "gl": "id", "hl": "id"}'
 
 # People Also Ask
 curl -s -X POST 'https://google.serper.dev/search' \
   -H "X-API-KEY: $SERPER_API_KEY" \
-  -d '{"q": "keripik singkong", "type": "search"}' | jq '.peopleAlsoAsk'
+  -d '{"q": "your keyword", "type": "search"}' | jq '.peopleAlsoAsk'
 
 # Competitor pricing (Google Shopping)
 curl -s -X POST 'https://google.serper.dev/search' \
   -H "X-API-KEY: $SERPER_API_KEY" \
-  -d '{"q": "keripik singkong", "type": "shopping", "gl": "id"}'
+  -d '{"q": "your keyword", "type": "shopping", "gl": "id"}'
 
-/blog discourse <topik>
+/blog discourse <topic>
 /blog strategy <niche>
 ```
 
 ### Phase 2: Content Creation
-```
-/blog brief <topik>
-/blog outline <topik>
-/blog write <topik>
+```bash
+/blog brief <topic>
+/blog outline <topic>
+/blog write <topic>
 ```
 
 ### Phase 3: SEO Optimization
-```
+```bash
 /blog seo-check <file>
 /blog geo <file>
 /blog schema <file>
@@ -50,28 +87,49 @@ curl -s -X POST 'https://google.serper.dev/search' \
 ```
 
 ### Phase 4: Knowledge Management
-```
-Simpan hasil ke obsidian-vault/
-Buat wikilinks antar note
-Export ke blog jika perlu
+```bash
+# Save to obsidian vault
+cp blog/<file>.md obsidian-vault/research/
 ```
 
 ### Phase 5: Visual Strategy
-```
-diagram-design untuk architecture maps
-customer journey maps
-competitor analysis visual
+```bash
+# Architecture diagram
+# Customer journey map
+# Competitor analysis
 ```
 
-## Quick Commands
+## Project Context File
 
-| Command | Action |
-|---------|--------|
-| `/seo-marketing research <url>` | Scrape + analyze website |
-| `/seo-marketing content <topic>` | Full content pipeline |
-| `/seo-marketing audit <url>` | Complete SEO audit |
-| `/seo-marketing strategy <niche>` | Build marketing strategy |
-| `/seo-marketing competitor <url>` | Analyze competitor |
+Skill ini expects `.seo-project.md` di root project:
+
+```yaml
+---
+project_name: my-business
+website: https://mywebsite.com
+business_type: umkm-kuliner
+products:
+  - name: Product A
+    price: 10000
+primary_keywords:
+  - keyword 1
+competitors:
+  - url: kompetitor.com
+---
+```
+
+## Pipeline State
+
+Progress disimpan di `.seo-state.json`:
+
+```json
+{
+  "steps": {
+    "research": { "competitor": "done", "keywords": "pending" },
+    "content": { "brief": "pending", "write": "pending" }
+  }
+}
+```
 
 ## Integration Map
 
@@ -107,54 +165,24 @@ competitor analysis visual
 | diagram-design | Visual maps | diagram-design |
 | obsidian-vault | Knowledge base | obsidian-skills |
 
-## Example: Full Pipeline
-
-### 1. Research Kompetitor
-```bash
-defuddle parse https://kompetitor.com --md -o research/kompetitor.md
-```
-
-### 2. Buat Konten
-```bash
-/blog brief "Resep Keripik Singkong Original"
-/blog write "Resep Keripik Singkong Original"
-```
-
-### 3. Optimasi SEO
-```bash
-/blog seo-check blog/resep-keripik.md
-/blog geo blog/resep-keripik.md
-```
-
-### 4. Simpan ke Vault
-```bash
-cp blog/resep-keripik.md obsidian-vault/research/
-```
-
-### 5. Buat Diagram
-```bash
-# Architecture diagram untuk teknikal docs
-# Customer journey untuk marketing plan
-```
-
 ## Vault Structure
 
 ```
 obsidian-vault/
-├── research/           # Hasil riset
-│   ├── kompetitor/
-│   ├── tren/
-│   └── sumber/
-├── content/            # Draft konten
+├── research/           # Research results
+│   ├── competitor/
+│   ├── keywords/
+│   └── serp/
+├── content/            # Content drafts
 │   ├── blog/
 │   ├── social/
 │   └── email/
-├── strategy/           # Strategi
+├── strategy/           # Strategies
 │   ├── seo/
 │   ├── marketing/
 │   └── product/
-├── docs/               # Dokumentasi
+├── docs/               # Documentation
 │   ├── architecture/
 │   └── flow/
-└── archive/            # Arsip lama
+└── archive/            # Old archives
 ```

@@ -20,3 +20,12 @@ temp/
 __pycache__/
 *.pyc
 *.pyo
+
+# User-specific (don't commit your own project config)
+.seo-project.md
+.seo-state.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo

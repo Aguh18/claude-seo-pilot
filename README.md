@@ -52,7 +52,16 @@ cp -r skills/seo-marketing ~/.claude/skills/
 
 ## 💡 Example Workflow
 
-### 1. Research Competitor
+### 1. Initialize Project
+
+```bash
+# Copy template to your project root
+cp ~/.claude/skills/seo-marketing/templates/.seo-project.template.md .seo-project.md
+
+# Edit with your business info
+```
+
+### 2. Research Competitor
 
 ```bash
 # Scrape competitor website
@@ -61,37 +70,37 @@ defuddle parse https://kompetitor.com --md -o research/kompetitor.md
 # Keyword research via Serper API
 curl -s -X POST 'https://google.serper.dev/search' \
   -H "X-API-KEY: $SERPER_API_KEY" \
-  -d '{"q": "keripik singkong", "gl": "id"}'
+  -d '{"q": "your keyword", "gl": "id"}'
 ```
 
-### 2. Create Content
+### 3. Create Content
 
 ```bash
 # Generate content brief
-/blog brief "Resep Keripik Singkong Original"
+/blog brief "Your Blog Topic"
 
 # Write optimized blog post
-/blog write "Resep Keripik Singkong Original"
+/blog write "Your Blog Topic"
 ```
 
-### 3. Optimize SEO
+### 4. Optimize SEO
 
 ```bash
 # Check SEO quality
-/blog seo-check blog/resep-keripik.md
+/blog seo-check blog/your-post.md
 
 # AI citation optimization
-/blog geo blog/resep-keripik.md
+/blog geo blog/your-post.md
 
 # Generate schema markup
-/blog schema blog/resep-keripik.md
+/blog schema blog/your-post.md
 ```
 
-### 4. Document Everything
+### 5. Document Everything
 
 ```bash
 # Save to Obsidian vault
-cp blog/resep-keripik.md obsidian-vault/research/
+cp blog/your-post.md obsidian-vault/research/
 
 # Create architecture diagram
 # (use diagram-design skill)
@@ -107,8 +116,11 @@ seo-marketing-toolkit/
 │   ├── seo/               # 15+ SEO sub-skills
 │   ├── obsidian-tools/    # Web scraping & notes
 │   └── diagram-design/    # Visual diagrams
-├── templates/             # Vault templates
-├── examples/              # Example workflows
+├── templates/             # Project templates
+│   ├── .seo-project.template.md
+│   └── .seo-state.template.json
+├── examples/              # Example projects
+│   └── keripik-mang-dedi/ # Demo: cassava chip business
 ├── install.sh             # One-click installer
 ├── LICENSE                # MIT License
 └── README.md              # This file
@@ -116,10 +128,11 @@ seo-marketing-toolkit/
 
 ## 🎨 Built For
 
-- **Small businesses** like [Keripik Mang Dedi](https://keripikmangdedi.id) (cassava chips)
+- **UMKM / Small businesses** in Indonesia
 - **Bloggers** who want SEO-optimized content
 - **Marketers** who need competitor research
-- **Developers** who want knowledge management
+- **Content creators** who want AI-powered workflow
+- **Anyone** who wants to rank on Google
 
 ## 🤝 Contributing
 
