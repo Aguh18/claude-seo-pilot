@@ -20,11 +20,15 @@ SEO-focused skill. Maximize organic search visibility for your website. 4 comman
 
 ## Output Directory
 
-**ALL generated files go to `seo-pilot/` folder in the project root.** Never scatter files.
+**ALL generated files go to `seo-pilot/<domain>/` folder in the project root.** Each website gets its own folder. Never scatter files.
 
+On first run, extract domain from URL and create:
 ```
-mkdir -p seo-pilot/{research/{competitors,keywords,discourse},content,reports,diagrams}
+DOMAIN=$(echo "$URL" | sed 's|https\?://||' | sed 's|/.*||')
+mkdir -p seo-pilot/$DOMAIN/{research/{competitors,keywords,discourse},content,reports,diagrams,obsidian-vault/{notes,products,strategy}}
 ```
+
+Example: `seo-pilot/keripikmangdedi.id/`, `seo-pilot/example.com/`
 
 ---
 
@@ -109,10 +113,12 @@ Agent 4: Discourse / question research
 **Wave 2 (parallel):**
 
 ```
-Agent 5: Generate SEO strategy report
+Agent 5: Generate SEO strategy report (HTML + MD)
   - FIRST: Load skills: "diagram-design", "dataviz", "blog-analyze"
   - Input: all Wave 1 research
-  - Output: seo-pilot/seo-strategy.html (interactive HTML report)
+  - Output:
+    - seo-pilot/seo-strategy.html (interactive HTML report, dark theme, charts)
+    - seo-pilot/seo-strategy.md (markdown version for quick reference)
   - See "Report Requirements" below
 
 Agent 6: Generate SEO planning diagrams
@@ -127,9 +133,14 @@ Agent 6: Generate SEO planning diagrams
 **Wave 3 (single agent):**
 
 ```
-Agent 7: Create config files
+Agent 7: Create config files + Obsidian vault
   - seo-pilot/.seo-project.md (site info, target keywords, competitors)
   - seo-pilot/.seo-state.json (pipeline tracker)
+  - seo-pilot/obsidian-vault/ (knowledge base structure)
+    ├── 00-index.md (hub page linking all notes)
+    ├── notes/ (research notes from Wave 1)
+    ├── products/ (product docs)
+    └── strategy/ (SEO strategy docs)
 ```
 
 **Init is NOT complete until Wave 3 finishes.**
@@ -279,10 +290,15 @@ Agent 5: Content quality
 **Wave 2:**
 
 ```
-Agent 6: Combined audit report
-  - Input: all 5 results
-  - Output: seo-pilot/reports/audit-<domain>-<date>.md
+Agent 6: Combined audit report (HTML + MD)
+  - FIRST: Load skills: "diagram-design", "dataviz"
+  - Input: all 5 audit results
+  - Output:
+    - seo-pilot/reports/audit-<domain>-<date>.html (interactive HTML report, dark theme, charts)
+    - seo-pilot/reports/audit-<domain>-<date>.md (markdown version for quick reference)
   - Prioritized: Critical → High → Medium → Low
+  - HTML must include: health scores as gauges/bars, pass/fail checklist with icons,
+    priority action items color-coded, per-category breakdowns with expandable sections
 ```
 
 ---
