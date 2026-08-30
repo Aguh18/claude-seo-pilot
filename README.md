@@ -25,7 +25,7 @@ Research → Content → SEO → Visual → Knowledge Base
 ### Install
 
 ```bash
-git clone https://github.com/Aguh18/seo-pilot.git
+git clone https://github.com/Aguh18/claude-seo-pilot.git
 cd seo-pilot
 ./install.sh
 ```
