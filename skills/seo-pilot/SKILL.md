@@ -1,187 +1,152 @@
 ---
 name: seo-pilot
-description: Complete SEO workflow orchestrator. Single entry point for research, content creation, SEO optimization, and publishing. Routes internally to blog, seo, defuddle, diagram-design, and obsidian skills. Use when user says "seo", "seo-pilot", "research competitor", "write blog", "optimize seo", "seo audit".
+description: Complete SEO workflow orchestrator. Single entry point for research, content creation, SEO optimization, and publishing. Routes internally to blog, seo, defuddle, diagram-design, and obsidian skills. Use when user says "seo", "seo-pilot", "research competitor", "write blog", "optimize seo", "seo audit", "content refresh", "keyword research", "product page".
 ---
 
 # SEO Pilot
 
-Single command for everything. No need to remember individual skill commands.
+Single command for everything. Each command runs a complete workflow combining multiple skills.
 
 ## Commands
+
+### 📊 Research
+
+| Command | What It Does |
+|---------|--------------|
+| `/seo-pilot competitor <url>` | Scrape site, analyze products/pricing, compare with us |
+| `/seo-pilot keywords <topic>` | Keyword research + SERP + autocomplete analysis |
+| `/seo-pilot discourse <topic>` | What people are saying last 30 days (Reddit, X, YouTube) |
+| `/seo-pilot market <topic>` | Market landscape: competitors, trends, gaps |
+
+### ✍️ Content
+
+| Command | What It Does |
+|---------|--------------|
+| `/seo-pilot blog-post <topic>` | Brief → outline → write → SEO check → schema |
+| `/seo-pilot rewrite <file>` | Analyze existing post → rewrite → optimize |
+| `/seo-pilot content-refresh <file>` | Check decay → update stats → re-optimize |
+| `/seo-pilot product-page <product>` | E-commerce product page with schema |
+| `/seo-pilot pillar-page <topic>` | Long-form pillar content with internal links |
+
+### 🔍 SEO
+
+| Command | What It Does |
+|---------|--------------|
+| `/seo-pilot site-audit <url>` | Full technical SEO audit (speed, schema, crawlability) |
+| `/seo-pilot page-audit <url>` | Single page: onpage + geo + schema + performance |
+| `/seo-pilot schema <file>` | Generate JSON-LD for any content |
+| `/seo-pilot geo-audit <file>` | AI citation readiness (ChatGPT, Perplexity, Gemini) |
+
+### 📐 Visual & Docs
+
+| Command | What It Does |
+|---------|--------------|
+| `/seo-pilot diagram architecture` | Backend architecture diagram |
+| `/seo-pilot diagram erd` | Database ER diagram |
+| `/seo-pilot diagram flow <process>` | Process flowchart |
+| `/seo-pilot diagram journey` | Customer journey map |
+
+### 🔄 System
 
 | Command | What It Does |
 |---------|--------------|
 | `/seo-pilot init` | Initialize project |
 | `/seo-pilot status` | Show pipeline progress |
-| `/seo-pilot next` | Show next pending step |
-| `/seo-pilot run-all` | Run entire pipeline (research → content → optimize → publish) |
-| `/seo-pilot pipeline <topic>` | Full pipeline for a topic |
 | `/seo-pilot update` | Check & update upstream skills |
 
-## Pipeline Commands
+## How Each Command Works
 
-### One-Shot Pipeline
+### `/seo-pilot competitor <url>`
+
+Internally runs:
+1. `defuddle parse <url>` — scrape website
+2. Extract products, pricing, structure
+3. Compare with `.seo-project.md` data
+4. Save to `research/competitors/<domain>.md`
+5. Update `.seo-state.json`
+
+### `/seo-pilot blog-post <topic>`
+
+Internally runs:
+1. Read `.seo-project.md` for context
+2. `/blog discourse <topic>` — what people are saying
+3. `/blog brief <topic>` — content brief
+4. `/blog outline <topic>` — SERP-informed outline
+5. `/blog write <topic>` — full article
+6. `/blog seo-check <file>` — SEO validation
+7. `/blog schema <file>` — schema markup
+8. Save to `content/<slug>.md`
+9. Update `.seo-state.json`
+
+### `/seo-pilot site-audit <url>`
+
+Internally runs:
+1. `/seo-technical <url>` — technical SEO
+2. `/seo-performance <url>` — Core Web Vitals
+3. `/seo-schema <url>` — schema validation
+4. `/seo-geo <url>` — AI citation audit
+5. Generate combined report
+6. Save to `reports/audit-<domain>-<date>.md`
+
+### `/seo-pilot content-refresh <file>`
+
+Internally runs:
+1. Analyze current content
+2. Check for outdated stats/info
+3. Research fresh data
+4. Rewrite with updates
+5. Re-run SEO check
+6. Save updated version
+
+### `/seo-pilot product-page <product>`
+
+Internally runs:
+1. Read product data from `.seo-project.md`
+2. Research competitor product pages
+3. Write optimized product description
+4. Generate Product schema JSON-LD
+5. Add FAQ section
+6. Save to `content/products/<slug>.md`
+
+## Example Workflows
+
+### New Blog Post
 
 ```bash
-# Run entire pipeline for a topic — fully automated
-/seo-pilot pipeline "Resep Keripik Singkong Original"
-
-# This runs internally:
-# 1. Research: competitor, keywords, discourse
-# 2. Content: brief → outline → write → review
-# 3. Optimize: onpage → geo → schema
-# 4. Publish: obsidian → diagram
+/seo-pilot blog-post "10 Resep Keripik Singkong Kekinian"
 ```
 
-### Phase Pipelines
+### Check Competitor
 
 ```bash
-/seo-pilot research all "keripik singkong"     # All research steps
-/seo-pilot content all "Resep Keripik"          # All content steps
-/seo-pilot optimize all content/resep.md        # All SEO steps
-/seo-pilot publish all content/resep.md         # All publish steps
+/seo-pilot competitor https://kompetitor.com
 ```
 
-### Step-by-Step
+### Full Site Audit
 
 ```bash
-/seo-pilot research competitor https://rival.com
-/seo-pilot research keywords "keripik singkong"
-/seo-pilot content brief "Resep Keripik"
-/seo-pilot content write "Resep Keripik"
-/seo-pilot optimize onpage content/resep.md
-/seo-pilot optimize geo content/resep.md
-/seo-pilot optimize schema content/resep.md
+/seo-pilot site-audit https://mysite.com
 ```
 
-## How It Works
+### Refresh Old Content
 
-User says: `/seo-pilot research competitor https://kompetitor.com`
+```bash
+/seo-pilot content-refresh content/resep-keripik.md
+```
 
-Orchestrator does internally:
-1. Reads `.seo-project.md` for context
-2. Runs `defuddle parse https://kompetitor.com --md -o research/kompetitor.md`
-3. Runs keyword research via Serper API
-4. Updates `.seo-state.json` progress
-5. Saves results to `research/` folder
+### Build Product Page
 
-User says: `/seo-pilot content write "Resep Keripik Singkong"`
-
-Orchestrator does internally:
-1. Reads `.seo-project.md` for brand voice & keywords
-2. Generates brief internally
-3. Generates outline internally
-4. Writes optimized blog post
-5. Runs SEO check internally
-6. Saves to `content/` folder
-7. Updates `.seo-state.json`
-
-User says: `/seo-pilot optimize blog/content/resep-keripik.md`
-
-Orchestrator does internally:
-1. Runs on-page SEO check
-2. Runs GEO (AI citation) optimization
-3. Generates schema markup
-4. Saves optimized version
-5. Updates `.seo-state.json`
-
-## Phase Details
-
-### Phase 1: Research
-
-| Sub-command | Action |
-|-------------|--------|
-| `/seo-pilot research competitor <url>` | Scrape competitor website |
-| `/seo-pilot research keywords <topic>` | Keyword research via Serper API |
-| `/seo-pilot research serp <keyword>` | SERP analysis |
-| `/seo-pilot research discourse <topic>` | What people are saying (last 30 days) |
-| `/seo-pilot research all <topic>` | Run all research for topic |
-
-### Phase 2: Content
-
-| Sub-command | Action |
-|-------------|--------|
-| `/seo-pilot content brief <topic>` | Generate content brief |
-| `/seo-pilot content outline <topic>` | Generate outline |
-| `/seo-pilot content write <topic>` | Write full blog post |
-| `/seo-pilot content rewrite <file>` | Rewrite existing post |
-| `/seo-pilot content discourse <topic>` | Research discourse first |
-| `/seo-pilot content all <topic>` | Brief → outline → write → check |
-
-### Phase 3: Optimize
-
-| Sub-command | Action |
-|-------------|--------|
-| `/seo-pilot optimize onpage <file>` | On-page SEO check |
-| `/seo-pilot optimize geo <file>` | AI citation optimization |
-| `/seo-pilot optimize schema <file>` | Generate JSON-LD schema |
-| `/seo-pilot optimize audit <url>` | Full SEO audit |
-| `/seo-pilot optimize all <file>` | Onpage + geo + schema |
-
-### Phase 4: Publish
-
-| Sub-command | Action |
-|-------------|--------|
-| `/seo-pilot publish obsidian <file>` | Save to Obsidian vault |
-| `/seo-pilot publish diagram <topic>` | Create visual diagram |
-| `/seo-pilot publish all <file>` | Obsidian + diagram |
+```bash
+/seo-pilot product-page "Kripset Jadul"
+```
 
 ## Project Context
 
-Reads `.seo-project.md` automatically for:
-- Business info (name, website, type)
-- Products & pricing
-- Target keywords
-- Competitors
-- Brand voice
+All commands read `.seo-project.md` automatically for:
+- Business info, products, pricing
+- Target keywords & competitors
+- Brand voice & audience
 
 ## Pipeline State
 
-Tracks progress in `.seo-state.json`:
-- Which steps are done/pending/running
-- History of completed actions
-- Last updated timestamp
-
-## Tools Used (Internal)
-
-| Tool | When |
-|------|------|
-| defuddle | Web scraping, competitor research |
-| Serper API | Keyword research, SERP analysis |
-| blog-write | Content creation |
-| blog-seo | SEO validation |
-| blog-geo | AI citation optimization |
-| blog-schema | Schema markup generation |
-| blog-discourse | Social listening |
-| diagram-design | Visual diagrams |
-| obsidian-markdown | Knowledge management |
-
-## Update Skills
-
-```bash
-/seo-pilot update
-```
-
-Checks upstream repos for new versions and syncs automatically.
-
-## Example: Full Pipeline
-
-```bash
-# 1. Setup
-/seo-pilot init
-
-# 2. Research
-/seo-pilot research all "keripik singkong"
-
-# 3. Content
-/seo-pilot content all "Resep Keripik Singkong Original"
-
-# 4. Optimize
-/seo-pilot optimize all content/resep-keripik.md
-
-# 5. Publish
-/seo-pilot publish all content/resep-keripik.md
-
-# 6. Check progress
-/seo-pilot status
-```
+Progress tracked in `.seo-state.json` automatically.
