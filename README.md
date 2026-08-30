@@ -46,8 +46,8 @@ cd seo-pilot
 | Skill | Commands | Credit |
 |-------|----------|--------|
 | **seo-pilot** | `/seo-pilot research`, `/seo-pilot content` | Built by [Aguh18](https://github.com/Aguh18) |
-| **blog** | `/blog write`, `/blog seo-check`, `/blog geo` | [anthropics/claude-code](https://github.com/anthropics/claude-code) |
-| **seo** | `/seo-audit`, `/seo-technical` | [anthropics/claude-code](https://github.com/anthropics/claude-code) |
+| **blog** | `/blog write`, `/blog seo-check`, `/blog geo` | [Agrici Daniel](https://github.com/AgriciDaniel) |
+| **seo** | `/seo-audit`, `/seo-technical` | [Agrici Daniel](https://github.com/AgriciDaniel) |
 | **defuddle** | `defuddle parse <url> --md` | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) |
 | **obsidian-markdown** | Wikilinks, callouts, embeds | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) |
 | **diagram-design** | Architecture, flowcharts, ERD | [cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design) |
@@ -129,7 +129,7 @@ MIT License — see [LICENSE](LICENSE)
 
 | Project | Author | License |
 |---------|--------|---------|
-| [claude-code](https://github.com/anthropics/claude-code) | Anthropic | MIT |
+| [blog & seo skills](https://github.com/AgriciDaniel) | Agrici Daniel | MIT |
 | [obsidian-skills](https://github.com/kepano/obsidian-skills) | kepano | MIT |
 | [diagram-design](https://github.com/cathrynlavery/diagram-design) | cathrynlavery | MIT |
 | [defuddle](https://github.com/makenotion/defuddle) | Notion Labs | MIT |
