@@ -45,6 +45,22 @@ Complete SEO workflow — 4 commands, each does a complete job. Research, write,
 | `/seo-pilot audit <url>` | Technical SEO → On-Page → Schema → GEO → Report |
 | `/seo-pilot status` | Show pipeline progress |
 
+## Install
+
+### One-Command (Recommended)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Aguh18/claude-seo-pilot/main/install.sh | bash
+```
+
+### Clone & Install
+
+```bash
+git clone https://github.com/Aguh18/claude-seo-pilot.git
+cd claude-seo-pilot
+./install.sh
+```
+
 ## Example
 
 ```bash
