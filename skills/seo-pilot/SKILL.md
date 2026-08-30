@@ -11,15 +11,48 @@ Single command for everything. No need to remember individual skill commands.
 
 | Command | What It Does |
 |---------|--------------|
-| `/seo-pilot init` | Initialize project — create .seo-project.md |
+| `/seo-pilot init` | Initialize project |
 | `/seo-pilot status` | Show pipeline progress |
 | `/seo-pilot next` | Show next pending step |
-| `/seo-pilot research` | Run full research phase |
-| `/seo-pilot content` | Run full content creation phase |
-| `/seo-pilot optimize` | Run full SEO optimization phase |
-| `/seo-pilot publish` | Run full publish phase |
-| `/seo-pilot run-all` | Run entire pipeline |
+| `/seo-pilot run-all` | Run entire pipeline (research → content → optimize → publish) |
+| `/seo-pilot pipeline <topic>` | Full pipeline for a topic |
 | `/seo-pilot update` | Check & update upstream skills |
+
+## Pipeline Commands
+
+### One-Shot Pipeline
+
+```bash
+# Run entire pipeline for a topic — fully automated
+/seo-pilot pipeline "Resep Keripik Singkong Original"
+
+# This runs internally:
+# 1. Research: competitor, keywords, discourse
+# 2. Content: brief → outline → write → review
+# 3. Optimize: onpage → geo → schema
+# 4. Publish: obsidian → diagram
+```
+
+### Phase Pipelines
+
+```bash
+/seo-pilot research all "keripik singkong"     # All research steps
+/seo-pilot content all "Resep Keripik"          # All content steps
+/seo-pilot optimize all content/resep.md        # All SEO steps
+/seo-pilot publish all content/resep.md         # All publish steps
+```
+
+### Step-by-Step
+
+```bash
+/seo-pilot research competitor https://rival.com
+/seo-pilot research keywords "keripik singkong"
+/seo-pilot content brief "Resep Keripik"
+/seo-pilot content write "Resep Keripik"
+/seo-pilot optimize onpage content/resep.md
+/seo-pilot optimize geo content/resep.md
+/seo-pilot optimize schema content/resep.md
+```
 
 ## How It Works
 

@@ -46,11 +46,16 @@ cd claude-seo-pilot
 ### Usage
 
 ```bash
-/seo-pilot init          # Setup project context
+# Full pipeline — one command does everything
+/seo-pilot pipeline "Your Blog Topic"
+
+# Or step by step
+/seo-pilot init          # Setup project
 /seo-pilot status        # Check progress
 /seo-pilot research      # Research phase
-/seo-pilot content       # Create content
-/seo-pilot optimize      # SEO optimization
+/seo-pilot content       # Content phase
+/seo-pilot optimize      # SEO phase
+/seo-pilot publish       # Publish phase
 ```
 
 ## 📦 Included Skills
