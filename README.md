@@ -1,6 +1,6 @@
 # ✈️ SEO Pilot for Claude Code
 
-Complete SEO workflow — 5 commands, each does a complete job. Research, write, optimize, audit — all orchestrated automatically.
+Complete SEO workflow — 4 commands, each does a complete job. Research, write, optimize, audit — all orchestrated automatically.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skills-blue)
@@ -36,38 +36,14 @@ Complete SEO workflow — 5 commands, each does a complete job. Research, write,
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
+## Commands
+
 | Command | What It Does |
 |---------|--------------|
 | `/seo-pilot init` | Scrape site → Competitors → Keywords → BRAND.md + VOICE.md → Diagrams + Vault |
 | `/seo-pilot write <topic>` | Research → Brief → Outline → Write → SEO → Schema → Publish |
 | `/seo-pilot audit <url>` | Technical SEO → On-Page → Schema → GEO → Report |
 | `/seo-pilot status` | Show pipeline progress |
-
-## 🚀 Install
-
-### One-Command (Recommended)
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Aguh18/claude-seo-pilot/main/install.sh | bash
-```
-
-### Clone & Install
-
-```bash
-git clone https://github.com/Aguh18/claude-seo-pilot.git
-cd claude-seo-pilot
-./install.sh
-```
-
-## 📋 Commands
-
-| Command | What It Does |
-|---------|--------------|
-| `/seo-pilot init` | Research project → BRAND.md, VOICE.md, diagrams, vault |
-| `/seo-pilot write <topic>` | Research → write → optimize → publish |
-| `/seo-pilot audit <url>` | Full SEO audit → technical + content + GEO |
-| `/seo-pilot status` | Show pipeline progress |
-| `/seo-pilot update` | Check & update upstream skills |
 
 ## Example
 
