@@ -8,15 +8,40 @@ Complete SEO workflow — 5 commands, each does a complete job. Research, write,
 
 ## How It Works
 
-![SEO Pilot Workflow](docs/diagrams/workflow.html)
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            SEO PILOT WORKFLOW                               │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  /seo-pilot init                                                            │
+│  ┌──────────┐  ┌────────────┐  ┌──────────┐                                │
+│  │ Scrape   │→ │ Competitor │→ │ Keywords │→ BRAND.md, VOICE.md, diagrams  │
+│  │ Website  │  │ Analysis   │  │ Research │  .seo-project.md, vault/       │
+│  └──────────┘  └────────────┘  └──────────┘                                │
+│                                                                             │
+│  /seo-pilot write                                                           │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐                   │
+│  │ Research │→ │ Brief +  │→ │ Write +  │→ │ SEO +    │→ content/*.md     │
+│  │ Topic    │  │ Outline  │  │ Content  │  │ Schema   │  obsidian-vault/  │
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘                   │
+│                                                                             │
+│  /seo-pilot audit                                                           │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐                   │
+│  │Technical │→ │ On-Page  │→ │ Schema   │→ │ GEO +    │→ reports/         │
+│  │ SEO      │  │ SEO      │  │ Check    │  │ Report   │  Fix priority list│
+│  └──────────┘  └──────────┘  └──────────┘  └──────────┘                   │
+│                                                                             │
+│  /seo-pilot status  →  Show what's done & what's next                      │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
 | Command | What It Does |
 |---------|--------------|
-| `/seo-pilot init` | Scrape site → Competitors → Keywords → BRAND.md + VOICE.md → Diagrams → Vault |
-| `/seo-pilot write` | Research → Brief → Outline → Write → SEO → Schema → Publish |
-| `/seo-pilot audit` | Technical SEO → On-Page → GEO → Report |
-| `/seo-pilot status` | Check pipeline progress |
-| `/seo-pilot update` | Sync upstream skills |
+| `/seo-pilot init` | Scrape site → Competitors → Keywords → BRAND.md + VOICE.md → Diagrams + Vault |
+| `/seo-pilot write <topic>` | Research → Brief → Outline → Write → SEO → Schema → Publish |
+| `/seo-pilot audit <url>` | Technical SEO → On-Page → Schema → GEO → Report |
+| `/seo-pilot status` | Show pipeline progress |
 
 ## 🚀 Install
 
@@ -85,23 +110,6 @@ your-project/
 │   ├── customer-journey.html
 │   └── erd.html
 └── obsidian-vault/          # Knowledge base
-```
-
-## 🏗️ Repo Structure
-
-```
-claude-seo-pilot/
-├── skills/
-│   ├── seo-pilot/           # Orchestrator
-│   ├── blog/                # Content creation
-│   ├── seo/                 # SEO optimization
-│   ├── diagram-design/      # Visual diagrams
-│   └── obsidian-tools/      # Knowledge management
-├── templates/
-├── examples/
-├── docs/diagrams/           # Workflow diagrams
-├── install.sh
-└── README.md
 ```
 
 ## Built-in Skills
