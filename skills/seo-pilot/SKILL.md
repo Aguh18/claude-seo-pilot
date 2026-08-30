@@ -95,10 +95,12 @@ Agent 5: Generate brand docs
   - Input: site analysis + competitor data + discourse
   - Output: seo-pilot/BRAND.md + seo-pilot/VOICE.md
 
-Agent 6: Generate standalone diagrams
-  - Input: site analysis + product data
-  - Output: seo-pilot/diagrams/architecture.html, customer-journey.html, erd.html
+Agent 6: Generate marketing planning diagrams
+  - Input: all research data (competitors, keywords, discourse, products)
+  - Output: seo-pilot/diagrams/marketing-roadmap.html, content-calendar.html, action-plan.html
   - MUST be completed before init is considered done
+  - Diagrams must be MARKETING focused: roadmap, timeline, step-by-step actions, content plan
+  - NOT technical diagrams (no architecture, no ERD, no database models)
 
 Agent 7: Generate full interactive HTML report
   - Input: all Wave 1 research data
@@ -150,9 +152,9 @@ seo-pilot/
 ├── BRAND.md                      # Brand identity & positioning
 ├── VOICE.md                      # Writing tone & style guide
 ├── diagrams/
-│   ├── architecture.html         # Site architecture diagram
-│   ├── customer-journey.html     # Customer journey map
-│   └── erd.html                  # Product catalog data model
+│   ├── marketing-roadmap.html    # Quarterly marketing roadmap
+│   ├── content-calendar.html     # Content publishing calendar
+│   └── action-plan.html          # Step-by-step marketing action plan
 ├── research/
 │   ├── market/
 │   │   └── site-analysis.md      # Scraped site data
