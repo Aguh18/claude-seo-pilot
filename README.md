@@ -1,34 +1,33 @@
 # ✈️ SEO Pilot for Claude Code
 
-Complete SEO workflow — research → content → optimize → publish. Built for anyone who wants to rank on Google.
+Complete SEO workflow — 5 commands, each does a complete job. Research, write, optimize, audit — all orchestrated automatically.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skills-blue)
 ![Version](https://img.shields.io/badge/Version-1.0.0-green)
 
-## 🎯 What This Does
+## How It Works
+
+![SEO Pilot Workflow](docs/diagrams/workflow.html)
 
 ```
-Research → Content → SEO → Visual → Knowledge Base
+seo-pilot/
+├── init    → Scrape site → Competitors → Keywords → Brand docs → Diagrams → Vault
+├── write   → Research → Brief → Outline → Write → SEO → Schema → Publish
+├── audit   → Technical → On-page → Schema → GEO → Report
+├── status  → Check progress
+└── update  → Sync upstream skills
 ```
 
-| Phase | Tools | Output |
-|-------|-------|--------|
-| **Research** | defuddle, Serper API | Competitor analysis, keyword data |
-| **Content** | blog-write, blog-brief | Optimized blog posts |
-| **SEO** | seo-audit, blog-seo, blog-geo | SEO-optimized content |
-| **Visual** | diagram-design | Architecture & flow diagrams |
-| **Knowledge** | obsidian-vault | Organized documentation |
+## 🚀 Install
 
-## 🚀 Quick Start
-
-### Option 1: One-Command Install (Recommended)
+### One-Command (Recommended)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Aguh18/claude-seo-pilot/main/install.sh | bash
 ```
 
-### Option 2: Clone & Install
+### Clone & Install
 
 ```bash
 git clone https://github.com/Aguh18/claude-seo-pilot.git
@@ -36,114 +35,95 @@ cd claude-seo-pilot
 ./install.sh
 ```
 
-### Option 3: Claude Code Plugin
+## 📋 Commands
+
+| Command | What It Does |
+|---------|--------------|
+| `/seo-pilot init` | Research project → BRAND.md, VOICE.md, diagrams, vault |
+| `/seo-pilot write <topic>` | Research → write → optimize → publish |
+| `/seo-pilot audit <url>` | Full SEO audit → technical + content + GEO |
+| `/seo-pilot status` | Show pipeline progress |
+| `/seo-pilot update` | Check & update upstream skills |
+
+## Example
 
 ```bash
-/plugin marketplace add Aguh18/claude-seo-pilot
-/plugin install seo-pilot@claude-seo-pilot
-```
-
-### Usage
-
-```bash
-# Full pipeline — one command does everything
-/seo-pilot pipeline "Your Blog Topic"
-
-# Or step by step
-/seo-pilot init          # Setup project
-/seo-pilot status        # Check progress
-/seo-pilot research      # Research phase
-/seo-pilot content       # Content phase
-/seo-pilot optimize      # SEO phase
-/seo-pilot publish       # Publish phase
-```
-
-## 📦 Included Skills
-
-| Skill | Commands | Credit |
-|-------|----------|--------|
-| **seo-pilot** | `/seo-pilot research`, `/seo-pilot content` | Built by [Aguh18](https://github.com/Aguh18) |
-| **blog** | `/blog write`, `/blog seo-check`, `/blog geo` | [Agrici Daniel](https://github.com/AgriciDaniel) |
-| **seo** | `/seo-audit`, `/seo-technical` | [Agrici Daniel](https://github.com/AgriciDaniel) |
-| **defuddle** | `defuddle parse <url> --md` | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) |
-| **obsidian-markdown** | Wikilinks, callouts, embeds | [kepano/obsidian-skills](https://github.com/kepano/obsidian-skills) |
-| **diagram-design** | Architecture, flowcharts, ERD | [cathrynlavery/diagram-design](https://github.com/cathrynlavery/diagram-design) |
-| **Serper API** | SERP & keyword research | [serper.dev](https://serper.dev) |
-
-## 💡 Example Workflow
-
-```bash
-# 1. Setup
+# First time — research everything about your project
 /seo-pilot init
+# Enter URL: https://mysite.com
+# → Creates: BRAND.md, VOICE.md, diagrams, vault, config
 
-# 2. Research everything
-/seo-pilot research all "keripik singkong"
+# Write a blog post — full pipeline
+/seo-pilot write "How to Choose the Best [Product]"
+# → Researches topic, writes article, optimizes SEO, publishes
 
-# 3. Create content
-/seo-pilot content all "Resep Keripik Singkong Original"
+# Audit your site
+/seo-pilot audit https://mysite.com
+# → Full report with prioritized fixes
 
-# 4. Optimize SEO
-/seo-pilot optimize all content/resep-keripik.md
-
-# 5. Publish
-/seo-pilot publish all content/resep-keripik.md
-
-# 6. Check progress
+# Check what's done
 /seo-pilot status
 ```
 
-## 🏗️ Project Structure
+## What Gets Created
+
+After `init`:
 
 ```
-seo-pilot/
+your-project/
+├── .seo-project.md          # Config (products, keywords, competitors)
+├── .seo-state.json          # Pipeline tracker
+├── BRAND.md                 # Brand identity
+├── VOICE.md                 # Writing tone & style
+├── research/
+│   ├── competitors/         # Competitor analysis
+│   ├── keywords/            # Keyword research
+│   └── market/              # Market landscape
+├── content/                 # Created content
+├── reports/                 # Audit reports
+├── diagrams/                # Visual diagrams
+│   ├── architecture.html
+│   ├── customer-journey.html
+│   └── erd.html
+└── obsidian-vault/          # Knowledge base
+```
+
+## 🏗️ Repo Structure
+
+```
+claude-seo-pilot/
 ├── skills/
-│   ├── seo-pilot/         # Master orchestrator
-│   ├── blog/              # 31 blog sub-skills
-│   ├── seo/               # 15+ SEO sub-skills
-│   ├── obsidian-tools/    # Web scraping & notes
-│   └── diagram-design/    # Visual diagrams
+│   ├── seo-pilot/           # Orchestrator
+│   ├── blog/                # Content creation
+│   ├── seo/                 # SEO optimization
+│   ├── diagram-design/      # Visual diagrams
+│   └── obsidian-tools/      # Knowledge management
 ├── templates/
-│   ├── .seo-project.template.md
-│   └── .seo-state.template.json
 ├── examples/
-│   └── keripik-mang-dedi/ # Demo project
+├── docs/diagrams/           # Workflow diagrams
 ├── install.sh
-├── LICENSE
 └── README.md
 ```
 
-## 🎨 Built For
+## Built-in Skills
 
-- **Small businesses** who want to rank on Google
-- **Bloggers** who want SEO-optimized content
-- **Marketers** who need competitor research
-- **Content creators** who want AI-powered workflow
-- **Anyone** who wants a complete SEO toolkit
+| Skill | Credit |
+|-------|--------|
+| seo-pilot | [Aguh18](https://github.com/Aguh18) |
+| blog | [Agrici Daniel](https://github.com/AgriciDaniel) |
+| seo | [Agrici Daniel](https://github.com/AgriciDaniel) |
+| obsidian-skills | [kepano](https://github.com/kepano/obsidian-skills) |
+| diagram-design | [cathrynlavery](https://github.com/cathrynlavery/diagram-design) |
+| defuddle | [Notion Labs](https://github.com/makenotion/defuddle) |
+| Serper API | [serper.dev](https://serper.dev) |
 
 ## 🤝 Contributing
 
 PRs welcome! See [CONTRIBUTING.md](CONTRIBUTING.md)
 
-1. Fork the repo
-2. Create feature branch (`git checkout -b feature/amazing`)
-3. Commit changes (`git commit -m 'feat: add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing`)
-5. Open Pull Request
-
 ## 📝 License
 
 MIT License — see [LICENSE](LICENSE)
-
-## 🙏 Credits
-
-| Project | Author | License |
-|---------|--------|---------|
-| [blog & seo skills](https://github.com/AgriciDaniel) | Agrici Daniel | MIT |
-| [obsidian-skills](https://github.com/kepano/obsidian-skills) | kepano | MIT |
-| [diagram-design](https://github.com/cathrynlavery/diagram-design) | cathrynlavery | MIT |
-| [defuddle](https://github.com/makenotion/defuddle) | Notion Labs | MIT |
-| [Serper API](https://serper.dev) | Serper | Commercial |
-| [Obsidian](https://obsidian.md) | obsidian.md | Free |
 
 ---
 

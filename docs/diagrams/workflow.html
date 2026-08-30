@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEO Pilot Workflow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #fffaf4;
+      --color-ink:     #2b140b;
+      --color-muted:   #5a2f1a;
+      --color-accent:  #b95e19;
+      --font-sans:     'Geist', system-ui, sans-serif;
+      --font-serif:    'Instrument Serif', serif;
+      --font-mono:     'Geist Mono', ui-monospace, monospace;
+    }
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      display: flex;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+    .frame { max-width: 1100px; width: 100%; }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--color-ink);
+      margin-bottom: 1.5rem;
+    }
+    svg { width: 100%; min-width: 900px; display: block; }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Process · Diagram Design</p>
+    <h1>SEO Pilot — How It Works</h1>
+
+    <svg viewBox="0 0 1000 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="wf-title wf-desc">
+      <title id="wf-title">SEO Pilot Workflow</title>
+      <desc id="wf-desc">Flowchart showing the 5 SEO Pilot commands and their internal workflows.</desc>
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#5a2f1a"/></marker>
+        <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#b95e19"/></marker>
+      </defs>
+
+      <rect width="100%" height="100%" fill="#fffaf4"/>
+
+      <!-- INIT PHASE -->
+      <rect x="32" y="24" width="280" height="240" rx="8" fill="rgba(185,94,25,0.03)" stroke="rgba(185,94,25,0.15)" stroke-width="0.8"/>
+      <rect x="44" y="28" width="80" height="12" rx="2" fill="#fffaf4"/>
+      <text x="84" y="37" fill="#b95e19" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.14em">PHASE 1</text>
+
+      <!-- INIT command box -->
+      <rect x="48" y="52" width="248" height="36" rx="6" fill="rgba(185,94,25,0.08)" stroke="#b95e19" stroke-width="1"/>
+      <text x="172" y="74" fill="#2b140b" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">/seo-pilot init</text>
+
+      <!-- Init sub-steps -->
+      <rect x="48" y="100" width="116" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="106" y="118" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Scrape Website</text>
+
+      <rect x="176" y="100" width="116" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="234" y="118" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Analyze Competitors</text>
+
+      <rect x="48" y="136" width="116" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="106" y="154" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Keyword Research</text>
+
+      <rect x="176" y="136" width="116" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="234" y="154" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Research Discourse</text>
+
+      <!-- Init outputs -->
+      <rect x="48" y="176" width="76" height="24" rx="4" fill="rgba(185,94,25,0.05)" stroke="rgba(185,94,25,0.20)" stroke-width="0.8"/>
+      <text x="86" y="192" fill="#b95e19" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">BRAND.md</text>
+
+      <rect x="132" y="176" width="68" height="24" rx="4" fill="rgba(185,94,25,0.05)" stroke="rgba(185,94,25,0.20)" stroke-width="0.8"/>
+      <text x="166" y="192" fill="#b95e19" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">VOICE.md</text>
+
+      <rect x="208" y="176" width="84" height="24" rx="4" fill="rgba(185,94,25,0.05)" stroke="rgba(185,94,25,0.20)" stroke-width="0.8"/>
+      <text x="250" y="192" fill="#b95e19" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">Diagrams</text>
+
+      <rect x="48" y="208" width="108" height="24" rx="4" fill="rgba(185,94,25,0.05)" stroke="rgba(185,94,25,0.20)" stroke-width="0.8"/>
+      <text x="102" y="224" fill="#b95e19" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">Obsidian Vault</text>
+
+      <rect x="164" y="208" width="128" height="24" rx="4" fill="rgba(185,94,25,0.05)" stroke="rgba(185,94,25,0.20)" stroke-width="0.8"/>
+      <text x="228" y="224" fill="#b95e19" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">.seo-project.md</text>
+
+      <!-- ARROW: Init → Write -->
+      <path d="M 312,148 H 360" fill="none" stroke="#5a2f1a" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+      <!-- WRITE PHASE -->
+      <rect x="368" y="24" width="280" height="240" rx="8" fill="rgba(46,90,168,0.03)" stroke="rgba(46,90,168,0.12)" stroke-width="0.8"/>
+      <rect x="380" y="28" width="80" height="12" rx="2" fill="#fffaf4"/>
+      <text x="420" y="37" fill="#2e5aa8" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.14em">PHASE 2</text>
+
+      <!-- WRITE command box -->
+      <rect x="384" y="52" width="248" height="36" rx="6" fill="rgba(46,90,168,0.08)" stroke="#2e5aa8" stroke-width="1"/>
+      <text x="508" y="74" fill="#2b140b" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">/seo-pilot write</text>
+
+      <!-- Write sub-steps -->
+      <rect x="384" y="100" width="76" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="422" y="118" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Research</text>
+
+      <rect x="468" y="100" width="56" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="496" y="118" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Brief</text>
+
+      <rect x="532" y="100" width="64" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="564" y="118" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Outline</text>
+
+      <rect x="604" y="100" width="48" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="628" y="118" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Write</text>
+
+      <rect x="384" y="136" width="76" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="422" y="154" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">SEO Check</text>
+
+      <rect x="468" y="136" width="68" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="502" y="154" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Schema</text>
+
+      <rect x="544" y="136" width="56" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="572" y="154" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">GEO</text>
+
+      <rect x="608" y="136" width="48" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="632" y="154" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Chart</text>
+
+      <!-- Write outputs -->
+      <rect x="384" y="180" width="112" height="24" rx="4" fill="rgba(46,90,168,0.05)" stroke="rgba(46,90,168,0.20)" stroke-width="0.8"/>
+      <text x="440" y="196" fill="#2e5aa8" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">Blog Post</text>
+
+      <rect x="504" y="180" width="68" height="24" rx="4" fill="rgba(46,90,168,0.05)" stroke="rgba(46,90,168,0.20)" stroke-width="0.8"/>
+      <text x="538" y="196" fill="#2e5aa8" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">Schema</text>
+
+      <rect x="580" y="180" width="72" height="24" rx="4" fill="rgba(46,90,168,0.05)" stroke="rgba(46,90,168,0.20)" stroke-width="0.8"/>
+      <text x="616" y="196" fill="#2e5aa8" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">Chart SVG</text>
+
+      <rect x="384" y="212" width="100" height="24" rx="4" fill="rgba(46,90,168,0.05)" stroke="rgba(46,90,168,0.20)" stroke-width="0.8"/>
+      <text x="434" y="228" fill="#2e5aa8" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">content/*.md</text>
+
+      <rect x="492" y="212" width="100" height="24" rx="4" fill="rgba(46,90,168,0.05)" stroke="rgba(46,90,168,0.20)" stroke-width="0.8"/>
+      <text x="542" y="228" fill="#2e5aa8" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">obsidian-vault/</text>
+
+      <!-- ARROW: Write → Audit -->
+      <path d="M 648,148 H 696" fill="none" stroke="#5a2f1a" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+      <!-- AUDIT PHASE -->
+      <rect x="704" y="24" width="264" height="240" rx="8" fill="rgba(124,143,111,0.04)" stroke="rgba(124,143,111,0.12)" stroke-width="0.8"/>
+      <rect x="716" y="28" width="80" height="12" rx="2" fill="#fffaf4"/>
+      <text x="756" y="37" fill="#7c8f6f" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.14em">PHASE 3</text>
+
+      <!-- AUDIT command box -->
+      <rect x="720" y="52" width="232" height="36" rx="6" fill="rgba(124,143,111,0.08)" stroke="#7c8f6f" stroke-width="1"/>
+      <text x="836" y="74" fill="#2b140b" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">/seo-pilot audit</text>
+
+      <!-- Audit sub-steps -->
+      <rect x="720" y="100" width="108" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="774" y="118" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Technical SEO</text>
+
+      <rect x="836" y="100" width="100" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="886" y="118" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">On-Page SEO</text>
+
+      <rect x="720" y="136" width="108" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="774" y="154" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Schema Valid.</text>
+
+      <rect x="836" y="136" width="100" height="28" rx="4" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="886" y="154" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">GEO Check</text>
+
+      <!-- Audit outputs -->
+      <rect x="720" y="180" width="216" height="24" rx="4" fill="rgba(124,143,111,0.05)" stroke="rgba(124,143,111,0.20)" stroke-width="0.8"/>
+      <text x="828" y="196" fill="#7c8f6f" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">reports/audit-*.md</text>
+
+      <rect x="720" y="212" width="216" height="24" rx="4" fill="rgba(124,143,111,0.05)" stroke="rgba(124,143,111,0.20)" stroke-width="0.8"/>
+      <text x="828" y="228" fill="#7c8f6f" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">Prioritized Fix List</text>
+
+      <!-- STATUS + UPDATE at bottom -->
+      <rect x="200" y="296" width="248" height="48" rx="6" fill="#fffaf4" stroke="#5a2f1a" stroke-width="1"/>
+      <text x="324" y="316" fill="#2b140b" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">/seo-pilot status</text>
+      <text x="324" y="332" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Check pipeline progress</text>
+
+      <rect x="540" y="296" width="248" height="48" rx="6" fill="#fffaf4" stroke="#5a2f1a" stroke-width="1"/>
+      <text x="664" y="316" fill="#2b140b" font-size="11" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">/seo-pilot update</text>
+      <text x="664" y="332" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle">Sync upstream skills</text>
+
+      <!-- Arrows to status/update -->
+      <path d="M 400,264 V 280 H 324 V 296" fill="none" stroke="#5a2f1a" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+      <path d="M 600,264 V 280 H 664 V 296" fill="none" stroke="#5a2f1a" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+
+      <!-- TOOLS USED -->
+      <rect x="32" y="372" width="936" height="52" rx="6" fill="rgba(43,20,11,0.02)" stroke="rgba(43,20,11,0.08)" stroke-width="0.8"/>
+      <text x="48" y="390" fill="#5a2f1a" font-size="7" font-family="'Geist Mono', monospace" letter-spacing="0.14em">TOOLS USED INTERNALLY</text>
+
+      <rect x="48" y="400" width="72" height="16" rx="3" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.6"/>
+      <text x="84" y="411" fill="#5a2f1a" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">defuddle</text>
+
+      <rect x="128" y="400" width="72" height="16" rx="3" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.6"/>
+      <text x="164" y="411" fill="#5a2f1a" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">Serper API</text>
+
+      <rect x="208" y="400" width="64" height="16" rx="3" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.6"/>
+      <text x="240" y="411" fill="#5a2f1a" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">blog-*</text>
+
+      <rect x="280" y="400" width="56" height="16" rx="3" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.6"/>
+      <text x="308" y="411" fill="#5a2f1a" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">seo-*</text>
+
+      <rect x="344" y="400" width="88" height="16" rx="3" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.6"/>
+      <text x="388" y="411" fill="#5a2f1a" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">diagram-design</text>
+
+      <rect x="440" y="400" width="88" height="16" rx="3" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.6"/>
+      <text x="484" y="411" fill="#5a2f1a" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle">obsidian-tools</text>
+
+      <!-- Legend -->
+      <line x1="32" y1="448" x2="968" y2="448" stroke="rgba(43,20,11,0.10)" stroke-width="0.8"/>
+      <text x="32" y="464" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.14em">LEGEND</text>
+      <rect x="108" y="458" width="80" height="10" rx="2" fill="rgba(185,94,25,0.08)" stroke="#b95e19" stroke-width="0.8"/>
+      <text x="200" y="466" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace">Init phase</text>
+      <rect x="280" y="458" width="80" height="10" rx="2" fill="rgba(46,90,168,0.08)" stroke="#2e5aa8" stroke-width="0.8"/>
+      <text x="372" y="466" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace">Write phase</text>
+      <rect x="460" y="458" width="80" height="10" rx="2" fill="rgba(124,143,111,0.08)" stroke="#7c8f6f" stroke-width="0.8"/>
+      <text x="552" y="466" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace">Audit phase</text>
+      <rect x="640" y="458" width="80" height="10" rx="2" fill="#fffaf4" stroke="#5a2f1a" stroke-width="0.8"/>
+      <text x="732" y="466" fill="#5a2f1a" font-size="8" font-family="'Geist Mono', monospace">Utility</text>
+    </svg>
+  </div>
+</body>
+</html>

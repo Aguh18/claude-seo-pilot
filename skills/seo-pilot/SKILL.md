@@ -12,7 +12,7 @@ description: Complete SEO workflow orchestrator. 5 commands that each run a full
 | Command | What It Does |
 |---------|--------------|
 | `/seo-pilot init` | Research project → create brand docs, voice, config |
-| `/seo-pilot run <topic>` | Full pipeline → research → write → optimize → publish |
+| `/seo-pilot write <topic>` | Full pipeline → research → write → optimize → publish |
 | `/seo-pilot audit <url>` | Full SEO audit → technical + content + GEO + report |
 | `/seo-pilot status` | Show what's done and what's next |
 | `/seo-pilot update` | Check & update upstream skills |
