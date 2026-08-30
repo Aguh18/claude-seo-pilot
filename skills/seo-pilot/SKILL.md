@@ -95,7 +95,12 @@ Agent 5: Generate brand docs
   - Input: site analysis + competitor data + discourse
   - Output: seo-pilot/BRAND.md + seo-pilot/VOICE.md
 
-Agent 6: Generate full interactive HTML report
+Agent 6: Generate standalone diagrams
+  - Input: site analysis + product data
+  - Output: seo-pilot/diagrams/architecture.html, customer-journey.html, erd.html
+  - MUST be completed before init is considered done
+
+Agent 7: Generate full interactive HTML report
   - Input: all Wave 1 research data
   - Output: seo-pilot/report.html
   - MUST be completed before init is considered done
@@ -105,7 +110,7 @@ Agent 6: Generate full interactive HTML report
 **Wave 3 (after Wave 2 completes) — single agent:**
 
 ```
-Agent 7: Create config files
+Agent 8: Create config files
   - seo-pilot/.seo-project.md (products, keywords, competitors)
   - seo-pilot/.seo-state.json (pipeline tracker)
 ```
@@ -144,6 +149,10 @@ seo-pilot/
 ├── .seo-state.json               # Pipeline tracker
 ├── BRAND.md                      # Brand identity & positioning
 ├── VOICE.md                      # Writing tone & style guide
+├── diagrams/
+│   ├── architecture.html         # Site architecture diagram
+│   ├── customer-journey.html     # Customer journey map
+│   └── erd.html                  # Product catalog data model
 ├── research/
 │   ├── market/
 │   │   └── site-analysis.md      # Scraped site data
