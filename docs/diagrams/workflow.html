@@ -1,144 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SEO Pilot Workflow</title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: #0f0f1a; color: #e0e0e0; font-family: system-ui, -apple-system, sans-serif; padding: 2rem; }
-h1 { text-align: center; font-size: 1.4rem; color: #f5f5f5; margin-bottom: 2rem; }
-.workflow { max-width: 1000px; margin: 0 auto; }
-.cmd { margin-bottom: 2.5rem; background: #12122a; border-radius: 10px; padding: 1.5rem; border-top: 3px solid; }
-.cmd-init { border-color: #e74c3c; }
-.cmd-write { border-color: #27ae60; }
-.cmd-audit { border-color: #3498db; }
-.cmd-title { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
-.cmd-title code { background: #1a1a2e; padding: 2px 8px; border-radius: 4px; font-size: 0.85rem; }
-.waves { display: flex; gap: 0; align-items: stretch; }
-.wave { flex: 1; min-width: 0; position: relative; }
-.wave-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 0.5rem; text-align: center; }
-.wave-box { background: #1a1a2e; border-radius: 8px; padding: 0.8rem; height: 100%; border: 1px solid #222; }
-.wave-box.para { border-color: rgba(74,105,189,0.4); }
-.wave-box.seq { border-color: rgba(243,156,18,0.4); }
-.wave-box.single { border-color: rgba(39,174,96,0.4); }
-.agent { font-size: 0.7rem; padding: 0.3rem 0.5rem; border-radius: 4px; margin-bottom: 0.3rem; background: rgba(74,105,189,0.1); border-left: 3px solid; }
-.agent-parallel { border-color: #4a69bd; }
-.agent-seq { border-color: #f39c12; }
-.agent-single { border-color: #27ae60; }
-.agent-name { font-weight: 600; color: #f5f5f5; }
-.agent-skills { font-size: 0.6rem; color: #888; margin-top: 1px; }
-.arrow { display: flex; align-items: center; justify-content: center; width: 40px; flex-shrink: 0; color: #4a69bd; font-size: 1.2rem; }
-.para-badge { display: inline-block; font-size: 0.55rem; padding: 1px 5px; border-radius: 3px; background: rgba(74,105,189,0.2); color: #4a69bd; margin-left: 0.3rem; }
-.seq-badge { display: inline-block; font-size: 0.55rem; padding: 1px 5px; border-radius: 3px; background: rgba(243,156,18,0.2); color: #f39c12; margin-left: 0.3rem; }
-.note { text-align: center; font-size: 0.7rem; color: #666; margin-top: 0.5rem; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEO Pilot — Workflow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --paper: #f5f5f5;
+      --ink: #2d3142;
+      --muted: #4f5d75;
+      --accent: #eb6c36;
+      --accent-tint: rgba(235,108,54,0.08);
+      --link: #2e5aa8;
+      --soft: #7a8399;
+      --rule: rgba(45,49,66,0.12);
+    }
+    body {
+      font-family: 'Geist', system-ui, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+    .frame { max-width: 960px; width: 100%; }
+    .eyebrow {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 2rem;
+    }
+
+    /* Command cards */
+    .cmd {
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      background: #fff;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .cmd-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .cmd-title code {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.85rem;
+      background: rgba(45,49,66,0.04);
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+    }
+
+    /* Waves */
+    .waves {
+      display: flex;
+      align-items: stretch;
+      gap: 0.75rem;
+    }
+    .wave {
+      flex: 1;
+      min-width: 0;
+    }
+    .wave-label {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--soft);
+      margin-bottom: 0.5rem;
+    }
+    .wave-box {
+      border: 1px dashed rgba(45,49,66,0.15);
+      border-radius: 6px;
+      padding: 0.75rem;
+      min-height: 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .wave-box.para { border-style: dashed; }
+    .wave-box.seq { border-color: rgba(243,156,18,0.35); border-style: solid; }
+    .wave-box.single { border-color: rgba(39,174,96,0.35); border-style: solid; }
+    .wave-box.clean { border-color: var(--accent); border-style: solid; }
+
+    .agent {
+      background: rgba(45,49,66,0.03);
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: 0.4rem 0.6rem;
+    }
+    .agent-clean {
+      border-color: rgba(235,108,54,0.4);
+      background: var(--accent-tint);
+    }
+    .agent-parallel { border-color: rgba(45,49,66,0.12); }
+    .agent-sequential { border-color: rgba(243,156,18,0.3); background: rgba(243,156,18,0.04); }
+    .agent-single { border-color: rgba(39,174,96,0.3); background: rgba(39,174,96,0.04); }
+
+    .agent-name {
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .agent-skills {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--soft);
+      margin-top: 0.15rem;
+    }
+
+    .arrow {
+      display: flex;
+      align-items: center;
+      color: var(--muted);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      padding: 0 0.25rem;
+    }
+
+    .note {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--soft);
+      margin-top: 0.75rem;
+    }
+
+    .para-badge, .seq-badge {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.08em;
+      padding: 0.1rem 0.35rem;
+      border-radius: 2px;
+      margin-left: 0.3rem;
+      vertical-align: middle;
+    }
+    .para-badge { background: rgba(45,49,66,0.06); color: var(--muted); }
+    .seq-badge { background: rgba(243,156,18,0.1); color: #b8860b; }
+
+    .cmd-audit { border-left: 3px solid var(--link); }
+    .cmd-reaudit { border-left: 3px solid var(--accent); }
+
+    @media (max-width: 700px) {
+      .waves { flex-direction: column; }
+      .arrow { transform: rotate(90deg); align-self: center; }
+    }
+  </style>
 </head>
 <body>
-<h1>SEO Pilot — Workflow Diagram</h1>
+  <div class="frame">
+    <p class="eyebrow">Workflow · Diagram Design</p>
+    <h1>SEO Pilot — Command Workflows</h1>
 
-<div class="workflow">
-
-  <!-- INIT -->
-  <div class="cmd cmd-init">
-    <div class="cmd-title"><code>/seo-pilot init</code> — Full SEO project setup</div>
-    <div class="waves">
-      <div class="wave">
-        <div class="wave-label">Wave 1 <span class="para-badge">PARALLEL</span></div>
-        <div class="wave-box para">
-          <div class="agent agent-parallel"><div class="agent-name">🔍 Scrape Website</div><div class="agent-skills">skills: defuddle, seo-technical</div></div>
-          <div class="agent agent-parallel"><div class="agent-name">🏆 Competitor SEO</div><div class="agent-skills">skills: defuddle, seo-content, seo-technical</div></div>
-          <div class="agent agent-parallel"><div class="agent-name">🔑 Keyword Research</div><div class="agent-skills">skills: serper-api, seo-cluster, blog-brief</div></div>
-          <div class="agent agent-parallel"><div class="agent-name">💬 Question Research</div><div class="agent-skills">skills: blog-discourse</div></div>
+    <!-- INIT -->
+    <div class="cmd">
+      <div class="cmd-title"><code>/seo-pilot init</code> — Full project setup</div>
+      <div class="waves">
+        <div class="wave">
+          <div class="wave-label">Wave 1 <span class="para-badge">PARALLEL</span></div>
+          <div class="wave-box para">
+            <div class="agent agent-parallel"><div class="agent-name">Scrape Site</div><div class="agent-skills">SEO data + content</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Competitors</div><div class="agent-skills">top 5 analysis</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Keywords</div><div class="agent-skills">volume + intent</div></div>
+          </div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="wave">
+          <div class="wave-label">Wave 2 <span class="para-badge">PARALLEL</span></div>
+          <div class="wave-box para">
+            <div class="agent agent-parallel"><div class="agent-name">SEO Strategy Report</div><div class="agent-skills">diagram-design + dataviz</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">3 Diagrams</div><div class="agent-skills">keyword-gap · content-cluster · seo-priority</div></div>
+          </div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="wave">
+          <div class="wave-label">Wave 3</div>
+          <div class="wave-box single">
+            <div class="agent agent-single"><div class="agent-name">Config Files</div><div class="agent-skills">.seo-project.md + .seo-state.json</div></div>
+          </div>
         </div>
       </div>
-      <div class="arrow">→</div>
-      <div class="wave">
-        <div class="wave-label">Wave 2 <span class="para-badge">PARALLEL</span></div>
-        <div class="wave-box para">
-          <div class="agent agent-parallel"><div class="agent-name">📊 SEO Strategy Report</div><div class="agent-skills">skills: diagram-design, dataviz, blog-analyze</div></div>
-          <div class="agent agent-parallel"><div class="agent-name">📈 SEO Diagrams</div><div class="agent-skills">skills: diagram-design, dataviz</div></div>
-        </div>
-      </div>
-      <div class="arrow">→</div>
-      <div class="wave">
-        <div class="wave-label">Wave 3 <span class="seq-badge">SINGLE</span></div>
-        <div class="wave-box single">
-          <div class="agent agent-single"><div class="agent-name">⚙️ Config Files</div><div class="agent-skills">.seo-project.md + .seo-state.json</div></div>
-        </div>
-      </div>
+      <div class="note">Output: seo-strategy.html + diagrams + research + config</div>
     </div>
-    <div class="note">Output: seo-strategy.html + 3 diagrams + research files + config</div>
-  </div>
 
-  <!-- BLOG-WRITE -->
-  <div class="cmd cmd-write">
-    <div class="cmd-title"><code>/seo-pilot blog-write &lt;topic&gt;</code> — Full content pipeline</div>
-    <div class="waves">
-      <div class="wave">
-        <div class="wave-label">Wave 1 <span class="para-badge">PARALLEL</span></div>
-        <div class="wave-box para">
-          <div class="agent agent-parallel"><div class="agent-name">🔑 Keyword Research</div><div class="agent-skills">skills: serper-api, seo-cluster, blog-brief</div></div>
-          <div class="agent agent-parallel"><div class="agent-name">💬 Discourse</div><div class="agent-skills">skills: blog-discourse</div></div>
+    <!-- BLOG-WRITE -->
+    <div class="cmd">
+      <div class="cmd-title"><code>/seo-pilot blog-write</code> — Full content pipeline</div>
+      <div class="waves">
+        <div class="wave">
+          <div class="wave-label">W1 <span class="para-badge">PARALLEL</span></div>
+          <div class="wave-box para">
+            <div class="agent agent-parallel"><div class="agent-name">Keywords</div><div class="agent-skills">serper · seo-keyword</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Discourse</div><div class="agent-skills">reddit · youtube · quora</div></div>
+          </div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="wave">
+          <div class="wave-label">W2 <span class="seq-badge">SEQUENTIAL</span></div>
+          <div class="wave-box seq">
+            <div class="agent agent-sequential"><div class="agent-name">Brief</div><div class="agent-skills">blog-brief</div></div>
+            <div class="agent agent-sequential"><div class="agent-name">Outline</div><div class="agent-skills">blog-outline</div></div>
+          </div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="wave">
+          <div class="wave-label">W3</div>
+          <div class="wave-box single">
+            <div class="agent agent-single"><div class="agent-name">Write</div><div class="agent-skills">blog-write · image-gen</div></div>
+          </div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="wave">
+          <div class="wave-label">W4 <span class="para-badge">PARALLEL</span></div>
+          <div class="wave-box para">
+            <div class="agent agent-parallel"><div class="agent-name">SEO Check</div><div class="agent-skills">blog-seo-check</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Schema</div><div class="agent-skills">blog-schema</div></div>
+          </div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="wave">
+          <div class="wave-label">W5</div>
+          <div class="wave-box single">
+            <div class="agent agent-single"><div class="agent-name">Publish</div><div class="agent-skills">Assemble + save</div></div>
+          </div>
         </div>
       </div>
-      <div class="arrow">→</div>
-      <div class="wave">
-        <div class="wave-label">Wave 2 <span class="seq-badge">SEQUENTIAL</span></div>
-        <div class="wave-box seq">
-          <div class="agent agent-seq"><div class="agent-name">📝 Content Brief</div><div class="agent-skills">skills: blog-brief, seo-content-brief, blog-strategy</div></div>
-          <div class="agent agent-seq"><div class="agent-name">📋 Outline</div><div class="agent-skills">skills: blog-outline, seo-content-brief</div></div>
-        </div>
-      </div>
-      <div class="arrow">→</div>
-      <div class="wave">
-        <div class="wave-label">Wave 3 <span class="seq-badge">SINGLE</span></div>
-        <div class="wave-box single">
-          <div class="agent agent-single"><div class="agent-name">✍️ Write Article</div><div class="agent-skills">skills: blog-write, blog-style, blog-persona</div></div>
-        </div>
-      </div>
-      <div class="arrow">→</div>
-      <div class="wave">
-        <div class="wave-label">Wave 4 <span class="para-badge">PARALLEL</span></div>
-        <div class="wave-box para">
-          <div class="agent agent-parallel"><div class="agent-name">✅ SEO Check</div><div class="agent-skills">skills: blog-seo-check, seo-page, seo-content</div></div>
-          <div class="agent agent-parallel"><div class="agent-name">🏷️ Schema</div><div class="agent-skills">skills: seo-schema, blog-schema</div></div>
-        </div>
-      </div>
-      <div class="arrow">→</div>
-      <div class="wave">
-        <div class="wave-label">Wave 5 <span class="seq-badge">PUBLISH</span></div>
-        <div class="wave-box single">
-          <div class="agent agent-single"><div class="agent-name">🚀 Final Assembly</div><div class="agent-skills">Merge + save to content/</div></div>
-        </div>
-      </div>
+      <div class="note">Output: content/ + schema + SEO fixes</div>
     </div>
-  </div>
 
-  <!-- AUDIT -->
-  <div class="cmd cmd-audit">
-    <div class="cmd-title"><code>/seo-pilot audit &lt;url&gt;</code> — Full SEO audit</div>
-    <div class="waves">
-      <div class="wave" style="flex:3">
-        <div class="wave-label">Wave 1 <span class="para-badge">5 PARALLEL</span></div>
-        <div class="wave-box para" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:0.5rem">
-          <div class="agent agent-parallel"><div class="agent-name">⚙️ Technical</div><div class="agent-skills">seo-technical, seo-performance</div></div>
-          <div class="agent agent-parallel"><div class="agent-name">📄 On-Page</div><div class="agent-skills">seo-content, seo-page, blog-analyze</div></div>
-          <div class="agent agent-parallel"><div class="agent-name">🏷️ Schema</div><div class="agent-skills">seo-schema, blog-schema</div></div>
-          <div class="agent agent-parallel"><div class="agent-name">🤖 GEO/AI</div><div class="agent-skills">seo-geo, seo-flow</div></div>
-          <div class="agent agent-parallel"><div class="agent-name">📝 Quality</div><div class="agent-skills">seo-content, blog-analyze</div></div>
+    <!-- AUDIT -->
+    <div class="cmd cmd-audit">
+      <div class="cmd-title"><code>/seo-pilot audit</code> — Full SEO audit</div>
+      <div class="waves">
+        <div class="wave" style="flex:2.5">
+          <div class="wave-label">Wave 1 <span class="para-badge">5 PARALLEL AUDITS</span></div>
+          <div class="wave-box para" style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.5rem">
+            <div class="agent agent-parallel"><div class="agent-name">⚙️ Technical</div><div class="agent-skills">seo-technical, seo-performance</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">📄 On-Page</div><div class="agent-skills">seo-content, seo-page</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">🏷️ Schema</div><div class="agent-skills">seo-schema, blog-schema</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">🤖 GEO/AI</div><div class="agent-skills">seo-geo, seo-flow</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">📊 Content</div><div class="agent-skills">seo-content, blog-analyze</div></div>
+          </div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="wave" style="flex:1">
+          <div class="wave-label">Wave 2</div>
+          <div class="wave-box single">
+            <div class="agent agent-single"><div class="agent-name">📄 Combined Report</div><div class="agent-skills">audit-domain-date.html + .md</div></div>
+          </div>
         </div>
       </div>
-      <div class="arrow">→</div>
-      <div class="wave" style="flex:1">
-        <div class="wave-label">Wave 2 <span class="seq-badge">MERGE</span></div>
-        <div class="wave-box single">
-          <div class="agent agent-single"><div class="agent-name">📊 Combined Report</div><div class="agent-skills">Priority: Critical → High → Med → Low</div></div>
-        </div>
-      </div>
+      <div class="note">Skills loaded: seo-technical, seo-performance, seo-content, seo-page, seo-schema, seo-geo, seo-flow, blog-analyze, blog-schema</div>
     </div>
-  </div>
 
-</div>
+    <!-- REAUDIT -->
+    <div class="cmd cmd-reaudit">
+      <div class="cmd-title"><code>/seo-pilot reaudit</code> — Clean + re-run fresh audit</div>
+      <div class="waves">
+        <div class="wave">
+          <div class="wave-label">Phase 0</div>
+          <div class="wave-box clean">
+            <div class="agent agent-clean"><div class="agent-name">🗑️ Clean Old Files</div><div class="agent-skills">rm reports/*.{html,md} + diagrams/*.html</div></div>
+          </div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="wave" style="flex:2">
+          <div class="wave-label">Phase 1 <span class="para-badge">5 PARALLEL</span></div>
+          <div class="wave-box para" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0.5rem">
+            <div class="agent agent-parallel"><div class="agent-name">⚙️ Technical</div><div class="agent-skills">seo-technical, seo-performance</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">📄 On-Page</div><div class="agent-skills">seo-content, seo-page</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">🏷️ Schema</div><div class="agent-skills">seo-schema, blog-schema</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">🤖 GEO/AI</div><div class="agent-skills">seo-geo, seo-flow</div></div>
+          </div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="wave">
+          <div class="wave-label">Phase 2 <span class="seq-badge">TIMESTAMP</span></div>
+          <div class="wave-box single">
+            <div class="agent agent-single"><div class="agent-name">📄 Fresh Report</div><div class="agent-skills">audit-domain-YYYY-MM-DD-HHmm.html</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="note">Output: timestamped reports replacing old files. Config, research, content preserved.</div>
+    </div>
+
+  </div>
 </body>
 </html>

@@ -1,6 +1,6 @@
 # ✈️ SEO Pilot for Claude Code
 
-SEO Pilot is a complete SEO workflow for Claude Code — 4 commands that handle everything from keyword research to site audits. Each command delegates to specialized skills automatically.
+SEO Pilot is a complete SEO workflow for Claude Code — 5 commands that handle everything from keyword research to site audits. Each command delegates to specialized skills automatically.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skills-blue)
@@ -19,6 +19,7 @@ SEO Pilot runs tasks in parallel where possible, then chains dependent steps tog
 | `/seo-pilot init` | Scrape site → Competitors → Keywords → SEO Report + Diagrams |
 | `/seo-pilot blog-write <topic>` | Keyword research → Brief → Outline → Write → SEO Check → Schema → Publish |
 | `/seo-pilot audit <url>` | Technical SEO + On-Page + Schema + GEO + Content Quality → Report |
+| `/seo-pilot reaudit <url>` | Clean old audit files → re-run full audit with fresh timestamped output |
 | `/seo-pilot status` | Show pipeline progress |
 
 ## Install
@@ -81,7 +82,7 @@ seo-pilot/
 
 ## Precondition
 
-`blog-write`, `audit`, and `status` require `seo-pilot/` to exist. If missing:
+`blog-write`, `audit`, `reaudit`, and `status` require `seo-pilot/` to exist. If missing:
 
 > Run `/seo-pilot init` first to set up the project.
 
