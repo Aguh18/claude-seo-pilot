@@ -8,7 +8,7 @@ SEO Pilot is a complete SEO workflow for Claude Code — 5 commands that handle 
 
 ## How It Works
 
-[▶ View animated workflow](docs/diagrams/workflow.html)
+![SEO Pilot Workflow](docs/diagrams/workflow.svg)
 
 SEO Pilot runs tasks in parallel where possible, then chains dependent steps together.
 
