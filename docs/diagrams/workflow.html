@@ -11,11 +11,15 @@
       --paper: #f5f5f5;
       --ink: #2d3142;
       --muted: #4f5d75;
+      --soft: #7a8399;
       --accent: #eb6c36;
       --accent-tint: rgba(235,108,54,0.08);
-      --link: #2e5aa8;
-      --soft: #7a8399;
       --rule: rgba(45,49,66,0.12);
+      --motion-fast: 160ms;
+      --motion-step: 480ms;
+      --motion-hold: 720ms;
+      --motion-total: 4320ms;
+      --motion-ease: cubic-bezier(.2,.8,.2,1);
     }
     body {
       font-family: 'Geist', system-ui, sans-serif;
@@ -28,6 +32,7 @@
       padding: 3rem 2rem;
     }
     .frame { max-width: 960px; width: 100%; }
+
     .eyebrow {
       font-family: 'Geist Mono', monospace;
       font-size: 0.66rem;
@@ -44,7 +49,45 @@
       letter-spacing: -0.02em;
       line-height: 1.15;
       color: var(--ink);
-      margin-bottom: 2rem;
+      margin-bottom: 0.25rem;
+    }
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--soft);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Controls */
+    .motion-controls {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      align-items: center;
+    }
+    .motion-controls button {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      transition: all var(--motion-fast) var(--motion-ease);
+    }
+    .motion-controls button:hover { border-color: var(--muted); }
+    .motion-controls button[disabled] { opacity: 0.3; cursor: not-allowed; }
+    .motion-controls button[aria-pressed="true"] {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+    .step-indicator {
+      font-family: 'Geist Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--soft);
+      margin-left: 0.5rem;
     }
 
     /* Command cards */
@@ -54,11 +97,20 @@
       background: #fff;
       padding: 1.25rem;
       margin-bottom: 1rem;
+      opacity: 0.12;
+      transform: translateY(8px);
+      transition: opacity var(--motion-step) var(--motion-ease),
+                  transform var(--motion-step) var(--motion-ease);
+    }
+    .motion-ready .cmd.is-visible,
+    .motion-ready[data-frame="end"] .cmd {
+      opacity: 1;
+      transform: none;
     }
     .cmd-title {
       font-size: 1rem;
       font-weight: 600;
-      margin-bottom: 1rem;
+      margin-bottom: 0.75rem;
     }
     .cmd-title code {
       font-family: 'Geist Mono', monospace;
@@ -67,95 +119,93 @@
       padding: 0.15rem 0.4rem;
       border-radius: 3px;
     }
+    .cmd-desc {
+      font-size: 0.8rem;
+      color: var(--soft);
+      margin-left: 0.5rem;
+    }
 
     /* Waves */
-    .waves {
-      display: flex;
-      align-items: stretch;
-      gap: 0.75rem;
-    }
-    .wave {
-      flex: 1;
-      min-width: 0;
-    }
+    .waves { display: flex; align-items: stretch; gap: 0.5rem; }
+    .wave { flex: 1; min-width: 0; }
     .wave-label {
       font-family: 'Geist Mono', monospace;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--soft);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
     .wave-box {
       border: 1px dashed rgba(45,49,66,0.15);
-      border-radius: 6px;
-      padding: 0.75rem;
-      min-height: 60px;
+      border-radius: 4px;
+      padding: 0.5rem;
+      min-height: 48px;
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
+      gap: 0.25rem;
     }
     .wave-box.para { border-style: dashed; }
-    .wave-box.seq { border-color: rgba(243,156,18,0.35); border-style: solid; }
-    .wave-box.single { border-color: rgba(39,174,96,0.35); border-style: solid; }
+    .wave-box.seq { border-color: rgba(243,156,18,0.3); border-style: solid; }
+    .wave-box.single { border-color: rgba(39,174,96,0.3); border-style: solid; }
     .wave-box.clean { border-color: var(--accent); border-style: solid; }
 
     .agent {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 3px;
       background: rgba(45,49,66,0.03);
       border: 1px solid var(--rule);
-      border-radius: 4px;
-      padding: 0.4rem 0.6rem;
     }
+    .agent-parallel { border-color: rgba(45,49,66,0.12); }
+    .agent-seq { border-color: rgba(243,156,18,0.3); background: rgba(243,156,18,0.03); }
+    .agent-single { border-color: rgba(39,174,96,0.3); background: rgba(39,174,96,0.03); }
     .agent-clean {
       border-color: rgba(235,108,54,0.4);
       background: var(--accent-tint);
     }
-    .agent-parallel { border-color: rgba(45,49,66,0.12); }
-    .agent-sequential { border-color: rgba(243,156,18,0.3); background: rgba(243,156,18,0.04); }
-    .agent-single { border-color: rgba(39,174,96,0.3); background: rgba(39,174,96,0.04); }
 
-    .agent-name {
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
+    .agent-name { font-weight: 600; font-size: 0.75rem; }
     .agent-skills {
       font-family: 'Geist Mono', monospace;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       color: var(--soft);
-      margin-top: 0.15rem;
+      margin-top: 0.1rem;
     }
 
-    .arrow {
-      display: flex;
-      align-items: center;
-      color: var(--muted);
-      font-size: 1.2rem;
-      flex-shrink: 0;
-      padding: 0 0.25rem;
-    }
+    .arrow { display: flex; align-items: center; color: var(--muted); font-size: 1rem; flex-shrink: 0; padding: 0 0.15rem; }
 
     .note {
       font-family: 'Geist Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: var(--soft);
-      margin-top: 0.75rem;
+      margin-top: 0.5rem;
     }
 
     .para-badge, .seq-badge {
       font-family: 'Geist Mono', monospace;
-      font-size: 0.55rem;
+      font-size: 0.5rem;
       letter-spacing: 0.08em;
-      padding: 0.1rem 0.35rem;
+      padding: 0.05rem 0.3rem;
       border-radius: 2px;
-      margin-left: 0.3rem;
+      margin-left: 0.25rem;
       vertical-align: middle;
     }
     .para-badge { background: rgba(45,49,66,0.06); color: var(--muted); }
     .seq-badge { background: rgba(243,156,18,0.1); color: #b8860b; }
 
-    .cmd-audit { border-left: 3px solid var(--link); }
-    .cmd-reaudit { border-left: 3px solid var(--accent); }
+    .cmd-accent { border-left: 3px solid var(--accent); }
+    .cmd-link { border-left: 3px solid #2e5aa8; }
 
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .cmd { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .motion-controls { display: none !important; }
+    }
+    @media print {
+      .cmd { opacity: 1 !important; transform: none !important; }
+      .motion-controls { display: none !important; }
+    }
     @media (max-width: 700px) {
       .waves { flex-direction: column; }
       .arrow { transform: rotate(90deg); align-self: center; }
@@ -163,13 +213,24 @@
   </style>
 </head>
 <body>
-  <div class="frame">
+  <div class="frame" data-motion-root data-motion-mode="reveal" data-step-count="6" data-frame="static">
+
     <p class="eyebrow">Workflow · Diagram Design</p>
     <h1>SEO Pilot — Command Workflows</h1>
+    <p class="subtitle">5 commands, parallel subagents, multi-skill loading. Click Play to watch the pipeline unfold.</p>
 
-    <!-- INIT -->
-    <div class="cmd">
-      <div class="cmd-title"><code>/seo-pilot init</code> — Full project setup</div>
+    <div class="motion-controls" data-motion-controls>
+      <button data-motion-action="play" aria-pressed="false">Play</button>
+      <button data-motion-action="pause" disabled>Pause</button>
+      <button data-motion-action="replay" disabled>Replay</button>
+      <button data-motion-action="prev" disabled>&larr; Prev</button>
+      <button data-motion-action="next">Next &rarr;</button>
+      <span class="step-indicator" role="status" aria-live="polite" aria-atomic="true"></span>
+    </div>
+
+    <!-- INIT — Step 1 -->
+    <div class="cmd" data-motion-item data-step="1">
+      <div class="cmd-title"><code>/seo-pilot init</code><span class="cmd-desc">Full project setup — research, competitors, keywords, strategy report</span></div>
       <div class="waves">
         <div class="wave">
           <div class="wave-label">Wave 1 <span class="para-badge">PARALLEL</span></div>
@@ -179,15 +240,15 @@
             <div class="agent agent-parallel"><div class="agent-name">Keywords</div><div class="agent-skills">volume + intent</div></div>
           </div>
         </div>
-        <div class="arrow">→</div>
+        <div class="arrow">&rarr;</div>
         <div class="wave">
           <div class="wave-label">Wave 2 <span class="para-badge">PARALLEL</span></div>
           <div class="wave-box para">
-            <div class="agent agent-parallel"><div class="agent-name">SEO Strategy Report</div><div class="agent-skills">diagram-design + dataviz</div></div>
-            <div class="agent agent-parallel"><div class="agent-name">3 Diagrams</div><div class="agent-skills">keyword-gap · content-cluster · seo-priority</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Strategy Report</div><div class="agent-skills">diagram-design + dataviz</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">3 Diagrams</div><div class="agent-skills">keyword-gap · cluster · priority</div></div>
           </div>
         </div>
-        <div class="arrow">→</div>
+        <div class="arrow">&rarr;</div>
         <div class="wave">
           <div class="wave-label">Wave 3</div>
           <div class="wave-box single">
@@ -198,9 +259,9 @@
       <div class="note">Output: seo-strategy.html + diagrams + research + config</div>
     </div>
 
-    <!-- BLOG-WRITE -->
-    <div class="cmd">
-      <div class="cmd-title"><code>/seo-pilot blog-write</code> — Full content pipeline</div>
+    <!-- BLOG-WRITE — Step 2 -->
+    <div class="cmd" data-motion-item data-step="2">
+      <div class="cmd-title"><code>/seo-pilot blog-write</code><span class="cmd-desc">Full content pipeline — from keyword research to published post</span></div>
       <div class="waves">
         <div class="wave">
           <div class="wave-label">W1 <span class="para-badge">PARALLEL</span></div>
@@ -209,22 +270,22 @@
             <div class="agent agent-parallel"><div class="agent-name">Discourse</div><div class="agent-skills">reddit · youtube · quora</div></div>
           </div>
         </div>
-        <div class="arrow">→</div>
+        <div class="arrow">&rarr;</div>
         <div class="wave">
           <div class="wave-label">W2 <span class="seq-badge">SEQUENTIAL</span></div>
           <div class="wave-box seq">
-            <div class="agent agent-sequential"><div class="agent-name">Brief</div><div class="agent-skills">blog-brief</div></div>
-            <div class="agent agent-sequential"><div class="agent-name">Outline</div><div class="agent-skills">blog-outline</div></div>
+            <div class="agent agent-seq"><div class="agent-name">Brief</div><div class="agent-skills">blog-brief</div></div>
+            <div class="agent agent-seq"><div class="agent-name">Outline</div><div class="agent-skills">blog-outline</div></div>
           </div>
         </div>
-        <div class="arrow">→</div>
+        <div class="arrow">&rarr;</div>
         <div class="wave">
           <div class="wave-label">W3</div>
           <div class="wave-box single">
-            <div class="agent agent-single"><div class="agent-name">Write</div><div class="agent-skills">blog-write · image-gen</div></div>
+            <div class="agent agent-single"><div class="agent-name">Write</div><div class="agent-skills">blog-write + image-gen</div></div>
           </div>
         </div>
-        <div class="arrow">→</div>
+        <div class="arrow">&rarr;</div>
         <div class="wave">
           <div class="wave-label">W4 <span class="para-badge">PARALLEL</span></div>
           <div class="wave-box para">
@@ -232,7 +293,7 @@
             <div class="agent agent-parallel"><div class="agent-name">Schema</div><div class="agent-skills">blog-schema</div></div>
           </div>
         </div>
-        <div class="arrow">→</div>
+        <div class="arrow">&rarr;</div>
         <div class="wave">
           <div class="wave-label">W5</div>
           <div class="wave-box single">
@@ -240,65 +301,188 @@
           </div>
         </div>
       </div>
-      <div class="note">Output: content/ + schema + SEO fixes</div>
+      <div class="note">Output: content/*.md + schema + SEO fixes</div>
     </div>
 
-    <!-- AUDIT -->
-    <div class="cmd cmd-audit">
-      <div class="cmd-title"><code>/seo-pilot audit</code> — Full SEO audit</div>
+    <!-- AUDIT — Step 3 -->
+    <div class="cmd cmd-link" data-motion-item data-step="3">
+      <div class="cmd-title"><code>/seo-pilot audit</code><span class="cmd-desc">Full SEO audit — 5 parallel agents, combined report</span></div>
       <div class="waves">
         <div class="wave" style="flex:2.5">
           <div class="wave-label">Wave 1 <span class="para-badge">5 PARALLEL AUDITS</span></div>
-          <div class="wave-box para" style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.5rem">
-            <div class="agent agent-parallel"><div class="agent-name">⚙️ Technical</div><div class="agent-skills">seo-technical, seo-performance</div></div>
-            <div class="agent agent-parallel"><div class="agent-name">📄 On-Page</div><div class="agent-skills">seo-content, seo-page</div></div>
-            <div class="agent agent-parallel"><div class="agent-name">🏷️ Schema</div><div class="agent-skills">seo-schema, blog-schema</div></div>
-            <div class="agent agent-parallel"><div class="agent-name">🤖 GEO/AI</div><div class="agent-skills">seo-geo, seo-flow</div></div>
-            <div class="agent agent-parallel"><div class="agent-name">📊 Content</div><div class="agent-skills">seo-content, blog-analyze</div></div>
+          <div class="wave-box para" style="display:grid;grid-template-columns:repeat(5,1fr);gap:0.4rem">
+            <div class="agent agent-parallel"><div class="agent-name">Technical</div><div class="agent-skills">seo-technical, seo-performance</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">On-Page</div><div class="agent-skills">seo-content, seo-page</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Schema</div><div class="agent-skills">seo-schema, blog-schema</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">GEO/AI</div><div class="agent-skills">seo-geo, seo-flow</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Content</div><div class="agent-skills">seo-content, blog-analyze</div></div>
           </div>
         </div>
-        <div class="arrow">→</div>
+        <div class="arrow">&rarr;</div>
         <div class="wave" style="flex:1">
           <div class="wave-label">Wave 2</div>
           <div class="wave-box single">
-            <div class="agent agent-single"><div class="agent-name">📄 Combined Report</div><div class="agent-skills">audit-domain-date.html + .md</div></div>
+            <div class="agent agent-single"><div class="agent-name">Combined Report</div><div class="agent-skills">audit-domain-date.html + .md</div></div>
           </div>
         </div>
       </div>
-      <div class="note">Skills loaded: seo-technical, seo-performance, seo-content, seo-page, seo-schema, seo-geo, seo-flow, blog-analyze, blog-schema</div>
+      <div class="note">Skills: seo-technical · seo-performance · seo-content · seo-page · seo-schema · seo-geo · seo-flow · blog-analyze · blog-schema</div>
     </div>
 
-    <!-- REAUDIT -->
-    <div class="cmd cmd-reaudit">
-      <div class="cmd-title"><code>/seo-pilot reaudit</code> — Clean + re-run fresh audit</div>
+    <!-- REAUDIT — Step 4 -->
+    <div class="cmd cmd-accent" data-motion-item data-step="4">
+      <div class="cmd-title"><code>/seo-pilot reaudit</code><span class="cmd-desc">Clean old files + re-run full audit with fresh timestamp</span></div>
       <div class="waves">
         <div class="wave">
           <div class="wave-label">Phase 0</div>
           <div class="wave-box clean">
-            <div class="agent agent-clean"><div class="agent-name">🗑️ Clean Old Files</div><div class="agent-skills">rm reports/*.{html,md} + diagrams/*.html</div></div>
+            <div class="agent agent-clean"><div class="agent-name">Delete Old Files</div><div class="agent-skills">rm reports/*.{html,md} + diagrams/*.html</div></div>
           </div>
         </div>
-        <div class="arrow">→</div>
+        <div class="arrow">&rarr;</div>
         <div class="wave" style="flex:2">
           <div class="wave-label">Phase 1 <span class="para-badge">5 PARALLEL</span></div>
-          <div class="wave-box para" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0.5rem">
-            <div class="agent agent-parallel"><div class="agent-name">⚙️ Technical</div><div class="agent-skills">seo-technical, seo-performance</div></div>
-            <div class="agent agent-parallel"><div class="agent-name">📄 On-Page</div><div class="agent-skills">seo-content, seo-page</div></div>
-            <div class="agent agent-parallel"><div class="agent-name">🏷️ Schema</div><div class="agent-skills">seo-schema, blog-schema</div></div>
-            <div class="agent agent-parallel"><div class="agent-name">🤖 GEO/AI</div><div class="agent-skills">seo-geo, seo-flow</div></div>
+          <div class="wave-box para" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0.4rem">
+            <div class="agent agent-parallel"><div class="agent-name">Technical</div><div class="agent-skills">seo-technical, seo-performance</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">On-Page</div><div class="agent-skills">seo-content, seo-page</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Schema</div><div class="agent-skills">seo-schema, blog-schema</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">GEO/AI</div><div class="agent-skills">seo-geo, seo-flow</div></div>
           </div>
         </div>
-        <div class="arrow">→</div>
+        <div class="arrow">&rarr;</div>
         <div class="wave">
-          <div class="wave-label">Phase 2 <span class="seq-badge">TIMESTAMP</span></div>
+          <div class="wave-label">Phase 2</div>
           <div class="wave-box single">
-            <div class="agent agent-single"><div class="agent-name">📄 Fresh Report</div><div class="agent-skills">audit-domain-YYYY-MM-DD-HHmm.html</div></div>
+            <div class="agent agent-single"><div class="agent-name">Fresh Report</div><div class="agent-skills">audit-domain-YYYY-MM-DD-HHmm.html</div></div>
           </div>
         </div>
       </div>
       <div class="note">Output: timestamped reports replacing old files. Config, research, content preserved.</div>
     </div>
 
+    <!-- STATUS — Step 5 -->
+    <div class="cmd" data-motion-item data-step="5">
+      <div class="cmd-title"><code>/seo-pilot status</code><span class="cmd-desc">Show pipeline progress — what's done, what's next</span></div>
+      <div class="waves">
+        <div class="wave">
+          <div class="wave-box single">
+            <div class="agent agent-single"><div class="agent-name">Read Pipeline State</div><div class="agent-skills">.seo-state.json + scan content/ and research/</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary — Step 6 -->
+    <div class="cmd" data-motion-item data-step="6" style="background: rgba(45,49,66,0.03); border-style: dashed;">
+      <div class="cmd-title" style="font-size:0.85rem; color: var(--muted);">Quick Reference</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.75rem;">
+        <div><code style="font-family:'Geist Mono',monospace;font-size:0.7rem;background:rgba(45,49,66,0.04);padding:0.1rem 0.3rem;border-radius:2px;">/seo-pilot init</code> Research → Strategy → Diagrams</div>
+        <div><code style="font-family:'Geist Mono',monospace;font-size:0.7rem;background:rgba(45,49,66,0.04);padding:0.1rem 0.3rem;border-radius:2px;">/seo-pilot blog-write</code> Keywords → Brief → Write → SEO → Publish</div>
+        <div><code style="font-family:'Geist Mono',monospace;font-size:0.7rem;background:rgba(45,49,66,0.04);padding:0.1rem 0.3rem;border-radius:2px;">/seo-pilot audit</code> 5 parallel audits → Combined report</div>
+        <div><code style="font-family:'Geist Mono',monospace;font-size:0.7rem;background:rgba(235,108,54,0.08);padding:0.1rem 0.3rem;border-radius:2px;border:1px solid rgba(235,108,54,0.3);">/seo-pilot reaudit</code> Clean → Fresh audit → Timestamp</div>
+      </div>
+    </div>
+
   </div>
+
+  <script>
+  (function() {
+    const root = document.currentScript.closest('[data-motion-root]');
+    if (!root) return;
+
+    const controls = root.querySelector('[data-motion-controls]');
+    const btnPlay = controls.querySelector('[data-motion-action="play"]');
+    const btnPause = controls.querySelector('[data-motion-action="pause"]');
+    const btnReplay = controls.querySelector('[data-motion-action="replay"]');
+    const btnPrev = controls.querySelector('[data-motion-action="prev"]');
+    const btnNext = controls.querySelector('[data-motion-action="next"]');
+    const statusEl = controls.querySelector('[role="status"]');
+
+    const items = [...root.querySelectorAll('[data-motion-item]')];
+    const totalSteps = parseInt(root.dataset.stepCount) || items.length;
+    let currentStep = 0;
+    let timer = null;
+    let isPlaying = false;
+
+    function applyMotionReady() { root.classList.add('motion-ready'); }
+
+    function showStep(step) {
+      currentStep = Math.max(0, Math.min(step, totalSteps));
+      items.forEach(item => {
+        const s = parseInt(item.dataset.step) || 0;
+        item.classList.toggle('is-visible', s <= currentStep);
+      });
+      if (currentStep >= totalSteps) {
+        root.dataset.frame = 'end';
+        stopPlayback();
+      }
+      updateUI();
+    }
+
+    function updateUI() {
+      btnPlay.disabled = isPlaying || currentStep >= totalSteps;
+      btnPause.disabled = !isPlaying;
+      btnReplay.disabled = currentStep === 0 && !isPlaying;
+      btnPrev.disabled = currentStep <= 0 || isPlaying;
+      btnNext.disabled = currentStep >= totalSteps || isPlaying;
+      btnPlay.setAttribute('aria-pressed', isPlaying);
+      statusEl.textContent = isPlaying
+        ? `Step ${currentStep} of ${totalSteps}`
+        : currentStep >= totalSteps
+          ? `Complete — ${totalSteps} steps`
+          : `Step ${currentStep} of ${totalSteps}`;
+    }
+
+    function startPlayback() {
+      isPlaying = true;
+      updateUI();
+      advance();
+    }
+
+    function advance() {
+      if (!isPlaying || currentStep >= totalSteps) { stopPlayback(); return; }
+      const hold = parseInt(getComputedStyle(root).getPropertyValue('--motion-hold')) || 720;
+      timer = setTimeout(() => {
+        showStep(currentStep + 1);
+        if (currentStep < totalSteps) advance();
+      }, hold);
+    }
+
+    function stopPlayback() {
+      isPlaying = false;
+      clearTimeout(timer);
+      timer = null;
+      updateUI();
+    }
+
+    function pausePlayback() { stopPlayback(); }
+    function replay() { stopPlayback(); showStep(0); startPlayback(); }
+    function next() { if (!isPlaying) showStep(currentStep + 1); }
+    function prev() { if (!isPlaying) showStep(currentStep - 1); }
+
+    btnPlay.addEventListener('click', startPlayback);
+    btnPause.addEventListener('click', pausePlayback);
+    btnReplay.addEventListener('click', replay);
+    btnNext.addEventListener('click', next);
+    btnPrev.addEventListener('click', prev);
+
+    root.addEventListener('keydown', e => {
+      if (e.target.closest('[data-motion-controls]')) return;
+      if (e.key === 'ArrowRight') next();
+      else if (e.key === 'ArrowLeft') prev();
+      else if (e.key === 'Home') { stopPlayback(); showStep(0); }
+      else if (e.key === 'End') { stopPlayback(); showStep(totalSteps); }
+      else if (e.key === ' ' || e.key === 'Spacebar') { e.preventDefault(); isPlaying ? pausePlayback() : startPlayback(); }
+      else if (e.key === 'r' || e.key === 'R') { if (!e.ctrlKey && !e.metaKey && !e.altKey) replay(); }
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && isPlaying) pausePlayback();
+    });
+
+    applyMotionReady();
+    showStep(0);
+  })();
+  </script>
 </body>
 </html>

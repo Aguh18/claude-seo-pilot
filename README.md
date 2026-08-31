@@ -8,7 +8,7 @@ SEO Pilot is a complete SEO workflow for Claude Code — 5 commands that handle 
 
 ## How It Works
 
-![SEO Pilot Workflow](docs/diagrams/workflow.svg)
+[▶ View animated workflow](docs/diagrams/workflow.html)
 
 SEO Pilot runs tasks in parallel where possible, then chains dependent steps together.
 
@@ -62,23 +62,27 @@ cd claude-seo-pilot
 
 After `init`, everything lives in `seo-pilot/`:
 
-```
-seo-pilot/
-├── seo-strategy.html              # SEO strategy report (open in browser)
-├── .seo-project.md                # Site config, keywords, competitors
-├── .seo-state.json                # Pipeline tracker
-├── diagrams/
-│   ├── keyword-gap.html           # Keyword gap vs competitors
-│   ├── content-cluster.html       # Hub-and-spoke content map
-│   └── seo-priority.html          # Action items by impact/effort
-├── research/
-│   ├── website-analysis.md        # Site SEO elements
-│   ├── competitors/*.md           # Per-competitor SEO analysis
-│   ├── keywords/keyword-strategy.md
-│   └── discourse/questions.md
-├── content/                       # Generated blog posts
-└── reports/                       # Audit reports
-```
+| | File | What It Is | Created By |
+|---|------|-----------|-----------|
+| 🎯 | `seo-strategy.html` | Interactive SEO strategy report (open in browser) | `init` |
+| ⚙️ | `.seo-project.md` | Site config, keywords, competitors | `init` |
+| 📊 | `.seo-state.json` | Pipeline tracker | `init` |
+| 📈 | `diagrams/keyword-gap.html` | Keyword gap vs competitors | `init` |
+| 🕸️ | `diagrams/content-cluster.html` | Hub-and-spoke content map | `init` |
+| 🎯 | `diagrams/seo-priority.html` | Action items by impact/effort | `init` |
+| 🔍 | `research/website-analysis.md` | Scraped site + SEO elements | `init` |
+| 🏆 | `research/competitors/*.md` | Per-competitor SEO analysis | `init` |
+| 🔑 | `research/keywords/keyword-strategy.md` | Keyword research + SERP analysis | `init` |
+| 💬 | `research/discourse/questions.md` | Question-based content ideas | `init` |
+| ✍️ | `content/*.md` | Generated blog posts | `blog-write` |
+| ⭐ | `content/*.md` | Schema + article markup | `blog-write` |
+| 📊 | `reports/audit-*.html` | Full audit report (interactive) | `audit` / `reaudit` |
+| 📄 | `reports/audit-*.md` | Markdown summary | `audit` / `reaudit` |
+| 🔧 | `reports/technical-audit.md` | Technical SEO findings | `audit` / `reaudit` |
+| 📝 | `reports/onpage-audit.md` | On-page SEO findings | `audit` / `reaudit` |
+| 🏷️ | `reports/schema-audit.md` | Schema validation | `audit` / `reaudit` |
+| 🤖 | `reports/geo-audit.md` | GEO / AI citation readiness | `audit` / `reaudit` |
+| 📖 | `reports/content-quality-audit.md` | Content quality + E-E-A-T | `audit` / `reaudit` |
 
 ## Precondition
 
