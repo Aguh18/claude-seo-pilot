@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 790" font-family="'Geist',system-ui,sans-serif" role="img" aria-labelledby="fs-title fs-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 800" font-family="'Geist',system-ui,sans-serif" role="img" aria-labelledby="fs-title fs-desc">
   <title id="fs-title">SEO Pilot File Structure</title>
   <desc id="fs-desc">Directory tree showing all files created by SEO Pilot commands: init, blog-write, audit, and reaudit.</desc>
   <rect width="880" height="720" fill="#f5f5f5"/>
