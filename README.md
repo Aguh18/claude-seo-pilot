@@ -38,26 +38,6 @@ cd claude-seo-pilot
 ./install.sh
 ```
 
-## Example
-
-```bash
-# First time — SEO research for your project
-/seo-pilot init
-# → Enter URL: https://mysite.com
-# → Creates: seo-strategy.html, diagrams, keyword research, competitor analysis
-
-# Write blog post — full SEO pipeline
-/seo-pilot blog-write "How to Choose the Best [Product]"
-# → Keyword research → Brief → Write → SEO Check → Schema → Published
-
-# Audit site — all SEO dimensions
-/seo-pilot audit https://mysite.com
-# → 5 parallel audits → combined prioritized report
-
-# Check progress
-/seo-pilot status
-```
-
 ## What Gets Created
 
 After `init`, everything lives in `seo-pilot/`:
