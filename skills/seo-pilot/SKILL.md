@@ -1,6 +1,6 @@
 ---
 name: seo-pilot
-description: Complete SEO workflow orchestrator. 4 commands that each run a full multi-skill workflow. Init project, create content, audit SEO, check status. Use when user says "seo", "seo-pilot", "init project", "blog-write", "seo audit", "site audit".
+description: Complete SEO workflow orchestrator. 5 commands that each run a full multi-skill workflow. Init project, create content, audit SEO, re-audit, check status. Use when user says "seo", "seo-pilot", "init project", "blog-write", "seo audit", "reaudit", "site audit".
 ---
 
 # SEO Pilot
@@ -14,6 +14,7 @@ SEO-focused skill. Maximize organic search visibility for your website. 4 comman
 | `/seo-pilot init` | Research project → keyword strategy, competitor SEO gaps, content plan, SEO report |
 | `/seo-pilot blog-write <topic>` | Full pipeline → keyword research → brief → write → SEO optimize → publish |
 | `/seo-pilot audit <url>` | Full SEO audit → technical + on-page + schema + GEO + report |
+| `/seo-pilot reaudit <url>` | Clean old audit files → re-run full audit with fresh timestamped output |
 | `/seo-pilot status` | Show what's done and what's next |
 
 ---
@@ -299,6 +300,137 @@ Agent 6: Combined audit report (HTML + MD)
   - Prioritized: Critical → High → Medium → Low
   - HTML must include: health scores as gauges/bars, pass/fail checklist with icons,
     priority action items color-coded, per-category breakdowns with expandable sections
+```
+
+---
+
+## `/seo-pilot reaudit <url>`
+
+**Full re-audit: clean slate.** Deletes old audit artifacts, then re-runs the complete audit from scratch with fresh timestamped files.
+
+**Precondition:** `seo-pilot/` must exist. If missing:
+> "Jalankan `/seo-pilot init` dulu."
+
+### Phase 0: CLEAN — Remove stale files
+
+```bash
+DOMAIN=$(echo "$URL" | sed 's|https\?://||' | sed 's|/.*||')
+
+# Delete all old audit reports (HTML, MD)
+rm -f seo-pilot/$DOMAIN/reports/audit-*.html
+rm -f seo-pilot/$DOMAIN/reports/audit-*.md
+rm -f seo-pilot/$DOMAIN/reports/technical-audit.md
+rm -f seo-pilot/$DOMAIN/reports/onpage-audit.md
+rm -f seo-pilot/$DOMAIN/reports/schema-audit.md
+rm -f seo-pilot/$DOMAIN/reports/geo-audit.md
+rm -f seo-pilot/$DOMAIN/reports/content-quality-audit.md
+
+# Delete old diagrams
+rm -f seo-pilot/$DOMAIN/diagrams/*.html
+
+# Delete old SEO strategy
+rm -f seo-pilot/$DOMAIN/seo-strategy.html
+rm -f seo-pilot/$DOMAIN/seo-strategy.md
+
+# Recreate clean dirs
+mkdir -p seo-pilot/$DOMAIN/{reports,diagrams}
+```
+
+**Do NOT delete:**
+- `.seo-project.md` — project config (persistent)
+- `.seo-state.json` — pipeline state (persistent)
+- `research/` — keyword & competitor research (reusable)
+- `obsidian-vault/` — knowledge base (persistent)
+- `content/` — blog posts (persistent)
+
+**Log what was deleted:**
+```
+🗑️  Cleaned 7 old files from seo-pilot/$DOMAIN/reports/
+🗑️  Cleaned 3 old diagrams from seo-pilot/$DOMAIN/diagrams/
+```
+
+### Phase 1: AUDIT — Fresh 5-agent parallel audit
+
+Generate timestamp: `TIMESTAMP=$(date +"%Y-%m-%d-%H%M")` (e.g., `2026-08-31-1430`)
+
+All output files use format: `audit-<domain>-<TIMESTAMP>.html` / `.md`
+
+```
+Agent 1: Technical SEO
+  - FIRST: Load skills: "seo-technical", "seo-performance"
+  - Crawlability, indexability, robots.txt, sitemap, CWV, page speed, mobile, security headers
+
+Agent 2: On-page SEO
+  - FIRST: Load skills: "seo-content", "seo-page", "blog-analyze"
+  - Title tags, meta descriptions, headings, internal/external links, images, URL structure
+
+Agent 3: Schema validation
+  - FIRST: Load skills: "seo-schema", "blog-schema"
+  - Detect existing, validate against Google requirements, recommend missing
+
+Agent 4: GEO / AI citation
+  - FIRST: Load skills: "seo-geo", "seo-flow"
+  - AI crawlers, llms.txt, passage citability, ChatGPT/Perplexity/Gemini readiness
+
+Agent 5: Content quality
+  - FIRST: Load skills: "seo-content", "blog-analyze", "seo-content-brief"
+  - E-E-A-T, readability, depth, freshness, thin content detection
+```
+
+### Phase 2: REPORT — Combined report with fresh timestamp
+
+```
+Agent 6: Combined audit report (HTML + MD)
+  - FIRST: Load skills: "diagram-design", "dataviz"
+  - Input: all 5 audit results from Phase 1
+  - Output:
+    - seo-pilot/$DOMAIN/reports/audit-<domain>-<TIMESTAMP>.html
+    - seo-pilot/$DOMAIN/reports/audit-<domain>-<TIMESTAMP>.md
+  - Include: health scores, pass/fail checklist, priority actions, per-category breakdowns
+```
+
+### Output files (fresh, timestamped)
+
+```
+seo-pilot/$DOMAIN/
+├── reports/
+│   ├── audit-<domain>-<TIMESTAMP>.html    ← NEW (replaces old)
+│   ├── audit-<domain>-<TIMESTAMP>.md      ← NEW (replaces old)
+│   ├── technical-audit.md                 ← NEW
+│   ├── onpage-audit.md                    ← NEW
+│   ├── schema-audit.md                    ← NEW
+│   ├── geo-audit.md                       ← NEW
+│   └── content-quality-audit.md           ← NEW
+├── diagrams/
+│   ├── keyword-gap.html                   ← NEW (if regenerated)
+│   ├── content-cluster.html               ← NEW (if regenerated)
+│   └── seo-priority.html                  ← NEW (if regenerated)
+├── .seo-project.md                        ← KEPT
+├── .seo-state.json                        ← KEPT
+├── research/                              ← KEPT
+├── content/                               ← KEPT
+└── obsidian-vault/                        ← KEPT
+```
+
+### Summary output
+
+```
+🔄 Re-audit complete for <domain>
+
+🗑️  Cleaned: 7 old reports, 3 old diagrams
+🆕 Generated: 2026-08-31 14:30 WIB
+
+Files:
+  📊 reports/audit-<domain>-2026-08-31-1430.html  (open in browser)
+  📄 reports/audit-<domain>-2026-08-31-1430.md
+  🔧 reports/technical-audit.md
+  📝 reports/onpage-audit.md
+  🏷️  reports/schema-audit.md
+  🤖 reports/geo-audit.md
+  📖 reports/content-quality-audit.md
+
+Health Score: XX/100
+Critical: X | High: X | Medium: X | Low: X
 ```
 
 ---
