@@ -311,12 +311,14 @@ Agent 6: Combined audit report (HTML + MD)
 **Precondition:** `seo-pilot/` must exist. If missing:
 > "Jalankan `/seo-pilot init` dulu."
 
-### Phase 0: CLEAN — Remove stale files
+### Phase 0: CLEAN — Remove stale audit reports only
+
+**Only delete audit reports.** Diagrams, SEO strategy, and other files are NOT deleted unless explicitly requested.
 
 ```bash
 DOMAIN=$(echo "$URL" | sed 's|https\?://||' | sed 's|/.*||')
 
-# Delete all old audit reports (HTML, MD)
+# Delete only old audit reports (these will be regenerated)
 rm -f seo-pilot/$DOMAIN/reports/audit-*.html
 rm -f seo-pilot/$DOMAIN/reports/audit-*.md
 rm -f seo-pilot/$DOMAIN/reports/technical-audit.md
@@ -325,28 +327,24 @@ rm -f seo-pilot/$DOMAIN/reports/schema-audit.md
 rm -f seo-pilot/$DOMAIN/reports/geo-audit.md
 rm -f seo-pilot/$DOMAIN/reports/content-quality-audit.md
 
-# Delete old diagrams
-rm -f seo-pilot/$DOMAIN/diagrams/*.html
-
-# Delete old SEO strategy
-rm -f seo-pilot/$DOMAIN/seo-strategy.html
-rm -f seo-pilot/$DOMAIN/seo-strategy.md
-
-# Recreate clean dirs
-mkdir -p seo-pilot/$DOMAIN/{reports,diagrams}
+# Recreate reports dir
+mkdir -p seo-pilot/$DOMAIN/reports
 ```
 
-**Do NOT delete:**
+**Do NOT delete (preserve these):**
 - `.seo-project.md` — project config (persistent)
 - `.seo-state.json` — pipeline state (persistent)
 - `research/` — keyword & competitor research (reusable)
 - `obsidian-vault/` — knowledge base (persistent)
 - `content/` — blog posts (persistent)
+- `diagrams/` — SEO diagrams (persistent, only regenerate if explicitly asked)
+- `seo-strategy.html` / `seo-strategy.md` — strategy docs (persistent)
+- `drafts/` — draft content (persistent)
 
 **Log what was deleted:**
 ```
-🗑️  Cleaned 7 old files from seo-pilot/$DOMAIN/reports/
-🗑️  Cleaned 3 old diagrams from seo-pilot/$DOMAIN/diagrams/
+🗑️  Cleaned old audit reports from seo-pilot/$DOMAIN/reports/
+```
 ```
 
 ### Phase 1: AUDIT — Fresh 5-agent parallel audit
@@ -401,15 +399,13 @@ seo-pilot/$DOMAIN/
 │   ├── schema-audit.md                    ← NEW
 │   ├── geo-audit.md                       ← NEW
 │   └── content-quality-audit.md           ← NEW
-├── diagrams/
-│   ├── keyword-gap.html                   ← NEW (if regenerated)
-│   ├── content-cluster.html               ← NEW (if regenerated)
-│   └── seo-priority.html                  ← NEW (if regenerated)
+├── diagrams/                              ← KEPT (not regenerated unless explicitly asked)
 ├── .seo-project.md                        ← KEPT
 ├── .seo-state.json                        ← KEPT
 ├── research/                              ← KEPT
 ├── content/                               ← KEPT
-└── obsidian-vault/                        ← KEPT
+├── obsidian-vault/                        ← KEPT
+└── drafts/                                ← KEPT
 ```
 
 ### Summary output
