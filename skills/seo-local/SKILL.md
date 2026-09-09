@@ -5,15 +5,17 @@ description: >
   consistency, citation health, review signals, local schema markup,
   location page quality, multi-location SEO, and industry-specific
   recommendations. Detects business type (brick-and-mortar, SAB, hybrid)
-  and industry vertical. Use when user says "local SEO", "Google Business
-  Profile", "GBP", "map pack", "local pack", "citations", "NAP
-  consistency", "service area", or "multi-location".
+  and industry vertical (restaurant, healthcare, legal, home services,
+  real estate, automotive). Use when user says "local SEO", "Google
+  Business Profile", "GBP", "map pack", "local pack", "citations",
+  "NAP consistency", "local rankings", "service area", "multi-location",
+  or "local search".
 user-invocable: true
 argument-hint: "[url]"
 license: MIT
 metadata:
   author: AgriciDaniel
-  version: "2.2.5"
+  version: "2.2.0"
   category: seo
 ---
 
@@ -88,7 +90,7 @@ Primary category is the **single most important local pack factor** (Whitespark 
 - Evidence of secondary categories (optimal: 4 additional per BrightLocal)
 - GBP posts presence (no direct ranking impact per WebFX, but triggers Post Justifications)
 - Photos/video evidence (45% more direction requests with photos, Agency Jet)
-- Q&A content: check whether GBP Q&A is available for the business category/region; optimize questions and owner answers when available
+- Q&A content (deprecated Dec 2025, replaced by Ask Maps Gemini AI -- recommend recreating Q&A content as FAQ sections on website; GBP removed existing Q&A with no export available)
 - Google Verified badge eligibility (replaced Guaranteed/Screened in Oct 2025)
 - GBP link URL strategy: do NOT link to strongest website page (Sterling Sky Diversity Update -- risks suppressing organic rankings)
 - Business hours visibility on page (businesses open at search time rank higher, factor #5)
@@ -163,7 +165,7 @@ Citations declining for traditional pack rankings but **3 of top 5 AI visibility
   - Yelp: `site:yelp.com "Business Name"`
   - BBB: `site:bbb.org "Business Name"`
   - Facebook business page references
-- **Apple Maps / Apple business listings** awareness: claim and maintain Apple listings; treat Apple Business unified-platform launch/rename claims as TechRadar-sourced and verify against Apple primary before asserting.
+- Apple Business Connect awareness (usage doubled to 27%, BrightLocal 2026 -- recommend claiming)
 - Bing Places awareness (powers ChatGPT, Copilot, Alexa -- recommend claiming and optimizing)
 - Industry-specific directory recommendations: load `../seo/references/local-schema-types.md` for per-vertical citation sources
 - Data aggregator awareness: Data Axle, Foursquare, Neustar/TransUnion (recommend submission for downstream distribution)
@@ -189,7 +191,7 @@ Schema is NOT a direct ranking factor (John Mueller confirmed). But enables rich
 - SAB-specific: `areaServed` with named cities (recommended, not in Google's official list but Schema.org supported)
 - Multi-location: each location page has own LocalBusiness with unique `@id`, linked via `branchOf` to Organization on homepage
 - Industry-specific schema patterns (per `../seo/references/local-schema-types.md`):
-  - Restaurant: Menu + MenuSection + MenuItem + ReserveAction (note: Reservation/Order actions are not Google-supported rich results; value is machine-readable business data)
+  - Restaurant: Menu + MenuSection + MenuItem + ReserveAction
   - Healthcare: Physician (Person) + MedicalSpecialty + sameAs to NPI
   - Legal: LegalService + Person + Service (practice areas)
   - Home Services: Subtype + areaServed + Service
@@ -233,7 +235,7 @@ Key local AI facts:
 - 3 of top 5 AI visibility factors are citation-related (Whitespark 2026)
 - ChatGPT does NOT access GBP directly -- sources from Bing index, Yelp, TripAdvisor, BBB, Reddit
 - Bing Places is critical: powers ChatGPT, Copilot, Alexa
-- Third-party observed local AI interface changes (mobile US) may show only 1-2 businesses, 32% fewer shown (Sterling Sky)
+- AI-powered local packs (mobile US) show only 1-2 businesses, 32% fewer shown (Sterling Sky)
 
 **Recommendation**: Run `/seo geo <url>` for comprehensive AI search visibility analysis including citability scoring, llms.txt check, and brand mention audit.
 
@@ -267,7 +269,7 @@ Generate `LOCAL-SEO-ANALYSIS-{domain}.md` with:
 
 ## Quick Wins
 
-1. Claim and optimize Apple Maps / Apple business listings; verify any Apple Business launch/rename claim against Apple primary first
+1. Claim and optimize Apple Business Connect (usage doubled to 27%)
 2. Claim and optimize Bing Places (powers ChatGPT, Copilot, Alexa)
 3. Fix any NAP discrepancies between page, schema, and GBP
 4. Add LocalBusiness schema with correct industry subtype
@@ -296,7 +298,7 @@ Generate `LOCAL-SEO-ANALYSIS-{domain}.md` with:
 
 ## DataForSEO Integration (Optional)
 
-If DataForSEO MCP tools are available, use `business_data_business_listings_search` for live GBP/business-listing data extraction and citation auditing across directories, and `serp_organic_live_advanced` for real-time local pack positions.
+If DataForSEO MCP tools are available, use `local_business_data` for live GBP data extraction, `google_local_pack_serp` for real-time local pack positions, and `business_listings` for automated citation auditing across directories.
 
 ---
 
@@ -312,4 +314,4 @@ If DataForSEO MCP tools are available, use `business_data_business_listings_sear
 
 ## FLOW Framework Integration
 
-For prompt-guided local optimization, use `/seo flow local <url>`, FLOW's 11 local-stage prompts cover GBP optimization, meta descriptions, title tags, and structured local audit workflows.
+For prompt-guided local optimization, use `/seo flow local <url>` — FLOW's 11 local-stage prompts cover GBP optimization, meta descriptions, title tags, and structured local audit workflows.

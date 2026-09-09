@@ -6,13 +6,15 @@ description: >
   and GA4 organic traffic. Provides real Google field data for Core Web Vitals,
   indexation status, search performance, and organic traffic trends. Use when
   user says "search console", "GSC", "PageSpeed", "CrUX", "field data",
-  "indexing API", "GA4 organic", "URL inspection", or "real CWV data".
+  "indexing API", "GA4 organic", "URL inspection", "google api setup",
+  "real CWV data", "impressions", "clicks", "CTR", "position data",
+  "LCP", "INP", "CLS", "FCP", "TTFB", or "Lighthouse scores".
 user-invocable: true
 argument-hint: "[command] [url|property]"
 license: MIT
 metadata:
   author: AgriciDaniel
-  version: "2.2.5"
+  version: "2.2.0"
   category: seo
 ---
 
@@ -29,7 +31,7 @@ service account -- run `/seo google setup` for step-by-step instructions.
 
 Before executing any command, check credentials:
 ```bash
-claude-seo run google_auth.py --check --json
+python3 scripts/google_auth.py --check --json
 ```
 
 Config file: `~/.config/claude-seo/google-api.json`
@@ -89,7 +91,7 @@ Always communicate the detected tier before running commands.
 
 Combined Lighthouse lab data + CrUX field data.
 
-**Script:** `claude-seo run pagespeed_check.py <url> --json`
+**Script:** `python3 scripts/pagespeed_check.py <url> --json`
 **Reference:** `references/pagespeed-crux-api.md`
 **Default:** Both mobile + desktop strategies, all Lighthouse categories.
 
@@ -100,13 +102,13 @@ Chrome user metrics). CrUX tries URL-level first, falls back to origin-level.
 
 CrUX field data only (no Lighthouse run). Faster.
 
-**Script:** `claude-seo run pagespeed_check.py <url> --crux-only --json`
+**Script:** `python3 scripts/pagespeed_check.py <url> --crux-only --json`
 
 ### `/seo google crux-history <url>`
 
 25-week CrUX History trends. Shows whether CWV metrics are improving, stable, or degrading.
 
-**Script:** `claude-seo run crux_history.py <url> --json`
+**Script:** `python3 scripts/crux_history.py <url> --json`
 **Reference:** `references/pagespeed-crux-api.md`
 
 Output includes per-metric trend direction, percentage change, and weekly p75 values.
@@ -119,33 +121,17 @@ Output includes per-metric trend direction, percentage change, and weekly p75 va
 
 Search Analytics: clicks, impressions, CTR, position for last 28 days.
 
-**Script:** `claude-seo run gsc_query.py --property <property> --json`
+**Script:** `python3 scripts/gsc_query.py --property <property> --json`
 **Reference:** `references/search-console-api.md`
 **Default:** 28 days, dimensions=query,page, type=web, limit=1000.
 
 Includes quick-win detection: queries at position 4-10 with high impressions.
-The `totals` block comes from a separate dimensionless aggregate query because
-query-level rows can omit anonymized low-volume traffic. Treat totals as
-site-wide only when `totals_complete` is true. `--limit` caps total returned
-dimension rows, not the size of every pagination request.
-
-> **AI surfaces in GSC (2026):**
-> - **Generative AI performance report** (launched 2026-06-03), a dedicated view of **AI Overviews + AI Mode** visibility. **Impressions only** (no clicks/CTR/position/query); dimensions Pages/Countries/Devices/Dates (Pacific Time); 1,000-row limit; newest data preliminary; a separate Discover gen-AI report also exists. Rolling out to a subset of properties.
-> - **AI Mode already rolls into standard Performance totals** (Web search type), clicks (external-link clicks in AI Mode) and impressions are counted in the normal report, so you **cannot** cleanly split "classic" vs "AI" traffic from totals. Use the Generative AI report for impressions-only AI visibility.
-> - **Data-reliability caveat:** a GSC logging error made **impressions, CTR, and average position unreliable from 2025-05-13 to 2026-04-27** (clicks unaffected; fixed forward-only, **no backfill**). Treat impression/CTR/position trends spanning that window with caution; expect an apparent impressions drop after the fix.
-
-> **Platform properties (2026):** Search Console can expose verified TikTok,
-> Instagram, X, and YouTube accounts as individual properties. Verify each
-> account separately, unless it was already added through a claimed Search
-> profile. Use these properties for Google Search performance only, not as a
-> substitute for the platform's own analytics. Source:
-> developers.google.com/search/docs/monitor-debug/analyze-social-video-content
 
 ### `/seo google inspect <url>`
 
 URL Inspection: real indexation status from Google.
 
-**Script:** `claude-seo run gsc_inspect.py <url> --json`
+**Script:** `python3 scripts/gsc_inspect.py <url> --json`
 
 Returns: verdict (PASS/FAIL), coverage state, robots.txt status, indexing state,
 page fetch state, canonical selection, mobile usability, rich results.
@@ -154,7 +140,7 @@ page fetch state, canonical selection, mobile usability, rich results.
 
 Batch inspection from a file (one URL per line). Rate limited to 2,000/day per site.
 
-**Script:** `claude-seo run gsc_inspect.py --batch <file> --json`
+**Script:** `python3 scripts/gsc_inspect.py --batch <file> --json`
 
 ### `/seo google sitemaps <property>`
 
@@ -162,7 +148,7 @@ List submitted sitemaps with status, errors, warnings. Sitemap contents report
 submitted counts only; URL Inspection API is the indexation truth for whether
 specific URLs are indexed.
 
-**Script:** `claude-seo run gsc_query.py sitemaps --property <property> --json`
+**Script:** `python3 scripts/gsc_query.py sitemaps --property <property> --json`
 
 ---
 
@@ -172,7 +158,7 @@ specific URLs are indexed.
 
 Notify Google of a URL update.
 
-**Script:** `claude-seo run indexing_notify.py <url> --json`
+**Script:** `python3 scripts/indexing_notify.py <url> --json`
 **Reference:** `references/indexing-api.md`
 
 The Indexing API is officially for JobPosting and BroadcastEvent/VideoObject pages.
@@ -182,7 +168,7 @@ Always inform the user of this restriction. Daily quota: 200 publish requests.
 
 Batch submit URLs from a file. Tracks quota usage.
 
-**Script:** `claude-seo run indexing_notify.py --batch <file> --json`
+**Script:** `python3 scripts/indexing_notify.py --batch <file> --json`
 
 ---
 
@@ -192,29 +178,27 @@ Batch submit URLs from a file. Tracks quota usage.
 
 Organic traffic report: daily sessions, users, pageviews, bounce rate, engagement.
 
-**Script:** `claude-seo run ga4_report.py --property <id> --json`
+**Script:** `python3 scripts/ga4_report.py --property <id> --json`
 **Reference:** `references/ga4-data-api.md`
 **Default:** 28 days, filtered to Organic Search channel group.
-
-> **GA4 "AI Assistants" channel (live ~2026-05-13):** GA4 added a native *AI Assistants* Default Channel Group. Sessions referred by a recognized AI assistant get `medium=ai-assistant`. Google's recognized sources are **ChatGPT, Gemini, Claude, Deepseek, Copilot, Grok** and the channel **excludes** Google AI Overviews / AI Mode. **Verify Perplexity separately if needed**; unsupported sources may stay in Referral, and most AI sessions arrive referrer-less and fall into **Direct**, so this channel undercounts AI traffic. Forward-only, no backfill.
 
 ### `/seo google ga4-pages [property-id]`
 
 Top organic landing pages ranked by sessions.
 
-**Script:** `claude-seo run ga4_report.py --property <id> --report top-pages --json`
+**Script:** `python3 scripts/ga4_report.py --property <id> --report top-pages --json`
 
 ---
 
 ## YouTube (Video SEO)
 
-Some third-party studies report a 0.737 correlation between YouTube mentions and AI visibility. Treat it as a methodology-dependent signal. Free, API key only.
+YouTube mentions have the strongest AI visibility correlation (0.737). Free, API key only.
 
 ### `/seo google youtube <query>`
 
 Search YouTube for videos. Returns title, channel, views, likes, duration.
 
-**Script:** `claude-seo run youtube_search.py search "<query>" --json`
+**Script:** `python3 scripts/youtube_search.py search "<query>" --json`
 **Reference:** `references/youtube-api.md`
 **Quota:** 100 units per search (10,000 units/day free).
 
@@ -222,20 +206,20 @@ Search YouTube for videos. Returns title, channel, views, likes, duration.
 
 Detailed video info + tags + top 10 comments.
 
-**Script:** `claude-seo run youtube_search.py video <video_id> --json`
+**Script:** `python3 scripts/youtube_search.py video <video_id> --json`
 **Quota:** 2 units (video details + comments).
 
 ---
 
 ## NLP Content Analysis
 
-Google NLP entity/sentiment output for internal content-quality checks. Do not treat it as Google E-E-A-T scoring.
+Google's own entity/sentiment analysis. Enhances E-E-A-T scoring.
 
 ### `/seo google nlp <url-or-text>`
 
 Full NLP analysis: entities, sentiment, content classification.
 
-**Script:** `claude-seo run nlp_analyze.py --url <url> --json` or `--text "..."`
+**Script:** `python3 scripts/nlp_analyze.py --url <url> --json` or `--text "..."`
 **Reference:** `references/nlp-api.md`
 **Free tier:** 5,000 units/month. Requires billing enabled on GCP project.
 
@@ -243,7 +227,7 @@ Full NLP analysis: entities, sentiment, content classification.
 
 Entity extraction only (faster, less quota).
 
-**Script:** `claude-seo run nlp_analyze.py --url <url> --features entities --json`
+**Script:** `python3 scripts/nlp_analyze.py --url <url> --features entities --json`
 
 ---
 
@@ -255,7 +239,7 @@ Gold-standard keyword volume data. Requires Google Ads account.
 
 Generate keyword ideas from seed terms.
 
-**Script:** `claude-seo run keyword_planner.py ideas "<seed>" --json`
+**Script:** `python3 scripts/keyword_planner.py ideas "<seed>" --json`
 **Reference:** `references/keyword-planner-api.md`
 **Requires:** Ads developer token + customer ID in config (Tier 3).
 
@@ -263,7 +247,7 @@ Generate keyword ideas from seed terms.
 
 Search volume for specific keywords (comma-separated).
 
-**Script:** `claude-seo run keyword_planner.py volume "<kw1>,<kw2>" --json`
+**Script:** `python3 scripts/keyword_planner.py volume "<kw1>,<kw2>" --json`
 
 ---
 
@@ -296,7 +280,7 @@ After any analysis command, offer to generate a PDF/HTML report.
 
 Generate a professional PDF report with charts and analytics.
 
-**Script:** `claude-seo run google_report.py --type <type> --data <json> --domain <domain> --format pdf`
+**Script:** `python3 scripts/google_report.py --type <type> --data <json> --domain <domain> --format pdf`
 
 | Type | Input | Output |
 |------|-------|--------|
@@ -307,8 +291,8 @@ Generate a professional PDF report with charts and analytics.
 
 **Workflow:**
 1. Run data collection commands (pagespeed, gsc, inspect-batch, etc.)
-2. Save JSON output to file: `claude-seo run pagespeed_check.py <url> --json > data.json`
-3. Generate report: `claude-seo run google_report.py --type cwv-audit --data data.json --domain <domain>`
+2. Save JSON output to file: `python3 scripts/pagespeed_check.py <url> --json > data.json`
+3. Generate report: `python3 scripts/google_report.py --type cwv-audit --data data.json --domain <domain>`
 
 **Convention:** After completing analysis, suggest: "Generate a report? Use `/seo google report <type>`"
 
@@ -332,7 +316,7 @@ Generate a professional PDF report with charts and analytics.
 - **seo-performance**: CrUX field data supplements Lighthouse lab data
 - **seo-sitemap**: GSC sitemap status shows submitted counts, errors, and warnings; use URL Inspection for indexation truth
 - **seo-content**: GSC query data informs keyword targeting
-- **seo-geo**: Use GSC Generative AI performance reports and AI Overviews/AI Mode/Discover gen-AI include/exclude controls where available
+- **seo-geo**: GSC search appearance data includes AI Overview references
 
 ## Output Format
 
@@ -340,7 +324,7 @@ Generate a professional PDF report with charts and analytics.
 - Performance reports: tables with sortable columns
 - Always include data freshness note
 - Save reports as `GOOGLE-API-REPORT-{domain}.md`
-- Markdown/LLM templates in `assets/templates/`: `cwv-audit-report.md`, `gsc-performance-report.md`, `indexation-status-report.md`; distinct from `google_report.py`'s PDF pipeline
+- Use templates from `assets/templates/` for structured output
 
 ## Technical Notes
 
