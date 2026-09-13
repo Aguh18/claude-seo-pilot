@@ -1,11 +1,22 @@
 ---
 name: seo-pilot
-description: Complete SEO workflow orchestrator. 5 commands that each run a full multi-skill workflow. Init project, create content, audit SEO, re-audit, check status. Use when user says "seo", "seo-pilot", "init project", "blog-write", "seo audit", "reaudit", "site audit".
+description: >
+  Complete SEO workflow orchestrator. 5 commands that each run a full
+  multi-skill workflow. Init project, create content, audit SEO, re-audit,
+  check status. Use when user says "seo", "seo-pilot", "init project",
+  "blog-write", "seo audit", "reaudit", "site audit".
+user-invocable: true
+argument-hint: "[init|blog-write|audit|reaudit|status] [topic-or-url]"
+license: MIT
+metadata:
+  author: Aguh18
+  version: "1.1.0"
+  category: seo
 ---
 
 # SEO Pilot
 
-SEO-focused skill. Maximize organic search visibility for your website. 4 commands, parallel subagents.
+SEO-focused skill. Maximize organic search visibility for your website. 5 commands, parallel subagents.
 
 ## Commands
 
@@ -148,19 +159,56 @@ Agent 7: Create config files + Obsidian vault
 
 ### Report Requirements
 
-`seo-pilot/seo-strategy.html` — single self-contained HTML, dark theme, charts as inline SVG/CSS.
+`seo-pilot/seo-strategy.html` — single self-contained HTML, **bright theme with sidebar navigation**, charts as inline SVG/CSS.
+
+#### Design Requirements (MANDATORY)
+
+**Theme: Bright & Clean**
+- White/light background (`#f8fafc` or `#ffffff`), dark text (`#1e293b`)
+- Accent colors: Blue (`#3b82f6`), Green (`#10b981`), Yellow (`#f59e0b`), Orange (`#f97316`), Red (`#ef4444`)
+- Cards with subtle shadows (`box-shadow: 0 1px 3px rgba(0,0,0,0.1)`)
+- Rounded corners (`border-radius: 12px`)
+- NO dark theme — must be easy to read in daylight
+
+**Sidebar Navigation (REQUIRED)**
+- Fixed left sidebar (width: 260px) with section links
+- Sticky on scroll (position: sticky, top: 0, height: 100vh)
+- Collapsible on mobile (hamburger menu)
+- Sections listed with icons (emoji or SVG)
+- Active section highlighted as user scrolls
+- Smooth scroll to section on click
+- Sidebar includes: site name, health score badge, section list
+
+**Layout:**
+```
+┌──────────────┬────────────────────────────────┐
+│   SIDEBAR    │         MAIN CONTENT           │
+│              │                                │
+│ 🏠 Summary   │  [Hero Section]                │
+│ 📊 Scores    │  [Score Cards]                 │
+│ 🔧 Technical │  [Category Details]            │
+│ 📝 On-page   │                                │
+│ 🏷️ Schema    │                                │
+│ 🤖 GEO       │                                │
+│ 📖 Content   │                                │
+│ ✅ Actions   │                                │
+└──────────────┴────────────────────────────────┘
+```
 
 **Sections:**
 
-1. **Hero** — Site name, URL, date, one-line positioning
-2. **Site SEO Overview** — Current SEO health snapshot: title tags, meta descriptions, schema status, content count, internal link depth
-3. **Keyword Strategy** — Bar chart: search volume by keyword, color-coded by intent (transactional/informational/mixed). Priority table.
-4. **Keyword Gap Analysis** — Side-by-side: keywords competitors rank for vs our gaps. Horizontal bar chart.
-5. **Competitor SEO Breakdown** — Per-competitor cards: their top keywords, content structure, SEO strengths/weaknesses
-6. **Content Plan** — Recommended blog topics mapped to keywords, funnel stage, and difficulty. Content cluster diagram.
-7. **Technical SEO Checklist** — Crawlability, indexability, CWV, mobile, schema status. Pass/fail indicators.
-8. **GEO / AI Readiness** — How ready is the site for AI citation (ChatGPT, Perplexity, AI Overviews)
-9. **Prioritized Action Plan** — SEO actions by impact (Critical → High → Medium → Low) with estimated effort
+1. **Hero** — Site name, URL, date, one-line positioning, health score gauge
+2. **Score Overview** — 5 category score cards with horizontal progress bars (Technical, On-page, Schema, GEO, Content)
+3. **Critical Issues** — Red-highlighted cards with issue details
+4. **High Priority** — Orange-highlighted cards
+5. **Medium Priority** — Yellow-highlighted cards
+6. **Low Priority** — Blue-highlighted cards
+7. **Technical SEO Details** — Collapsible section with pass/fail checklist
+8. **On-Page SEO Details** — Collapsible section with element analysis
+9. **Schema Details** — Collapsible section with validation results
+10. **GEO / AI Readiness** — Collapsible section with platform scores
+11. **Content Quality** — Collapsible section with E-E-A-T breakdown
+12. **Action Plan** — Prioritized table with effort/impact matrix
 
 **Files created:**
 
@@ -295,11 +343,18 @@ Agent 6: Combined audit report (HTML + MD)
   - FIRST: Load skills: "diagram-design", "dataviz"
   - Input: all 5 audit results
   - Output:
-    - seo-pilot/reports/audit-<domain>-<date>.html (interactive HTML report, dark theme, charts)
-    - seo-pilot/reports/audit-<domain>-<date>.md (markdown version for quick reference)
+    - seo-pilot/reports/audit.html (interactive HTML report, BRIGHT theme with sidebar)
+    - seo-pilot/reports/audit.md (markdown version for quick reference)
   - Prioritized: Critical → High → Medium → Low
-  - HTML must include: health scores as gauges/bars, pass/fail checklist with icons,
-    priority action items color-coded, per-category breakdowns with expandable sections
+  - HTML MUST include:
+    - Fixed sidebar navigation with section links
+    - Bright theme (white bg, colored accents)
+    - Health scores as gauge + horizontal bars
+    - Pass/fail checklist with ✅❌⚠️ icons
+    - Priority action items color-coded
+    - Collapsible sections per category
+    - Responsive design (sidebar collapses on mobile)
+  - See "Report Requirements" above for full design spec
 ```
 
 ---
@@ -311,14 +366,12 @@ Agent 6: Combined audit report (HTML + MD)
 **Precondition:** `seo-pilot/` must exist. If missing:
 > "Jalankan `/seo-pilot init` dulu."
 
-### Phase 0: CLEAN — Remove stale audit reports only
-
-**Only delete audit reports.** Diagrams, SEO strategy, and other files are NOT deleted unless explicitly requested.
+### Phase 0: CLEAN — Remove stale files
 
 ```bash
 DOMAIN=$(echo "$URL" | sed 's|https\?://||' | sed 's|/.*||')
 
-# Delete only old audit reports (these will be regenerated)
+# Delete all old audit reports (HTML, MD)
 rm -f seo-pilot/$DOMAIN/reports/audit-*.html
 rm -f seo-pilot/$DOMAIN/reports/audit-*.md
 rm -f seo-pilot/$DOMAIN/reports/technical-audit.md
@@ -327,24 +380,28 @@ rm -f seo-pilot/$DOMAIN/reports/schema-audit.md
 rm -f seo-pilot/$DOMAIN/reports/geo-audit.md
 rm -f seo-pilot/$DOMAIN/reports/content-quality-audit.md
 
-# Recreate reports dir
-mkdir -p seo-pilot/$DOMAIN/reports
+# Delete old diagrams
+rm -f seo-pilot/$DOMAIN/diagrams/*.html
+
+# Delete old SEO strategy
+rm -f seo-pilot/$DOMAIN/seo-strategy.html
+rm -f seo-pilot/$DOMAIN/seo-strategy.md
+
+# Recreate clean dirs
+mkdir -p seo-pilot/$DOMAIN/{reports,diagrams}
 ```
 
-**Do NOT delete (preserve these):**
+**Do NOT delete:**
 - `.seo-project.md` — project config (persistent)
 - `.seo-state.json` — pipeline state (persistent)
 - `research/` — keyword & competitor research (reusable)
 - `obsidian-vault/` — knowledge base (persistent)
 - `content/` — blog posts (persistent)
-- `diagrams/` — SEO diagrams (persistent, only regenerate if explicitly asked)
-- `seo-strategy.html` / `seo-strategy.md` — strategy docs (persistent)
-- `drafts/` — draft content (persistent)
 
 **Log what was deleted:**
 ```
-🗑️  Cleaned old audit reports from seo-pilot/$DOMAIN/reports/
-```
+🗑️  Cleaned 7 old files from seo-pilot/$DOMAIN/reports/
+🗑️  Cleaned 3 old diagrams from seo-pilot/$DOMAIN/diagrams/
 ```
 
 ### Phase 1: AUDIT — Fresh 5-agent parallel audit
@@ -375,16 +432,17 @@ Agent 5: Content quality
   - E-E-A-T, readability, depth, freshness, thin content detection
 ```
 
-### Phase 2: REPORT — Combined report with fresh timestamp
+### Phase 2: REPORT — Combined report
 
 ```
 Agent 6: Combined audit report (HTML + MD)
   - FIRST: Load skills: "diagram-design", "dataviz"
   - Input: all 5 audit results from Phase 1
   - Output:
-    - seo-pilot/$DOMAIN/reports/audit-<domain>-<TIMESTAMP>.html
-    - seo-pilot/$DOMAIN/reports/audit-<domain>-<TIMESTAMP>.md
+    - seo-pilot/reports/audit.html (BRIGHT theme with sidebar navigation)
+    - seo-pilot/reports/audit.md
   - Include: health scores, pass/fail checklist, priority actions, per-category breakdowns
+  - See "Report Requirements" above for full design spec (sidebar, bright theme, collapsible sections)
 ```
 
 ### Output files (fresh, timestamped)
@@ -399,13 +457,15 @@ seo-pilot/$DOMAIN/
 │   ├── schema-audit.md                    ← NEW
 │   ├── geo-audit.md                       ← NEW
 │   └── content-quality-audit.md           ← NEW
-├── diagrams/                              ← KEPT (not regenerated unless explicitly asked)
+├── diagrams/
+│   ├── keyword-gap.html                   ← NEW (if regenerated)
+│   ├── content-cluster.html               ← NEW (if regenerated)
+│   └── seo-priority.html                  ← NEW (if regenerated)
 ├── .seo-project.md                        ← KEPT
 ├── .seo-state.json                        ← KEPT
 ├── research/                              ← KEPT
 ├── content/                               ← KEPT
-├── obsidian-vault/                        ← KEPT
-└── drafts/                                ← KEPT
+└── obsidian-vault/                        ← KEPT
 ```
 
 ### Summary output

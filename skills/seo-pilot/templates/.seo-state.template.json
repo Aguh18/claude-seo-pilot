@@ -1,0 +1,31 @@
+{
+  "project": "my-business",
+  "last_updated": "2026-01-01",
+  "version": "1.0.0",
+  "steps": {
+    "research": {
+      "competitor": "pending",
+      "keywords": "pending",
+      "serp": "pending",
+      "market_analysis": "pending"
+    },
+    "content": {
+      "brief": "pending",
+      "outline": "pending",
+      "write": "pending",
+      "review": "pending"
+    },
+    "seo": {
+      "onpage": "pending",
+      "technical": "pending",
+      "geo": "pending",
+      "schema": "pending"
+    },
+    "publish": {
+      "obsidian": "pending",
+      "blog": "pending",
+      "social_media": "pending"
+    }
+  },
+  "history": []
+}
