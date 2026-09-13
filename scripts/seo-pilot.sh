@@ -42,7 +42,7 @@ check_project() {
 
 check_state() {
     if [ ! -f "$STATE_FILE" ]; then
-        echo '{"project":"","last_updated":"","steps":{"research":{"competitor":"pending","keywords":"pending","serp":"pending","market_analysis":"pending"},"content":{"brief":"pending","outline":"pending","write":"pending","review":"pending"},"seo":{"onpage":"pending","technical":"pending","geo":"pending","schema":"pending"},"publish":{"obsidian":"pending","blog":"pending","social_media":"pending"}},"history":[]}' > "$STATE_FILE"
+        echo '{"project":"","last_updated":"","steps":{"research":{"competitor":"pending","keywords":"pending","serp":"pending","market_analysis":"pending"},"content":{"brief":"pending","outline":"pending","write":"pending","review":"pending"},"seo":{"onpage":"pending","technical":"pending","geo":"pending","schema":"pending"},"ads":{"platform_audit":"pending","competitor_ads":"pending","budget_plan":"pending","strategy_report":"pending"},"publish":{"obsidian":"pending","blog":"pending","social_media":"pending"}},"history":[]}' > "$STATE_FILE"
     fi
 }
 
@@ -143,6 +143,7 @@ EOF
     "research": { "competitor": "pending", "keywords": "pending", "serp": "pending", "market_analysis": "pending" },
     "content": { "brief": "pending", "outline": "pending", "write": "pending", "review": "pending" },
     "seo": { "onpage": "pending", "technical": "pending", "geo": "pending", "schema": "pending" },
+    "ads": { "platform_audit": "pending", "competitor_ads": "pending", "budget_plan": "pending", "strategy_report": "pending" },
     "publish": { "obsidian": "pending", "blog": "pending", "social_media": "pending" }
   },
   "history": []

@@ -13,7 +13,7 @@ TEMP_DIR=$(mktemp -d)
 trap "rm -rf $TEMP_DIR" EXIT
 
 GLOBAL_DIR="$HOME/.claude/skills"
-REPOS="AgriciDaniel/claude-blog AgriciDaniel/claude-seo kepano/obsidian-skills cathrynlavery/diagram-design"
+REPOS="AgriciDaniel/claude-blog AgriciDaniel/claude-seo AgriciDaniel/claude-ads kepano/obsidian-skills cathrynlavery/diagram-design"
 
 for repo in $REPOS; do
     skill=$(echo "$repo" | cut -d'/' -f2)

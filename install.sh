@@ -50,19 +50,19 @@ echo ""
 echo -e "${BOLD}📦 Installing skills...${NC}"
 echo ""
 
-for skill in seo-pilot blog seo obsidian-tools diagram-design; do
+for skill in seo-pilot blog seo ads obsidian-tools diagram-design; do
     if [ -d "$SRC_DIR/skills/$skill" ]; then
         echo -e "  ${GREEN}✅${NC} $skill"
         cp -r "$SRC_DIR/skills/$skill" "$SKILLS_DIR/"
     fi
 done
 
-# Install sub-skills (blog-*, seo-*)
+# Install sub-skills (blog-*, seo-*, ads-*)
 echo ""
 echo -e "${BOLD}📦 Installing sub-skills...${NC}"
 echo ""
 
-for skill_dir in "$SRC_DIR/skills/blog-"*/ "$SRC_DIR/skills/seo-"*/; do
+for skill_dir in "$SRC_DIR/skills/blog-"*/ "$SRC_DIR/skills/seo-"*/ "$SRC_DIR/skills/ads-"*/; do
     if [ -d "$skill_dir" ]; then
         name=$(basename "$skill_dir")
         echo -e "  ${GREEN}✅${NC} $name"
@@ -77,6 +77,19 @@ if command -v npm &> /dev/null; then
     npm install -g defuddle 2>/dev/null && echo -e "  ${GREEN}✅${NC} defuddle" || echo -e "  ${YELLOW}⚠️${NC} defuddle failed — install manually: npm install -g defuddle"
 else
     echo -e "  ${YELLOW}⚠️${NC} npm not found — install defuddle manually"
+fi
+
+# Install ads core modules
+echo ""
+echo -e "${BOLD}📦 Installing ads core modules...${NC}"
+if [ -d "$SRC_DIR/claude_ads_core" ]; then
+    mkdir -p "$HOME/.seo-pilot/modules"
+    cp -r "$SRC_DIR/claude_ads_core" "$HOME/.seo-pilot/modules/"
+    echo -e "  ${GREEN}✅${NC} claude_ads_core"
+fi
+if [ -d "$SRC_DIR/control-plane" ]; then
+    cp -r "$SRC_DIR/control-plane" "$HOME/.seo-pilot/modules/"
+    echo -e "  ${GREEN}✅${NC} control-plane"
 fi
 
 # Install orchestrator script

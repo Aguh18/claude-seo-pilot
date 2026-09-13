@@ -21,6 +21,12 @@
       "geo": "pending",
       "schema": "pending"
     },
+    "ads": {
+      "platform_audit": "pending",
+      "competitor_ads": "pending",
+      "budget_plan": "pending",
+      "strategy_report": "pending"
+    },
     "publish": {
       "obsidian": "pending",
       "blog": "pending",
