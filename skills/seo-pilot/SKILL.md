@@ -16,16 +16,17 @@ metadata:
 
 # SEO Pilot
 
-SEO-focused skill. Maximize organic search visibility for your website. 5 commands, parallel subagents.
+SEO-focused skill. Maximize organic search visibility for your website. 6 commands, parallel subagents.
 
 ## Commands
 
 | Command | What It Does |
 |---------|--------------|
-| `/seo-pilot init` | Research project → keyword strategy, competitor SEO gaps, content plan, SEO report |
+| `/seo-pilot init` | Research project → keyword strategy, competitor SEO gaps, content plan, SEO report, ads strategy |
 | `/seo-pilot blog-write <topic>` | Full pipeline → keyword research → brief → write → SEO optimize → publish |
 | `/seo-pilot audit <url>` | Full SEO audit → technical + on-page + schema + GEO + report |
 | `/seo-pilot reaudit <url>` | Clean old audit files → re-run full audit with fresh timestamped output |
+| `/seo-pilot ads <url>` | Ads audit → platform analysis → budget plan → campaign structure → report |
 | `/seo-pilot status` | Show what's done and what's next |
 
 ---
@@ -37,7 +38,7 @@ SEO-focused skill. Maximize organic search visibility for your website. 5 comman
 On first run, extract domain from URL and create:
 ```
 DOMAIN=$(echo "$URL" | sed 's|https\?://||' | sed 's|/.*||')
-mkdir -p seo-pilot/$DOMAIN/{research/{competitors,keywords,discourse},content,reports,diagrams,obsidian-vault/{notes,products,strategy}}
+mkdir -p seo-pilot/$DOMAIN/{research/{competitors,keywords,discourse},content,reports,diagrams,ads/diagrams,obsidian-vault/{notes,products,strategy}}
 ```
 
 Example: `seo-pilot/keripikmangdedi.id/`, `seo-pilot/example.com/`
@@ -59,6 +60,7 @@ Example: `seo-pilot/keripikmangdedi.id/`, `seo-pilot/example.com/`
 | SEO | `seo-technical`, `seo-content`, `seo-geo`, `seo-schema`, `seo-page`, `seo-performance`, `seo-cluster`, `seo-flow`, `seo-sxo` |
 | Blog | `blog-write`, `blog-brief`, `blog-outline`, `blog-seo-check`, `blog-analyze`, `blog-schema`, `blog-strategy`, `blog-persona`, `blog-style`, `blog-discourse`, `blog-chart` |
 | Content | `seo-content-brief`, `seo-content`, `blog-analyze`, `blog-reviewer` |
+| Ads | `ads`, `ads-audit`, `ads-plan`, `ads-budget`, `ads-competitor`, `ads-create`, `ads-monitor`, `ads-optimize`, `ads-research` |
 | Web | `defuddle`, `serper-api` |
 | Visuals | `diagram-design`, `dataviz` |
 | AI/GEO | `seo-geo`, `seo-flow`, `blog-geo` |
@@ -80,8 +82,13 @@ Example: `seo-pilot/keripikmangdedi.id/`, `seo-pilot/example.com/`
 | SEO diagrams | `general-purpose` | `diagram-design`, `dataviz` |
 | SEO report | `general-purpose` | `diagram-design`, `dataviz`, `blog-analyze` |
 | Brand docs | `general-purpose` | `blog-brand`, `blog-persona`, `blog-style` |
+| Ads platform audit | `general-purpose` | `ads`, `ads-audit`, `ads-google`, `ads-meta` |
+| Competitor ads analysis | `general-purpose` | `ads`, `ads-competitor`, `ads-research` |
+| Budget & campaign planning | `general-purpose` | `ads`, `ads-plan`, `ads-budget`, `ads-math` |
+| Ads strategy report | `general-purpose` | `diagram-design`, `dataviz`, `ads-report` |
 | Full audit (all) | multiple agents | Each agent loads its own skills per row above |
 | blog-write pipeline | multiple agents | Each wave loads its own skills per row above |
+| ads pipeline | multiple agents | Each wave loads its own skills per row above |
 
 ---
 
@@ -89,7 +96,7 @@ Example: `seo-pilot/keripikmangdedi.id/`, `seo-pilot/example.com/`
 
 Set up SEO project. Scrapes site, researches keywords + competitors, creates SEO strategy.
 
-**First:** `mkdir -p seo-pilot/{research/{competitors,keywords,discourse},content,reports,diagrams}`
+**First:** `mkdir -p seo-pilot/{research/{competitors,keywords,discourse},content,reports,diagrams,ads/diagrams}`
 
 **Wave 1 (parallel):**
 
@@ -140,12 +147,25 @@ Agent 6: Generate SEO planning diagrams
     - seo-pilot/diagrams/keyword-gap.html (bar chart: our keywords vs competitors)
     - seo-pilot/diagrams/content-cluster.html (hub-and-spoke content map)
     - seo-pilot/diagrams/seo-priority.html (action items by impact/effort)
+
+Agent 7: Ads strategy report + diagrams
+  - FIRST: Load skills: "ads", "ads-audit", "ads-plan", "ads-budget", "ads-competitor", "diagram-design", "dataviz"
+  - Input: all Wave 1 research (website analysis, competitor data, keywords)
+  - Analyze: which ad platforms fit this business, budget allocation, campaign structure, competitor ad strategy
+  - Output:
+    - seo-pilot/ads/ads-strategy.html (interactive HTML report, bright theme with sidebar)
+    - seo-pilot/ads/ads-strategy.md (markdown version for quick reference)
+    - seo-pilot/ads/diagrams/platform-fit.html (radar chart: platform suitability scores)
+    - seo-pilot/ads/diagrams/budget-split.html (pie/donut chart: budget allocation per platform)
+    - seo-pilot/ads/diagrams/campaign-flow.html (flowchart: campaign structure & funnel)
+  - Sections: recommended platforms, budget split, campaign types, competitor ad gaps, creative brief, measurement plan
+  - Design: same bright theme + sidebar as seo-strategy.html
 ```
 
 **Wave 3 (single agent):**
 
 ```
-Agent 7: Create config files + Obsidian vault
+Agent 8: Create config files + Obsidian vault
   - seo-pilot/.seo-project.md (site info, target keywords, competitors)
   - seo-pilot/.seo-state.json (pipeline tracker)
   - seo-pilot/obsidian-vault/ (knowledge base structure)
@@ -221,6 +241,13 @@ seo-pilot/
 │   ├── keyword-gap.html           # Keyword gap vs competitors
 │   ├── content-cluster.html       # Hub-and-spoke content map
 │   └── seo-priority.html          # Action items by impact/effort
+├── ads/
+│   ├── ads-strategy.html          # Ads strategy report (platforms, budget, campaigns)
+│   ├── ads-strategy.md            # Ads strategy markdown
+│   └── diagrams/
+│       ├── platform-fit.html      # Radar chart: platform suitability
+│       ├── budget-split.html      # Donut chart: budget allocation
+│       └── campaign-flow.html     # Flowchart: campaign structure & funnel
 ├── research/
 │   ├── website-analysis.md        # Scraped site + SEO elements
 │   ├── competitors/*.md           # Per-competitor SEO analysis
@@ -380,15 +407,12 @@ rm -f seo-pilot/$DOMAIN/reports/schema-audit.md
 rm -f seo-pilot/$DOMAIN/reports/geo-audit.md
 rm -f seo-pilot/$DOMAIN/reports/content-quality-audit.md
 
-# Delete old diagrams
-rm -f seo-pilot/$DOMAIN/diagrams/*.html
-
 # Delete old SEO strategy
 rm -f seo-pilot/$DOMAIN/seo-strategy.html
 rm -f seo-pilot/$DOMAIN/seo-strategy.md
 
-# Recreate clean dirs
-mkdir -p seo-pilot/$DOMAIN/{reports,diagrams}
+# Recreate clean dirs (diagrams NOT deleted — new files overwrite old)
+mkdir -p seo-pilot/$DOMAIN/{reports,diagrams,ads/diagrams}
 ```
 
 **Do NOT delete:**
@@ -397,11 +421,13 @@ mkdir -p seo-pilot/$DOMAIN/{reports,diagrams}
 - `research/` — keyword & competitor research (reusable)
 - `obsidian-vault/` — knowledge base (persistent)
 - `content/` — blog posts (persistent)
+- `diagrams/` — planning diagrams (overwritten by new ones)
+- `ads/` — ads strategy + diagrams (overwritten by new ones)
 
 **Log what was deleted:**
 ```
 🗑️  Cleaned 7 old files from seo-pilot/$DOMAIN/reports/
-🗑️  Cleaned 3 old diagrams from seo-pilot/$DOMAIN/diagrams/
+🔄  Diagrams & ads strategy will be overwritten with fresh data
 ```
 
 ### Phase 1: AUDIT — Fresh 5-agent parallel audit
@@ -458,9 +484,16 @@ seo-pilot/$DOMAIN/
 │   ├── geo-audit.md                       ← NEW
 │   └── content-quality-audit.md           ← NEW
 ├── diagrams/
-│   ├── keyword-gap.html                   ← NEW (if regenerated)
-│   ├── content-cluster.html               ← NEW (if regenerated)
-│   └── seo-priority.html                  ← NEW (if regenerated)
+│   ├── keyword-gap.html                   ← OVERWRITTEN
+│   ├── content-cluster.html               ← OVERWRITTEN
+│   └── seo-priority.html                  ← OVERWRITTEN
+├── ads/
+│   ├── ads-strategy.html                  ← OVERWRITTEN
+│   ├── ads-strategy.md                    ← OVERWRITTEN
+│   └── diagrams/
+│       ├── platform-fit.html              ← OVERWRITTEN
+│       ├── budget-split.html              ← OVERWRITTEN
+│       └── campaign-flow.html             ← OVERWRITTEN
 ├── .seo-project.md                        ← KEPT
 ├── .seo-state.json                        ← KEPT
 ├── research/                              ← KEPT
@@ -487,6 +520,64 @@ Files:
 
 Health Score: XX/100
 Critical: X | High: X | Medium: X | Low: X
+```
+
+---
+
+## `/seo-pilot ads <url>`
+
+Full ads strategy audit. Analyzes ad platform fit, budget allocation, campaign structure, and competitor ad gaps.
+
+**Precondition:** `seo-pilot/` must exist. If missing:
+> "Jalankan `/seo-pilot init` dulu."
+
+**First:** `mkdir -p seo-pilot/ads`
+
+**Wave 1 (parallel):**
+
+```
+Agent 1: Ads platform audit
+  - FIRST: Load skills: "ads", "ads-audit", "ads-google", "ads-meta"
+  - Analyze: which ad platforms fit this business (Google Ads, Meta, TikTok, LinkedIn, etc.)
+  - Check: existing ad accounts, tracking setup, conversion pixels
+  - Save to seo-pilot/ads/platform-audit.md
+
+Agent 2: Competitor ads analysis
+  - FIRST: Load skills: "ads", "ads-competitor", "ads-research"
+  - Analyze: competitor ad presence across platforms
+  - Find: competitor ad copy, creative angles, bidding strategies
+  - Save to seo-pilot/ads/competitor-ads.md
+
+Agent 3: Budget & campaign planning
+  - FIRST: Load skills: "ads", "ads-plan", "ads-budget", "ads-math"
+  - Input: keyword data + competitor analysis + business goals
+  - Output: recommended budget split, campaign structure, bidding strategy
+  - Save to seo-pilot/ads/budget-plan.md
+```
+
+**Wave 2 (single agent):**
+
+```
+Agent 4: Combined ads strategy report (HTML + MD)
+  - FIRST: Load skills: "diagram-design", "dataviz"
+  - Input: all Wave 1 ads research
+  - Output:
+    - seo-pilot/ads/ads-strategy.html (interactive HTML report, bright theme with sidebar)
+    - seo-pilot/ads/ads-strategy.md (markdown version)
+  - Sections: platform recommendations, budget allocation (pie chart), campaign structure,
+    competitor ad gaps, creative brief, measurement plan, ROI projections
+  - Design: same bright theme + sidebar as seo-strategy.html
+```
+
+### Output files
+
+```
+seo-pilot/ads/
+├── ads-strategy.html          # Ads strategy report (HERO OUTPUT)
+├── ads-strategy.md            # Ads strategy markdown
+├── platform-audit.md          # Platform analysis
+├── competitor-ads.md          # Competitor ad analysis
+└── budget-plan.md             # Budget & campaign plan
 ```
 
 ---

@@ -94,7 +94,7 @@ cmd_init() {
     # Get project name
     read -p "   Project name: " project_name
     read -p "   Website URL: " website_url
-    read -p "   Business type (umkm-kuliner/umkm-fashion/ecommerce/blog/other): " biz_type
+    read -p "   Business type (ecommerce/saas/local-biz/publisher/agency/blog/other): " biz_type
 
     # Generate .seo-project.md
     cat > "$PROJECT_FILE" << EOF
@@ -105,12 +105,12 @@ business_type: "$biz_type"
 
 brand_voice:
   tone: "casual"
-  style: "indonesian"
+  style: "english"
   personality: ""
 
 target_audience:
   age_range: "25-45"
-  location: "Indonesia"
+  location: ""
 
 products: []
 
