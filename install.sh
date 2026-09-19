@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ✈️ SEO Pilot - Installer
+# 🧰 Freelance - Installer
 # Install: curl -fsSL https://raw.githubusercontent.com/Aguh18/claude-seo-pilot/main/install.sh | bash
 # Repo: https://github.com/Aguh18/claude-seo-pilot
 
@@ -17,7 +17,7 @@ BOLD='\033[1m'
 NC='\033[0m'
 
 echo ""
-echo -e "${CYAN}✈️  SEO Pilot v${VERSION}${NC}"
+echo -e "${CYAN}🧰  Freelance v${VERSION}${NC}"
 echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
@@ -25,8 +25,8 @@ echo ""
 mkdir -p "$SKILLS_DIR"
 
 # Determine source
-if [ -n "${SEO_PILOT_REF:-}" ]; then
-    BRANCH="$SEO_PILOT_REF"
+if [ -n "${FREELANCE_REF:-}" ]; then
+    BRANCH="$FREELANCE_REF"
 else
     BRANCH="main"
 fi
@@ -35,13 +35,13 @@ fi
 TEMP_DIR=$(mktemp -d)
 trap "rm -rf $TEMP_DIR" EXIT
 
-if [ -d "./skills" ] && [ -f "./skills/seo-pilot/SKILL.md" ]; then
+if [ -d "./skills" ] && [ -f "./skills/freelance/SKILL.md" ]; then
     echo -e "${BOLD}📦 Installing from local...${NC}"
     SRC_DIR="."
 else
-    echo -e "${BOLD}📥 Downloading SEO Pilot (${BRANCH})...${NC}"
-    git clone --depth 1 -b "$BRANCH" "https://github.com/Aguh18/claude-seo-pilot.git" "$TEMP_DIR/seo-pilot" 2>/dev/null
-    SRC_DIR="$TEMP_DIR/seo-pilot"
+    echo -e "${BOLD}📥 Downloading Freelance (${BRANCH})...${NC}"
+    git clone --depth 1 -b "$BRANCH" "https://github.com/Aguh18/claude-seo-pilot.git" "$TEMP_DIR/freelance" 2>/dev/null
+    SRC_DIR="$TEMP_DIR/freelance"
 fi
 
 echo ""
@@ -50,7 +50,7 @@ echo ""
 echo -e "${BOLD}📦 Installing skills...${NC}"
 echo ""
 
-for skill in seo-pilot blog seo ads obsidian-tools diagram-design; do
+for skill in freelance blog seo ads obsidian-tools diagram-design defuddle knap; do
     if [ -d "$SRC_DIR/skills/$skill" ]; then
         echo -e "  ${GREEN}✅${NC} $skill"
         cp -r "$SRC_DIR/skills/$skill" "$SKILLS_DIR/"
@@ -83,27 +83,29 @@ fi
 echo ""
 echo -e "${BOLD}📦 Installing ads core modules...${NC}"
 if [ -d "$SRC_DIR/claude_ads_core" ]; then
-    mkdir -p "$HOME/.seo-pilot/modules"
-    cp -r "$SRC_DIR/claude_ads_core" "$HOME/.seo-pilot/modules/"
+    mkdir -p "$HOME/.freelance/modules"
+    cp -r "$SRC_DIR/claude_ads_core" "$HOME/.freelance/modules/"
     echo -e "  ${GREEN}✅${NC} claude_ads_core"
 fi
 if [ -d "$SRC_DIR/control-plane" ]; then
-    cp -r "$SRC_DIR/control-plane" "$HOME/.seo-pilot/modules/"
+    cp -r "$SRC_DIR/control-plane" "$HOME/.freelance/modules/"
     echo -e "  ${GREEN}✅${NC} control-plane"
 fi
 
 # Install orchestrator script
 echo ""
 echo -e "${BOLD}📦 Installing orchestrator...${NC}"
-mkdir -p "$HOME/.seo-pilot"
-if [ -f "$SRC_DIR/scripts/seo-pilot.sh" ]; then
-    cp "$SRC_DIR/scripts/seo-pilot.sh" "$HOME/.seo-pilot/"
-    chmod +x "$HOME/.seo-pilot/seo-pilot.sh"
-    echo -e "  ${GREEN}✅${NC} seo-pilot.sh"
+mkdir -p "$HOME/.freelance"
+if [ -f "$SRC_DIR/skills/freelance/scripts/freelance.sh" ]; then
+    cp "$SRC_DIR/skills/freelance/scripts/freelance.sh" "$HOME/.freelance/"
+    # status.py sits beside the script — freelance.sh resolves it via dirname "$0"
+    cp "$SRC_DIR/skills/freelance/scripts/status.py" "$HOME/.freelance/"
+    chmod +x "$HOME/.freelance/freelance.sh"
+    echo -e "  ${GREEN}✅${NC} freelance.sh"
 
     # Create symlink for easy access
     mkdir -p "$HOME/.local/bin"
-    ln -sf "$HOME/.seo-pilot/seo-pilot.sh" "$HOME/.local/bin/seo-pilot" 2>/dev/null || true
+    ln -sf "$HOME/.freelance/freelance.sh" "$HOME/.local/bin/freelance" 2>/dev/null || true
 fi
 
 echo ""
@@ -112,9 +114,9 @@ echo ""
 echo -e "  🔄 Restart Claude Code to activate."
 echo ""
 echo -e "  ${BOLD}Quick start:${NC}"
-echo "    /seo-pilot init          Setup project"
-echo "    /seo-pilot status        Check progress"
-echo "    /seo-pilot research      Research phase"
-echo "    /seo-pilot content       Content phase"
-echo "    /seo-pilot optimize      SEO phase"
+echo "    /freelance init <name-or-url>   Discovery → 8-document bundle"
+echo "    /freelance audit <url>          Full SEO audit"
+echo "    /freelance blog-write <topic>   SEO content pipeline"
+echo "    /freelance ads <url>            Ads strategy"
+echo "    /freelance status               Check progress"
 echo ""

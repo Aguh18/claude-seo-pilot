@@ -1,8 +1,23 @@
 {
-  "project": "my-business",
+  "project": "my-client",
   "last_updated": "2026-01-01",
   "version": "1.0.0",
   "steps": {
+    "discovery": {
+      "research": "pending",
+      "interview": "pending",
+      "confirm": "pending"
+    },
+    "bundle": {
+      "brief": "pending",
+      "brand": "pending",
+      "tokens": "pending",
+      "sitemap": "pending",
+      "content": "pending",
+      "tech_spec": "pending",
+      "seo": "pending",
+      "handoff": "pending"
+    },
     "research": {
       "competitor": "pending",
       "keywords": "pending",

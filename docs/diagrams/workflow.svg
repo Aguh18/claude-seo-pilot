@@ -15,7 +15,7 @@
   <rect x="24" y="80" width="832" height="140" rx="6" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
   <rect x="24" y="80" width="6" height="140" rx="3" fill="#2d3142"/>
 
-  <text x="44" y="108" fill="#2d3142" font-size="14" font-weight="600">/seo-pilot init</text>
+  <text x="44" y="108" fill="#2d3142" font-size="14" font-weight="600">/freelance init</text>
   <text x="200" y="108" fill="#7a8399" font-size="10" font-family="'Geist Mono',monospace">Project setup — research, competitors, strategy, diagrams</text>
 
   <!-- Wave labels -->
@@ -55,7 +55,7 @@
   <rect x="24" y="240" width="832" height="140" rx="6" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
   <rect x="24" y="240" width="6" height="140" rx="3" fill="#2d3142"/>
 
-  <text x="44" y="268" fill="#2d3142" font-size="14" font-weight="600">/seo-pilot blog-write</text>
+  <text x="44" y="268" fill="#2d3142" font-size="14" font-weight="600">/freelance blog-write</text>
   <text x="252" y="268" fill="#7a8399" font-size="10" font-family="'Geist Mono',monospace">Full content pipeline — from keywords to published post</text>
 
   <text x="44" y="292" fill="#bfc0c0" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.1em">W1</text>
@@ -112,7 +112,7 @@
   <rect x="24" y="400" width="832" height="140" rx="6" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
   <rect x="24" y="400" width="6" height="140" rx="3" fill="#2e5aa8"/>
 
-  <text x="44" y="428" fill="#2d3142" font-size="14" font-weight="600">/seo-pilot audit</text>
+  <text x="44" y="428" fill="#2d3142" font-size="14" font-weight="600">/freelance audit</text>
   <text x="208" y="428" fill="#7a8399" font-size="10" font-family="'Geist Mono',monospace">Full SEO audit — 5 parallel agents, combined report</text>
 
   <text x="44" y="452" fill="#bfc0c0" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.1em">WAVE 1 — 5 PARALLEL AUDITS</text>
@@ -147,7 +147,7 @@
   <rect x="24" y="560" width="832" height="180" rx="6" fill="#ffffff" stroke="#eb6c36" stroke-width="1.5"/>
   <rect x="24" y="560" width="6" height="180" rx="3" fill="#eb6c36"/>
 
-  <text x="44" y="588" fill="#eb6c36" font-size="14" font-weight="600">/seo-pilot reaudit</text>
+  <text x="44" y="588" fill="#eb6c36" font-size="14" font-weight="600">/freelance reaudit</text>
   <text x="220" y="588" fill="#7a8399" font-size="10" font-family="'Geist Mono',monospace">Clean old files + re-run fresh audit with new timestamp</text>
 
   <text x="44" y="612" fill="#bfc0c0" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.1em">PHASE 0</text>
@@ -185,7 +185,7 @@
   <rect x="24" y="760" width="832" height="80" rx="6" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
   <rect x="24" y="760" width="6" height="80" rx="3" fill="#2d3142"/>
 
-  <text x="44" y="788" fill="#2d3142" font-size="14" font-weight="600">/seo-pilot status</text>
+  <text x="44" y="788" fill="#2d3142" font-size="14" font-weight="600">/freelance status</text>
   <text x="216" y="788" fill="#7a8399" font-size="10" font-family="'Geist Mono',monospace">Show pipeline progress — what's done, what's next</text>
 
   <rect x="44" y="800" width="160" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="0.8"/>

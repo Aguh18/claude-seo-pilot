@@ -16,12 +16,11 @@ node_modules/
 tmp/
 temp/
 
-# Python
-__pycache__/
-*.pyc
-*.pyo
-
-# User-specific (don't commit your own project config)
+# User-specific (don't commit your own client config)
+.freelance-project.md
+.freelance-state.json
+.freelance.log
+# Legacy names, kept so pre-rename client folders stay ignored
 .seo-project.md
 .seo-state.json
 

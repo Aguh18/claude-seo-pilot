@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# ✈️ SEO Pilot - Main Orchestrator
-# The brain that coordinates all SEO workflow phases
+# 🧰 Freelance - Main Orchestrator
+# State tracker + phase router for client web-build projects
 
 set -e
 
@@ -17,17 +17,30 @@ BOLD='\033[1m'
 NC='\033[0m'
 
 # Config
-PROJECT_FILE=".seo-project.md"
-STATE_FILE=".seo-state.json"
-LOG_FILE=".seo-pilot.log"
+PROJECT_FILE=".freelance-project.md"
+STATE_FILE=".freelance-state.json"
+LOG_FILE=".freelance.log"
+
+# Projects initialized before the seo-pilot → freelance rename keep working untouched
+LEGACY_PROJECT_FILE=".seo-project.md"
+LEGACY_STATE_FILE=".seo-state.json"
 
 # ─── Helpers ───────────────────────────────────────────
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >> "$LOG_FILE"; }
 
+resolve_state_files() {
+    if [ ! -f "$PROJECT_FILE" ] && [ -f "$LEGACY_PROJECT_FILE" ]; then
+        PROJECT_FILE="$LEGACY_PROJECT_FILE"
+    fi
+    if [ ! -f "$STATE_FILE" ] && [ -f "$LEGACY_STATE_FILE" ]; then
+        STATE_FILE="$LEGACY_STATE_FILE"
+    fi
+}
+
 banner() {
     echo ""
-    echo -e "${CYAN}✈️  SEO Pilot v${VERSION}${NC}"
+    echo -e "${CYAN}🧰  Freelance v${VERSION}${NC}"
     echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
 }
@@ -35,14 +48,14 @@ banner() {
 check_project() {
     if [ ! -f "$PROJECT_FILE" ]; then
         echo -e "${RED}❌ Project not initialized.${NC}"
-        echo "   Run: /seo-pilot init"
+        echo "   Run: /freelance init"
         exit 1
     fi
 }
 
 check_state() {
     if [ ! -f "$STATE_FILE" ]; then
-        echo '{"project":"","last_updated":"","steps":{"research":{"competitor":"pending","keywords":"pending","serp":"pending","market_analysis":"pending"},"content":{"brief":"pending","outline":"pending","write":"pending","review":"pending"},"seo":{"onpage":"pending","technical":"pending","geo":"pending","schema":"pending"},"ads":{"platform_audit":"pending","competitor_ads":"pending","budget_plan":"pending","strategy_report":"pending"},"publish":{"obsidian":"pending","blog":"pending","social_media":"pending"}},"history":[]}' > "$STATE_FILE"
+        echo '{"project":"","last_updated":"","steps":{"discovery":{"research":"pending","interview":"pending","confirm":"pending"},"bundle":{"brief":"pending","brand":"pending","tokens":"pending","sitemap":"pending","content":"pending","tech_spec":"pending","seo":"pending","handoff":"pending"},"research":{"competitor":"pending","keywords":"pending","serp":"pending","market_analysis":"pending"},"content":{"brief":"pending","outline":"pending","write":"pending","review":"pending"},"seo":{"onpage":"pending","technical":"pending","geo":"pending","schema":"pending"},"ads":{"platform_audit":"pending","competitor_ads":"pending","budget_plan":"pending","strategy_report":"pending"},"publish":{"obsidian":"pending","blog":"pending","social_media":"pending"}},"history":[]}' > "$STATE_FILE"
     fi
 }
 
@@ -79,7 +92,7 @@ with open('$STATE_FILE', 'w') as f:
 
 cmd_init() {
     banner
-    echo -e "${BOLD}🚀 Initializing SEO Pilot project...${NC}"
+    echo -e "${BOLD}🚀 Initializing Freelance project...${NC}"
     echo ""
 
     if [ -f "$PROJECT_FILE" ]; then
@@ -91,12 +104,17 @@ cmd_init() {
         fi
     fi
 
-    # Get project name
-    read -p "   Project name: " project_name
-    read -p "   Website URL: " website_url
-    read -p "   Business type (ecommerce/saas/local-biz/publisher/agency/blog/other): " biz_type
+    # Get client identity
+    read -p "   Client / project name: " project_name
+    read -p "   Website URL (blank if the site does not exist yet): " website_url
+    read -p "   Business type (company-profile/umkm-kuliner/umkm-fashion/ecommerce/blog/other): " biz_type
 
-    # Generate .seo-project.md
+    # Branch B (no site yet) is the common case here — the whole point is selling the build
+    if [ -z "$website_url" ]; then
+        echo "   ⓘ  No URL — /freelance init will research the market and draft a proposal"
+    fi
+
+    # Generate .freelance-project.md
     cat > "$PROJECT_FILE" << EOF
 ---
 project_name: "$project_name"
@@ -104,42 +122,42 @@ website: "$website_url"
 business_type: "$biz_type"
 
 brand_voice:
-  tone: "casual"
-  style: "english"
+  tone: ""
+  style: ""
   personality: ""
 
 target_audience:
-  age_range: "25-45"
+  age_range: ""
   location: ""
 
 products: []
 
-primary_keywords:
-  - "keyword 1"
-  - "keyword 2"
+primary_keywords: []
 
 competitors: []
 ---
 
 # $project_name
 
-SEO project for $website_url
+Client web-build project${website_url:+ — $website_url}
 
 ## Setup Checklist
 
-- [ ] Fill in products
+- [ ] Fill in products / services
 - [ ] Add primary keywords
 - [ ] Add competitors
 - [ ] Configure brand voice
 - [ ] Set target audience
 EOF
 
-    # Generate .seo-state.json
+    # Generate .freelance-state.json
     cat > "$STATE_FILE" << EOF
 {
   "project": "$project_name",
   "last_updated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "steps": {
+    "discovery": { "research": "pending", "interview": "pending", "confirm": "pending" },
+    "bundle": { "brief": "pending", "brand": "pending", "tokens": "pending", "sitemap": "pending", "content": "pending", "tech_spec": "pending", "seo": "pending", "handoff": "pending" },
     "research": { "competitor": "pending", "keywords": "pending", "serp": "pending", "market_analysis": "pending" },
     "content": { "brief": "pending", "outline": "pending", "write": "pending", "review": "pending" },
     "seo": { "onpage": "pending", "technical": "pending", "geo": "pending", "schema": "pending" },
@@ -156,55 +174,27 @@ EOF
     echo "   📄 $PROJECT_FILE"
     echo "   📊 $STATE_FILE"
     echo ""
-    echo "   Next: Edit $PROJECT_FILE with your business details"
-    echo "   Then: /seo-pilot research"
+    echo "   Next: /freelance init runs discovery, then drafts the 8-document bundle"
     echo ""
 }
 
 cmd_status() {
     banner
+    resolve_state_files
     check_project
     check_state
 
     echo -e "${BOLD}📊 Pipeline Status${NC}"
     echo ""
 
-    python3 -c "
-import json
-
-with open('$STATE_FILE') as f:
-    data = json.load(f)
-
-icons = {'done': '✅', 'running': '🔄', 'pending': '⬜', 'failed': '❌'}
-total = 0
-completed = 0
-
-for phase, steps in data['steps'].items():
-    phase_done = sum(1 for s in steps.values() if s == 'done')
-    phase_total = len(steps)
-    total += phase_total
-    completed += phase_done
-
-    pct = int((phase_done / phase_total) * 100) if phase_total > 0 else 0
-    bar = '█' * (pct // 10) + '░' * (10 - pct // 10)
-
-    print(f'  {phase.upper()}')
-    print(f'    [{bar}] {pct}% ({phase_done}/{phase_total})')
-    for step, status in steps.items():
-        icon = icons.get(status, '?')
-        print(f'    {icon} {step}')
-    print()
-
-overall = int((completed / total) * 100) if total > 0 else 0
-print(f'  Overall: {completed}/{total} steps ({overall}%)')
-print(f'  Last updated: {data.get(\"last_updated\", \"never\")}')
-"
+    python3 "$(dirname "$0")/status.py" "$STATE_FILE"
 
     echo ""
 }
 
 cmd_next() {
     banner
+    resolve_state_files
     check_project
     check_state
 
@@ -236,6 +226,19 @@ print('all_done')
     echo ""
 
     case "$PHASE" in
+        discovery)
+            echo "  🔎 Discovery phase commands:"
+            echo "     /freelance init <name-or-url>"
+            echo "     defuddle parse <competitor-url> --md -o research/kompetitor.md"
+            echo "     /blog discourse <topic>"
+            ;;
+        bundle)
+            echo "  📦 Bundle phase — the 8 client handoff documents:"
+            echo "     00-handoff.md        01-brief.md"
+            echo "     02-brand.md          03-design-tokens.md"
+            echo "     04-sitemap.md        05-content/*.md"
+            echo "     06-tech-spec.md      07-seo-foundation.md"
+            ;;
         research)
             echo "  📋 Research phase commands:"
             echo "     defuddle parse <competitor-url> --md -o research/kompetitor.md"
@@ -254,24 +257,25 @@ print('all_done')
             echo "     /blog geo <file>"
             echo "     /blog schema <file>"
             ;;
+        ads)
+            echo "  📢 Ads phase commands:"
+            echo "     /freelance ads <url>"
+            ;;
         publish)
             echo "  📤 Publish phase commands:"
             echo "     cp blog/<file>.md obsidian-vault/"
-            echo "     /seo-pilot diagram"
-            ;;
-        ads)
-            echo "  📢 Ads phase commands:"
-            echo "     /seo-pilot ads <url>"
+            echo "     /freelance diagram"
             ;;
     esac
 
     echo ""
-    echo -e "  Run: ${YELLOW}/seo-pilot run $PHASE $STEP${NC}"
+    echo -e "  Run: ${YELLOW}/freelance run $PHASE $STEP${NC}"
     echo ""
 }
 
 cmd_run() {
     banner
+    resolve_state_files
     check_project
     check_state
 
@@ -279,8 +283,8 @@ cmd_run() {
     STEP="${2:-}"
 
     if [ -z "$PHASE" ] || [ -z "$STEP" ]; then
-        echo -e "${RED}Usage: /seo-pilot run <phase> <step>${NC}"
-        echo "   Example: /seo-pilot run research competitor"
+        echo -e "${RED}Usage: /freelance run <phase> <step>${NC}"
+        echo "   Example: /freelance run research competitor"
         echo ""
         cmd_next
         return
@@ -309,12 +313,13 @@ else:
 
     echo -e "${GREEN}✅ Step marked as running.${NC}"
     echo "   Complete the work, then mark as done:"
-    echo -e "   ${YELLOW}/seo-pilot done $PHASE $STEP${NC}"
+    echo -e "   ${YELLOW}/freelance done $PHASE $STEP${NC}"
     echo ""
 }
 
 cmd_done() {
     banner
+    resolve_state_files
     check_project
     check_state
 
@@ -322,7 +327,7 @@ cmd_done() {
     STEP="${2:-}"
 
     if [ -z "$PHASE" ] || [ -z "$STEP" ]; then
-        echo -e "${RED}Usage: /seo-pilot done <phase> <step>${NC}"
+        echo -e "${RED}Usage: /freelance done <phase> <step>${NC}"
         return
     fi
 
@@ -338,14 +343,14 @@ cmd_list() {
     banner
     echo -e "${BOLD}📋 Available Commands${NC}"
     echo ""
-    echo "  /seo-pilot init              Initialize project"
-    echo "  /seo-pilot status            Show pipeline progress"
-    echo "  /seo-pilot next              Show next pending step"
-    echo "  /seo-pilot run <phase> <step> Mark step as running"
-    echo "  /seo-pilot done <phase> <step> Mark step as done"
-    echo "  /seo-pilot list              Show this help"
+    echo "  /freelance init              Initialize project"
+    echo "  /freelance status            Show pipeline progress"
+    echo "  /freelance next              Show next pending step"
+    echo "  /freelance run <phase> <step> Mark step as running"
+    echo "  /freelance done <phase> <step> Mark step as done"
+    echo "  /freelance list              Show this help"
     echo ""
-    echo "  Phases: research, content, seo, publish"
+    echo "  Phases: discovery, bundle, research, content, seo, ads, publish"
     echo ""
 }
 
