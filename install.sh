@@ -50,7 +50,7 @@ echo ""
 echo -e "${BOLD}📦 Installing skills...${NC}"
 echo ""
 
-for skill in freelance blog seo ads obsidian-tools diagram-design defuddle knap; do
+for skill in freelance blog seo ads obsidian-tools diagram-design defuddle knap high-end-visual-design design-taste-frontend frontend-design; do
     if [ -d "$SRC_DIR/skills/$skill" ]; then
         echo -e "  ${GREEN}✅${NC} $skill"
         cp -r "$SRC_DIR/skills/$skill" "$SKILLS_DIR/"

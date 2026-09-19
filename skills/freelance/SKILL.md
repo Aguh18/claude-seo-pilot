@@ -70,7 +70,7 @@ everything else is input to it.
 | 00 | `00-handoff.md` | Master prompt: read these in order, build the site | **new** |
 | 01 | `01-brief.md` | Business, goals, audience, offer, differentiators | `seo-plan` Step 1 |
 | 02 | `02-brand.md` | Voice, tone, personality | `blog-brand`, `blog-persona` |
-| 03 | `03-design-tokens.md` | Colour, typography, spacing, radii | `diagram-design` onboarding |
+| 03 | `03-design-tokens.md` | **Visual direction** + colour, typography, spacing, radii | `high-end-visual-design`, `design-taste-frontend`, `diagram-design` |
 | 04 | `04-sitemap.md` | Pages, hierarchy, navigation, CTA per page | `seo-plan` Step 3, `seo-sitemap` |
 | 05 | `05-content/*.md` | Copy for each page | `seo-content-brief` page types |
 | 06 | `06-tech-spec.md` | Stack, hosting, CMS, components, integrations | **new** |
@@ -115,6 +115,11 @@ silently drop sections to shorten it.
    never at the project root. `blog-brand` defaults to project root; override it.
 3. **`seo-content-brief` covers 9 page types but not Contact.** Write Contact
    pages from the Homepage CTA pattern: form, NAP block, map, operating hours.
+4. **The bundle must decide how the site looks, not only what it says.** A
+   bundle with good copy and a colour palette but no visual direction produces
+   a page that ranks and looks templated — centred hero, three feature cards,
+   stock footer. `03-design-tokens.md` therefore carries visual direction, and
+   `08-build-prompt.md` carries the anti-slop rules. See below.
 
 ### Linking — the bundle is a vault, not loose files
 
@@ -133,7 +138,7 @@ hub. Follow that shape.
 | `00-handoff.md` | all of 01–08 — it is the entry point | reading order |
 | `01-brief.md` | `[[02-brand]]` `[[04-sitemap]]` `[[07-seo-foundation]]` | business goals, audience, offer |
 | `02-brand.md` | `[[01-brief]]` `[[03-design-tokens]]` `[[05-content]]` | voice and tone |
-| `03-design-tokens.md` | `[[02-brand]]` `[[06-tech-spec]]` | colour, type, spacing — final |
+| `03-design-tokens.md` | `[[02-brand]]` `[[06-tech-spec]]` | **visual direction** + colour, type, spacing — final |
 | `04-sitemap.md` | `[[01-brief]]` `[[05-content]]` `[[07-seo-foundation]]` | **the page list — final** |
 | `05-content/*.md` | `[[02-brand]]` `[[04-sitemap]]` | the copy itself |
 | `06-tech-spec.md` | `[[03-design-tokens]]` `[[04-sitemap]]` | stack and components — final |
@@ -149,6 +154,44 @@ rather than guessing. State the authority line explicitly in each document.
 `08-build-prompt.md` is the exception: it must survive being pasted somewhere
 with no folder around it, so it carries **no wikilinks and no relative paths**.
 It already inlines the content those links would have pointed at.
+
+### Visual direction — the part SEO does not cover
+
+A bundle can be fully SEO-complete and still produce an ugly, templated site.
+That is what happens when the only visual input is a colour palette: the builder
+fills the gap with defaults. `03` and `08` both carry visual decisions.
+
+**`03-design-tokens.md` carries, in this order:**
+
+1. **Visual direction** — one paragraph naming the intended feel and the single
+   idea the design is built around. Decide it from `01-brief`'s audience, not
+   from taste. A warung and a law firm do not want the same thing.
+2. **Layout archetype per page** — for each page in `04-sitemap`, which
+   structural pattern it uses, chosen to differ across the site. A homepage and
+   a services page must not share one skeleton.
+3. **Section compositions** — the sections each page is built from, in order,
+   with what each one carries. This is the difference between "a services page"
+   and an actual services page.
+4. **Then the tokens** — colour roles, type ramp, spacing grid, radii.
+
+**Anti-slop rules.** Load `high-end-visual-design`, `design-taste-frontend`, and
+`frontend-design` (all vendored under `skills/`, see `skills/VENDORED.md`) and
+distil their constraints into `03`. These are the rules that stop the defaults:
+
+- **Banned fonts:** Inter, Roboto, Arial, Open Sans, Helvetica.
+- **Banned layouts:** centred hero over three equal feature cards; symmetrical
+  three-column grids with no whitespace; edge-to-edge sticky navbars.
+- **Banned borders and shadows:** generic 1px solid grey borders; harsh dark
+  drop shadows (`shadow-md`, `rgba(0,0,0,0.3)`).
+- **Banned motion:** `linear` or `ease-in-out` transitions; instant state
+  changes.
+- **Whitespace is not optional:** sections need generous vertical padding.
+- Never the same layout twice in one site.
+
+**Where each part lands:** the direction, layout, and composition go into `03`.
+The banned lists and the builder's pre-output checklist go into `08`, because
+they must survive the paste. `08` is the only place a builder that cannot see
+the folder will ever read them.
 
 ---
 
@@ -179,7 +222,7 @@ if [ -n "$URL" ]; then
 else
     SLUG=$(echo "$NAME" | tr '[:upper:]' '[:lower:]' | sed 's|[^a-z0-9]|-|g' | sed 's|--*|-|g' | sed 's|^-||;s|-$||')
 fi
-mkdir -p klien/$SLUG/{research/{competitors,keywords,discourse},content,reports,diagrams,ads/diagrams,notes,products,strategy}
+mkdir -p klien/$SLUG/{blog,seo,ads,notes,products,strategy}
 ```
 
 Examples: `klien/keripikmangdedi.id/`, `klien/warung-kopi-kenangan/`
@@ -224,7 +267,7 @@ Examples: `klien/keripikmangdedi.id/`, `klien/warung-kopi-kenangan/`
 | Client overview report | `general-purpose` | `diagram-design`, `dataviz` |
 | Brand docs | `general-purpose` | `blog-brand`, `blog-persona`, `blog-style` |
 | Bundle: brief + brand | `general-purpose` | `seo-plan`, `blog-brand`, `blog-persona` |
-| Bundle: tokens + sitemap | `general-purpose` | `diagram-design`, `seo-plan`, `seo-sitemap` |
+| Bundle: tokens + sitemap | `general-purpose` | `high-end-visual-design`, `design-taste-frontend`, `frontend-design`, `diagram-design`, `seo-plan`, `seo-sitemap` |
 | Bundle: page copy | `general-purpose` | `seo-content-brief` |
 | Bundle: tech spec + SEO | `general-purpose` | `seo-technical`, `seo-schema`, `seo-cluster`, `seo-page` |
 | Bundle: handoff (00 only, not 08) | `general-purpose` | `diagram-design` |
@@ -246,7 +289,7 @@ Examples: `klien/keripikmangdedi.id/`, `klien/warung-kopi-kenangan/`
 
 Set up client project. Scrapes site, researches keywords + competitors, creates SEO strategy.
 
-**First:** `mkdir -p klien/<slug>/{research/{competitors,keywords,discourse},content,reports,diagrams,ads/diagrams,notes,products,strategy}`
+**First:** `mkdir -p klien/<slug>/{blog,seo,ads,notes,products,strategy}`
 
 ### Branch A — existing website
 
@@ -361,13 +404,26 @@ Agent 6: Brief + brand
   - Branch B: derive from the confirmed discovery-draft.md
 
 Agent 7: Design tokens + sitemap
-  - FIRST: Load skills: "diagram-design", "seo-plan", "seo-sitemap"
-  - 03-design-tokens.md — semantic roles (paper, paper-2, ink, muted, rule,
-    accent, link) in light + dark, the type ramp, the 4px spacing grid,
-    radii, breakpoints, elevation. Carry over the brand fidelity receipt
-    from onboarding.md Step 4 so the client can see what was sampled.
-    Constraints: WCAG AA ink-on-paper, exactly one accent, paper is never
-    pure white.
+  - FIRST: Load skills: "high-end-visual-design", "design-taste-frontend",
+    "frontend-design", "diagram-design", "seo-plan", "seo-sitemap"
+  - 03-design-tokens.md — write it in this order:
+      1. Visual direction — one paragraph: the intended feel, and the single
+         idea the design is built around. Derive it from 01-brief's audience,
+         never from your own taste.
+      2. Layout archetype per page — for each page in 04-sitemap, which
+         structural pattern it uses. Vary them; the homepage and the services
+         page must not share one skeleton.
+      3. Section compositions — the sections each page is built from, in
+         order, and what each carries.
+      4. The tokens — semantic roles (paper, paper-2, ink, muted, rule,
+         accent, link) in light + dark, the type ramp, the 4px spacing grid,
+         radii, breakpoints, elevation. Carry over the brand fidelity receipt
+         from onboarding.md Step 4 so the client can see what was sampled.
+    - Distil the anti-slop constraints from the three design skills into the
+      tokens section: banned fonts, banned layouts, banned borders/shadows,
+      banned motion, and the whitespace floor.
+    - Constraints: WCAG AA ink-on-paper, exactly one accent, paper is never
+      pure white.
   - 04-sitemap.md — page list, URL hierarchy, navigation, and for each page
     its purpose, primary CTA, and target keyword. Start from the matching
     tree in seo-plan/assets/<industry>.md.
@@ -473,6 +529,13 @@ Agent 16: Assemble 08-build-prompt.md
   - OUT OF SCOPE: the ads plan, research reports, and diagrams. Do not include
     them — they are post-launch marketing collateral, and folding them in
     would bury the build spec
+  - MUST ALSO CARRY the anti-slop rules inline, as a section near the front,
+    before the inlined documents. This is the one thing 08 adds rather than
+    copies: a builder receiving only this paste has no access to the vendored
+    design skills, and without these rules it will produce a centred hero over
+    three feature cards. Include the banned lists (fonts, layouts, borders and
+    shadows, motion), the whitespace floor, and the pre-output checklist the
+    builder should tick before delivering
   - Structure:
       1. Opening instruction: what this is, what to build, and the reminder
          that the sitemap defines the page list and the tech spec defines
@@ -736,7 +799,7 @@ rm -f klien/$SLUG/reports/geo-audit.md
 rm -f klien/$SLUG/reports/content-quality-audit.md
 
 # The handoff bundle is NOT touched — reaudit refreshes audit output only
-mkdir -p klien/$SLUG/{reports,diagrams,ads/diagrams}
+mkdir -p klien/$SLUG/{reports,diagrams}
 ```
 
 **Do NOT delete:**
