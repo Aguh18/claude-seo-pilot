@@ -111,14 +111,14 @@ silently drop sections to shorten it.
    `enthusiastic_matter_of_fact`). `ads/references/voice-to-style.md` uses six
    different axes — when the ads pipeline runs, map to those explicitly rather
    than storing a second voice definition.
-2. **Brand always lives at `klien/<domain>/02-brand.md`**, never `BRAND.md` and
+2. **Brand always lives at `klien/<slug>/02-brand.md`**, never `BRAND.md` and
    never at the project root. `blog-brand` defaults to project root; override it.
 3. **`seo-content-brief` covers 9 page types but not Contact.** Write Contact
    pages from the Homepage CTA pattern: form, NAP block, map, operating hours.
 
 ### Linking — the bundle is a vault, not loose files
 
-Everything under `klien/<domain>/` is one Obsidian vault, so documents link to
+Everything under `klien/<slug>/` is one Obsidian vault, so documents link to
 each other with **`[[wiki-links]]`** — not relative paths. Wikilinks resolve by
 filename anywhere in the vault, which is why the whole set must share one root.
 
@@ -155,20 +155,34 @@ It already inlines the content those links would have pointed at.
 
 ## Output Directory
 
-**ALL generated files go to `klien/<domain>/` folder in the project root.** Each website gets its own folder. Never scatter files.
+**ALL generated files go to `klien/<slug>/` folder in the project root.** Each client gets its own folder. Never scatter files.
+
+**`<slug>` comes from whichever identifier the client actually has:**
+
+| Situation | Slug | Example |
+|---|---|---|
+| Client already has a site | the domain, lowercase, no `www.` | `keripikmangdedi.id` |
+| No site yet | the business name, lowercased, non-alphanumerics → `-` | `warung-kopi-kenangan` |
+
+Branch B has no domain by definition, so never invent a fake one — a folder named
+after a domain that does not exist confuses everyone who reads it later.
 
 **The client folder IS the Obsidian vault.** Do not nest a separate `obsidian-vault/`
 inside it — wiki-links resolve by filename within a vault, so the bundle documents
 (top level) and the research notes (in subfolders) can only link to each other if
-they share one vault root. That shared root is `klien/<domain>/`.
+they share one vault root. That shared root is `klien/<slug>/`.
 
-On first run, extract domain from URL and create:
+Derive the slug, then create the tree:
 ```
-DOMAIN=$(echo "$URL" | sed 's|https\?://||' | sed 's|/.*||')
-mkdir -p klien/$DOMAIN/{research/{competitors,keywords,discourse},content,reports,diagrams,ads/diagrams,notes,products,strategy}
+if [ -n "$URL" ]; then
+    SLUG=$(echo "$URL" | sed -E 's|^https?://||; s|^www\.||; s|/.*||' | tr '[:upper:]' '[:lower:]')
+else
+    SLUG=$(echo "$NAME" | tr '[:upper:]' '[:lower:]' | sed 's|[^a-z0-9]|-|g' | sed 's|--*|-|g' | sed 's|^-||;s|-$||')
+fi
+mkdir -p klien/$SLUG/{research/{competitors,keywords,discourse},content,reports,diagrams,ads/diagrams,notes,products,strategy}
 ```
 
-Example: `klien/keripikmangdedi.id/`, `klien/example.com/`
+Examples: `klien/keripikmangdedi.id/`, `klien/warung-kopi-kenangan/`
 
 ---
 
@@ -232,7 +246,7 @@ Example: `klien/keripikmangdedi.id/`, `klien/example.com/`
 
 Set up client project. Scrapes site, researches keywords + competitors, creates SEO strategy.
 
-**First:** `mkdir -p klien/<domain>/{research/{competitors,keywords,discourse},content,reports,diagrams,ads/diagrams,notes,products,strategy}`
+**First:** `mkdir -p klien/<slug>/{research/{competitors,keywords,discourse},content,reports,diagrams,ads/diagrams,notes,products,strategy}`
 
 ### Branch A — existing website
 
@@ -247,34 +261,34 @@ Agent 1: Scrape target website
   - URL provided by user
   - Extract: products, pricing, site structure, existing SEO elements
     (title tags, meta descriptions, headings, schema, internal links)
-  - Save to klien/<domain>/research/website-analysis.md
+  - Save to klien/<slug>/research/website-analysis.md
 
 Agent 2: Competitor SEO analysis
   - FIRST: Load skills: "defuddle", "seo-content", "seo-technical"
   - Identify top 3-5 competitors ranking for target keywords
   - Analyze their: title tags, content structure, keyword targeting,
     backlink signals, content gaps
-  - Save per-competitor to klien/<domain>/research/competitors/*.md
+  - Save per-competitor to klien/<slug>/research/competitors/*.md
 
 Agent 3: Keyword research
   - FIRST: Load skills: "serper-api", "seo-cluster", "blog-brief"
   - Primary + secondary + long-tail keywords
   - SERP analysis, search volume estimates, difficulty, intent
   - Keyword gap analysis (what competitors rank for that we don't)
-  - Save to klien/<domain>/research/keywords/keyword-strategy.md
+  - Save to klien/<slug>/research/keywords/keyword-strategy.md
 
 Agent 4: Discourse / question research
   - FIRST: Load skill: "blog-discourse"
   - What people ask about this topic (Reddit, Google, forums)
   - Question-based keywords for FAQ content
-  - Save to klien/<domain>/research/discourse/questions.md
+  - Save to klien/<slug>/research/discourse/questions.md
 
 Agent 5: Extract brand + design tokens from the live site
   - FIRST: Load skills: "diagram-design", "blog-brand"
   - Follow diagram-design/references/onboarding.md § URL: fetch 2-3 pages,
     map detected colours to semantic roles, trace every font to its source
   - Produce the brand fidelity receipt (Step 4) — it becomes 03-design-tokens.md
-  - Save to klien/<domain>/research/brand-extraction.md
+  - Save to klien/<slug>/research/brand-extraction.md
 ```
 
 ### Branch B — no website yet
@@ -289,23 +303,23 @@ Agent 1: Market + competitor discovery
   - FIRST: Load skills: "defuddle", "seo-content"
   - From the business name/industry given, find 3-5 real competitors and what
     their sites do well and badly
-  - Save to klien/<domain>/research/competitors/*.md + competitive-overview.md
+  - Save to klien/<slug>/research/competitors/*.md + competitive-overview.md
 
 Agent 2: Search demand + keywords
   - FIRST: Load skills: "serper-api", "seo-cluster", "blog-brief"
   - What this audience actually searches, grouped by intent
-  - Save to klien/<domain>/research/keywords/keyword-strategy.md
+  - Save to klien/<slug>/research/keywords/keyword-strategy.md
 
 Agent 3: Discourse / real questions
   - FIRST: Load skill: "blog-discourse"
   - Questions people ask about this category, in their own words
-  - Save to klien/<domain>/research/discourse/questions.md
+  - Save to klien/<slug>/research/discourse/questions.md
 
 Agent 4: Visual + structural references
   - FIRST: Load skills: "defuddle", "diagram-design"
   - How good sites in this industry are laid out and styled; note the page
     patterns buyers expect
-  - Save to klien/<domain>/research/industry-references.md
+  - Save to klien/<slug>/research/industry-references.md
 ```
 
 **Wave 2 — draft, then confirm (single agent, then STOP):**
@@ -321,7 +335,7 @@ Agent 5: Draft the discovery proposal
     - Page map — which pages the site needs, and why each earns its place
     - Brand direction — tone, personality, visual character
     - Candidate design tokens — proposed palette and type pairing
-  - Save to klien/<domain>/research/discovery-draft.md
+  - Save to klien/<slug>/research/discovery-draft.md
 
   THEN PRESENT IT AND STOP. Ask the user to correct it:
     "Dari riset, saya usul X — betul, atau perlu dikoreksi?"
@@ -341,7 +355,7 @@ Agent 6: Brief + brand
     what success looks like
   - 02-brand.md — voice on blog-persona's four axes, do/don't lists,
     voice samples, taboo phrases
-  - Brand ALWAYS at klien/<domain>/02-brand.md — never BRAND.md, never
+  - Brand ALWAYS at klien/<slug>/02-brand.md — never BRAND.md, never
     the project root (blog-brand's default is wrong for this skill)
   - Branch A: derive from website-analysis.md
   - Branch B: derive from the confirmed discovery-draft.md
@@ -396,22 +410,22 @@ Agent 11: Generate client overview report (HTML + MD)
   - FIRST: Load skills: "diagram-design", "dataviz", "blog-analyze"
   - Input: all Wave 1 research
   - Output:
-    - klien/<domain>/overview.html (interactive HTML report, dark theme, charts)
-    - klien/<domain>/overview.md (markdown version for quick reference)
+    - klien/<slug>/overview.html (interactive HTML report, dark theme, charts)
+    - klien/<slug>/overview.md (markdown version for quick reference)
   - See "Report Requirements" below
 
 Agent 12: Generate SEO planning diagrams
   - FIRST: Load skills: "diagram-design", "dataviz"
   - Input: keyword + competitor data
   - Output:
-    - klien/<domain>/diagrams/keyword-gap.html (bar chart: our keywords vs competitors)
-    - klien/<domain>/diagrams/content-cluster.html (hub-and-spoke content map)
-    - klien/<domain>/diagrams/build-priority.html (action items by impact/effort)
+    - klien/<slug>/diagrams/keyword-gap.html (bar chart: our keywords vs competitors)
+    - klien/<slug>/diagrams/content-cluster.html (hub-and-spoke content map)
+    - klien/<slug>/diagrams/build-priority.html (action items by impact/effort)
 
 Agent 13: Content plan (research output, NOT part of the bundle)
   - FIRST: Load skills: "blog-strategy", "blog-cluster", "seo-cluster"
   - Input: keyword strategy, discourse questions, competitor gaps
-  - Output: klien/<domain>/research/content-plan.md
+  - Output: klien/<slug>/research/content-plan.md
   - Contents: the article list with publish order, target keyword and intent
     per article, content type, and which page each links back to. Cluster the
     articles hub-and-spoke so the internal linking in 07 has somewhere to land.
@@ -424,11 +438,11 @@ Agent 14: Ads strategy report + diagrams
   - Input: all Wave 1 research (website analysis, competitor data, keywords)
   - Analyze: which ad platforms fit this business, budget allocation, campaign structure, competitor ad strategy
   - Output:
-    - klien/<domain>/ads/ads-strategy.html (interactive HTML report, bright theme with sidebar)
-    - klien/<domain>/ads/ads-strategy.md (markdown version for quick reference)
-    - klien/<domain>/ads/diagrams/platform-fit.html (radar chart: platform suitability scores)
-    - klien/<domain>/ads/diagrams/budget-split.html (pie/donut chart: budget allocation per platform)
-    - klien/<domain>/ads/diagrams/campaign-flow.html (flowchart: campaign structure & funnel)
+    - klien/<slug>/ads/ads-strategy.html (interactive HTML report, bright theme with sidebar)
+    - klien/<slug>/ads/ads-strategy.md (markdown version for quick reference)
+    - klien/<slug>/ads/diagrams/platform-fit.html (radar chart: platform suitability scores)
+    - klien/<slug>/ads/diagrams/budget-split.html (pie/donut chart: budget allocation per platform)
+    - klien/<slug>/ads/diagrams/campaign-flow.html (flowchart: campaign structure & funnel)
   - Sections: recommended platforms, budget split, campaign types, competitor ad gaps, creative brief, measurement plan
   - Design: same bright theme + sidebar as overview.html
 ```
@@ -437,11 +451,11 @@ Agent 14: Ads strategy report + diagrams
 
 ```
 Agent 15: Create config files + vault hub
-  - klien/<domain>/.freelance-project.md (client info, keywords, competitors)
-  - klien/<domain>/.freelance-state.json (pipeline tracker)
-  - klien/<domain>/00-index.md — the vault hub. Links every bundle document
+  - klien/<slug>/.freelance-project.md (client info, keywords, competitors)
+  - klien/<slug>/.freelance-state.json (pipeline tracker)
+  - klien/<slug>/00-index.md — the vault hub. Links every bundle document
     and every note with [[wiki-links]], grouped by section
-  - klien/<domain>/ vault folders (the client folder IS the vault root):
+  - klien/<slug>/ vault folders (the client folder IS the vault root):
     ├── notes/ (research notes)
     ├── products/ (product docs)
     └── strategy/ (strategy docs)
@@ -476,7 +490,7 @@ Agent 16: Assemble 08-build-prompt.md
 ### Scaffold (optional, after the bundle)
 
 Once `06-tech-spec.md` exists, offer to scaffold the starter project at
-`klien/<domain>/site/`. **Read the stack from the tech spec** — do not assume
+`klien/<slug>/site/`. **Read the stack from the tech spec** — do not assume
 Next.js.
 
 | `06-tech-spec.md` says | Generate |
@@ -493,7 +507,7 @@ in the content from `05-content/`.
 
 ### Report Requirements
 
-`klien/<domain>/overview.html` — single self-contained HTML, **bright theme with sidebar navigation**, charts as inline SVG/CSS.
+`klien/<slug>/overview.html` — single self-contained HTML, **bright theme with sidebar navigation**, charts as inline SVG/CSS.
 
 #### Design Requirements (MANDATORY)
 
@@ -547,7 +561,7 @@ in the content from `05-content/`.
 **Files created:**
 
 ```
-klien/<domain>/
+klien/<slug>/
 ├── overview.html              # client overview report (HERO OUTPUT)
 ├── .freelance-project.md                # Site config, keywords, competitors
 ├── .freelance-state.json                # Pipeline tracker
@@ -577,10 +591,10 @@ klien/<domain>/
 
 Full SEO content pipeline. From keyword research to published post.
 
-**Precondition:** `klien/<domain>/` must exist with `.freelance-project.md`. If missing:
+**Precondition:** `klien/<slug>/` must exist with `.freelance-project.md`. If missing:
 > "Jalankan `/freelance init` dulu."
 
-**First:** `mkdir -p klien/<domain>/content`
+**First:** `mkdir -p klien/<slug>/content`
 
 **Wave 1 (parallel):**
 
@@ -589,12 +603,12 @@ Agent 1: Keyword research for this topic
   - FIRST: Load skills: "serper-api", "seo-cluster", "blog-brief"
   - Primary keyword, secondary keywords, long-tail variations
   - SERP analysis: who ranks, what content type, gaps
-  - Save to klien/<domain>/research/keywords/<topic-slug>-keywords.md
+  - Save to klien/<slug>/research/keywords/<topic-slug>-keywords.md
 
 Agent 2: Discourse research
   - FIRST: Load skill: "blog-discourse"
   - What people ask about this topic
-  - Save to klien/<domain>/research/discourse/<topic-slug>-questions.md
+  - Save to klien/<slug>/research/discourse/<topic-slug>-questions.md
 ```
 
 **Wave 2 (sequential):**
@@ -617,8 +631,8 @@ Agent 4: Outline
 Agent 5: Write article
   - FIRST: Load skills: "blog-write", "blog-style", "blog-persona"
   - (blog-writer agent self-loads blog-write)
-  - Input: brief + outline + klien/<domain>/02-brand.md
-  - Output: klien/<domain>/05-content/<page-slug>.md
+  - Input: brief + outline + klien/<slug>/02-brand.md
+  - Output: klien/<slug>/05-content/<page-slug>.md
 ```
 
 **Wave 4 (parallel):**
@@ -638,8 +652,8 @@ Agent 7: Schema markup
 ```
 Agent 8: Final assembly
   - Merge article + schema
-  - Save to klien/<domain>/content/<topic-slug>.md
-  - Update klien/<domain>/.freelance-state.json
+  - Save to klien/<slug>/content/<topic-slug>.md
+  - Update klien/<slug>/.freelance-state.json
 ```
 
 ---
@@ -648,10 +662,10 @@ Agent 8: Final assembly
 
 Full SEO audit. All 5 audits run in parallel.
 
-**Precondition:** `klien/<domain>/` must exist. If missing:
+**Precondition:** `klien/<slug>/` must exist. If missing:
 > "Jalankan `/freelance init` dulu."
 
-**First:** `mkdir -p klien/<domain>/reports`
+**First:** `mkdir -p klien/<slug>/reports`
 
 **Wave 1 (5 parallel):**
 
@@ -684,8 +698,8 @@ Agent 6: Combined audit report (HTML + MD)
   - FIRST: Load skills: "diagram-design", "dataviz"
   - Input: all 5 audit results
   - Output:
-    - klien/<domain>/reports/audit.html (interactive HTML report, BRIGHT theme with sidebar)
-    - klien/<domain>/reports/audit.md (markdown version for quick reference)
+    - klien/<slug>/reports/audit.html (interactive HTML report, BRIGHT theme with sidebar)
+    - klien/<slug>/reports/audit.md (markdown version for quick reference)
   - Prioritized: Critical → High → Medium → Low
   - HTML MUST include:
     - Fixed sidebar navigation with section links
@@ -704,25 +718,25 @@ Agent 6: Combined audit report (HTML + MD)
 
 **Full re-audit: clean slate.** Deletes old audit artifacts, then re-runs the complete audit from scratch with fresh timestamped files.
 
-**Precondition:** `klien/<domain>/` must exist. If missing:
+**Precondition:** `klien/<slug>/` must exist. If missing:
 > "Jalankan `/freelance init` dulu."
 
 ### Phase 0: CLEAN — Remove stale files
 
 ```bash
-DOMAIN=$(echo "$URL" | sed 's|https\?://||' | sed 's|/.*||')
+SLUG=$(echo "$URL" | sed -E 's|^https?://||; s|^www\.||; s|/.*||' | tr '[:upper:]' '[:lower:]')
 
 # Delete all old audit reports (HTML, MD)
-rm -f klien/$DOMAIN/reports/audit-*.html
-rm -f klien/$DOMAIN/reports/audit-*.md
-rm -f klien/$DOMAIN/reports/technical-audit.md
-rm -f klien/$DOMAIN/reports/onpage-audit.md
-rm -f klien/$DOMAIN/reports/schema-audit.md
-rm -f klien/$DOMAIN/reports/geo-audit.md
-rm -f klien/$DOMAIN/reports/content-quality-audit.md
+rm -f klien/$SLUG/reports/audit-*.html
+rm -f klien/$SLUG/reports/audit-*.md
+rm -f klien/$SLUG/reports/technical-audit.md
+rm -f klien/$SLUG/reports/onpage-audit.md
+rm -f klien/$SLUG/reports/schema-audit.md
+rm -f klien/$SLUG/reports/geo-audit.md
+rm -f klien/$SLUG/reports/content-quality-audit.md
 
 # The handoff bundle is NOT touched — reaudit refreshes audit output only
-mkdir -p klien/$DOMAIN/{reports,diagrams,ads/diagrams}
+mkdir -p klien/$SLUG/{reports,diagrams,ads/diagrams}
 ```
 
 **Do NOT delete:**
@@ -739,7 +753,7 @@ mkdir -p klien/$DOMAIN/{reports,diagrams,ads/diagrams}
 
 **Log what was deleted:**
 ```
-🗑️  Cleaned 7 old files from klien/$DOMAIN/reports/
+🗑️  Cleaned 7 old files from klien/$SLUG/reports/
 🔄  Diagrams & ads strategy will be overwritten with fresh data
 ```
 
@@ -747,7 +761,7 @@ mkdir -p klien/$DOMAIN/{reports,diagrams,ads/diagrams}
 
 Generate timestamp: `TIMESTAMP=$(date +"%Y-%m-%d-%H%M")` (e.g., `2026-08-31-1430`)
 
-All output files use format: `audit-<domain>-<TIMESTAMP>.html` / `.md`
+All output files use format: `audit-<slug>-<TIMESTAMP>.html` / `.md`
 
 ```
 Agent 1: Technical SEO
@@ -778,8 +792,8 @@ Agent 6: Combined audit report (HTML + MD)
   - FIRST: Load skills: "diagram-design", "dataviz"
   - Input: all 5 audit results from Phase 1
   - Output:
-    - klien/<domain>/reports/audit.html (BRIGHT theme with sidebar navigation)
-    - klien/<domain>/reports/audit.md
+    - klien/<slug>/reports/audit.html (BRIGHT theme with sidebar navigation)
+    - klien/<slug>/reports/audit.md
   - Include: health scores, pass/fail checklist, priority actions, per-category breakdowns
   - See "Report Requirements" above for full design spec (sidebar, bright theme, collapsible sections)
 ```
@@ -787,10 +801,10 @@ Agent 6: Combined audit report (HTML + MD)
 ### Output files (fresh, timestamped)
 
 ```
-klien/$DOMAIN/
+klien/$SLUG/
 ├── reports/
-│   ├── audit-<domain>-<TIMESTAMP>.html    ← NEW (replaces old)
-│   ├── audit-<domain>-<TIMESTAMP>.md      ← NEW (replaces old)
+│   ├── audit-<slug>-<TIMESTAMP>.html    ← NEW (replaces old)
+│   ├── audit-<slug>-<TIMESTAMP>.md      ← NEW (replaces old)
 │   ├── technical-audit.md                 ← NEW
 │   ├── onpage-audit.md                    ← NEW
 │   ├── schema-audit.md                    ← NEW
@@ -819,14 +833,14 @@ klien/$DOMAIN/
 ### Summary output
 
 ```
-🔄 Re-audit complete for <domain>
+🔄 Re-audit complete for <slug>
 
 🗑️  Cleaned: 7 old reports, 3 old diagrams
 🆕 Generated: 2026-08-31 14:30 WIB
 
 Files:
-  📊 reports/audit-<domain>-2026-08-31-1430.html  (open in browser)
-  📄 reports/audit-<domain>-2026-08-31-1430.md
+  📊 reports/audit-<slug>-2026-08-31-1430.html  (open in browser)
+  📄 reports/audit-<slug>-2026-08-31-1430.md
   🔧 reports/technical-audit.md
   📝 reports/onpage-audit.md
   🏷️  reports/schema-audit.md
@@ -843,10 +857,10 @@ Critical: X | High: X | Medium: X | Low: X
 
 Full ads strategy audit. Analyzes ad platform fit, budget allocation, campaign structure, and competitor ad gaps.
 
-**Precondition:** `klien/<domain>/` must exist. If missing:
+**Precondition:** `klien/<slug>/` must exist. If missing:
 > "Jalankan `/freelance init` dulu."
 
-**First:** `mkdir -p klien/<domain>/ads`
+**First:** `mkdir -p klien/<slug>/ads`
 
 **Wave 1 (parallel):**
 
@@ -855,19 +869,19 @@ Agent 1: Ads platform audit
   - FIRST: Load skills: "ads", "ads-audit", "ads-google", "ads-meta"
   - Analyze: which ad platforms fit this business (Google Ads, Meta, TikTok, LinkedIn, etc.)
   - Check: existing ad accounts, tracking setup, conversion pixels
-  - Save to klien/<domain>/ads/platform-audit.md
+  - Save to klien/<slug>/ads/platform-audit.md
 
 Agent 2: Competitor ads analysis
   - FIRST: Load skills: "ads", "ads-competitor", "ads-research"
   - Analyze: competitor ad presence across platforms
   - Find: competitor ad copy, creative angles, bidding strategies
-  - Save to klien/<domain>/ads/competitor-ads.md
+  - Save to klien/<slug>/ads/competitor-ads.md
 
 Agent 3: Budget & campaign planning
   - FIRST: Load skills: "ads", "ads-plan", "ads-budget", "ads-math"
   - Input: keyword data + competitor analysis + business goals
   - Output: recommended budget split, campaign structure, bidding strategy
-  - Save to klien/<domain>/ads/budget-plan.md
+  - Save to klien/<slug>/ads/budget-plan.md
 ```
 
 **Wave 2 (single agent):**
@@ -877,8 +891,8 @@ Agent 4: Combined ads strategy report (HTML + MD)
   - FIRST: Load skills: "diagram-design", "dataviz"
   - Input: all Wave 1 ads research
   - Output:
-    - klien/<domain>/ads/ads-strategy.html (interactive HTML report, bright theme with sidebar)
-    - klien/<domain>/ads/ads-strategy.md (markdown version)
+    - klien/<slug>/ads/ads-strategy.html (interactive HTML report, bright theme with sidebar)
+    - klien/<slug>/ads/ads-strategy.md (markdown version)
   - Sections: platform recommendations, budget allocation (pie chart), campaign structure,
     competitor ad gaps, creative brief, measurement plan, ROI projections
   - Design: same bright theme + sidebar as overview.html
@@ -887,7 +901,7 @@ Agent 4: Combined ads strategy report (HTML + MD)
 ### Output files
 
 ```
-klien/<domain>/ads/
+klien/<slug>/ads/
 ├── ads-strategy.html          # Ads strategy report (HERO OUTPUT)
 ├── ads-strategy.md            # Ads strategy markdown
 ├── platform-audit.md          # Platform analysis
