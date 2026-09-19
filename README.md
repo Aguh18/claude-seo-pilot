@@ -44,6 +44,28 @@ This is the deliverable. Everything else is input to it.
 Plus `overview.html` — a bright, sidebar-navigated page for presenting the plan to a
 non-technical client.
 
+The client folder is also the Obsidian vault: a single `00-index.md` at its root links every
+document with `[[wiki-links]]`, across all the folders.
+
+### Organised by function
+
+Each folder holds both the documents that plan the work and the output that work produces, so
+`blog/` is everything about content rather than half of it.
+
+```
+klien/<slug>/
+├── 00-index.md        vault hub — links everything
+├── build/             the handoff bundle — hand this folder over
+├── blog/              content plan + written articles
+├── seo/               keyword strategy, research, reports, diagrams
+├── ads/               ads strategy + diagrams
+├── site/              optional scaffold
+└── notes/ products/ strategy/
+```
+
+`build/` is the unit you hand over: eight files, complete on their own, with `08-build-prompt.md`
+as the flattened paste version.
+
 ### Two handoff formats
 
 - **`00-handoff.md`** is a *pointer*. For a builder AI that can read the folder — it opens

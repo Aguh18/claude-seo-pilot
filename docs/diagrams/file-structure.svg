@@ -1,179 +1,161 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 800" font-family="'Geist',system-ui,sans-serif" role="img" aria-labelledby="fs-title fs-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 880" font-family="'Geist',system-ui,sans-serif" role="img" aria-labelledby="fs-title fs-desc">
   <title id="fs-title">Freelance File Structure</title>
-  <desc id="fs-desc">Directory tree showing all files created by Freelance commands: init, blog-write, audit, and reaudit.</desc>
+  <desc id="fs-desc">Client folder organised by function: build, blog, seo, ads. The folder is also the Obsidian vault root, with 00-index.md linking everything.</desc>
   <style>svg { color-scheme: light only; }</style>
-  <rect width="880" height="800" fill="#f5f5f5"/>
+  <rect width="880" height="880" fill="#f5f5f5"/>
 
   <!-- Title -->
   <text x="40" y="36" fill="#2d3142" font-size="16" font-weight="600">klien/&lt;slug&gt;/</text>
-  <text x="196" y="36" fill="#7a8399" font-size="10" font-family="'Geist Mono',monospace">Per-client directory — also the Obsidian vault root</text>
+  <text x="196" y="36" fill="#7a8399" font-size="10" font-family="'Geist Mono',monospace">Per-client folder — also the Obsidian vault root</text>
 
-  <!-- ═══ ROOT FILES ═══════════════════════════════════ -->
-  <line x1="56" y1="52" x2="56" y2="628" stroke="#bfc0c0" stroke-width="1"/>
+  <line x1="56" y1="52" x2="56" y2="836" stroke="#bfc0c0" stroke-width="1"/>
 
-  <!-- 00-handoff.md -->
+  <!-- 00-index.md -->
   <line x1="56" y1="56" x2="72" y2="56" stroke="#bfc0c0" stroke-width="1"/>
   <rect x="72" y="44" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="88" y="62" fill="#2d3142" font-size="10" font-weight="600">00-handoff.md</text>
+  <text x="88" y="62" fill="#2d3142" font-size="10" font-weight="600">00-index.md</text>
   <rect x="280" y="44" width="44" height="28" rx="3" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
   <text x="302" y="62" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init</text>
-  <text x="336" y="62" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Master prompt for the builder AI</text>
+  <text x="336" y="62" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Vault hub — the only index, links everything</text>
 
-  <!-- 01-brief.md … 08-build-prompt.md -->
+  <!-- build/ -->
   <line x1="56" y1="88" x2="72" y2="88" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="72" y="76" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="88" y="94" fill="#2d3142" font-size="10" font-weight="600">01-brief.md … 08-build-prompt.md</text>
-  <rect x="280" y="76" width="44" height="28" rx="3" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
-  <text x="302" y="94" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init</text>
-  <text x="336" y="94" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">The 9-document handoff bundle</text>
+  <rect x="72" y="76" width="120" height="28" rx="4" fill="#ece9fb" stroke="#6c5ce7" stroke-width="1"/>
+  <text x="88" y="94" fill="#4b3fbf" font-size="10" font-weight="600">build/</text>
+  <text x="204" y="94" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">The handoff bundle — hand this folder over</text>
 
-  <!-- .freelance-project.md -->
-  <line x1="56" y1="120" x2="72" y2="120" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="72" y="108" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="88" y="126" fill="#2d3142" font-size="10" font-weight="600">.freelance-project.md</text>
-  <rect x="280" y="108" width="44" height="28" rx="3" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
-  <text x="302" y="126" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init</text>
-  <text x="336" y="126" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Client config, keywords, competitors</text>
+  <line x1="88" y1="104" x2="88" y2="356" stroke="#bfc0c0" stroke-width="1"/>
 
-  <!-- .freelance-state.json -->
-  <line x1="56" y1="152" x2="72" y2="152" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="72" y="140" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="88" y="158" fill="#2d3142" font-size="10" font-weight="600">.freelance-state.json</text>
-  <rect x="280" y="140" width="44" height="28" rx="3" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
-  <text x="302" y="158" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init</text>
-  <text x="336" y="158" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Pipeline tracker</text>
+  <line x1="88" y1="120" x2="104" y2="120" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="104" y="108" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
+  <text x="120" y="126" fill="#2d3142" font-size="10" font-weight="600">01-brief.md</text>
+  <text x="320" y="126" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Business, goals, audience, offer</text>
 
-  <!-- ═══ DIAGRAMS/ ═══════════════════════════════════ -->
-  <line x1="56" y1="184" x2="72" y2="184" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="72" y="172" width="120" height="28" rx="4" fill="#fef3e0" stroke="#f39c12" stroke-width="1"/>
-  <text x="88" y="190" fill="#b8860b" font-size="10" font-weight="600">diagrams/</text>
+  <line x1="88" y1="152" x2="104" y2="152" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="104" y="140" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
+  <text x="120" y="158" fill="#2d3142" font-size="10" font-weight="600">02-brand.md</text>
+  <text x="320" y="158" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Voice, tone, personality</text>
 
-  <line x1="88" y1="200" x2="88" y2="320" stroke="#bfc0c0" stroke-width="1"/>
+  <line x1="88" y1="184" x2="104" y2="184" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="104" y="172" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
+  <text x="120" y="190" fill="#2d3142" font-size="10" font-weight="600">03-design-tokens.md</text>
+  <text x="320" y="190" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Visual direction + colour, type, spacing</text>
 
   <line x1="88" y1="216" x2="104" y2="216" stroke="#bfc0c0" stroke-width="1"/>
   <rect x="104" y="204" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="120" y="222" fill="#2d3142" font-size="10" font-weight="600">keyword-gap.html</text>
-  <rect x="312" y="204" width="44" height="28" rx="3" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
-  <text x="334" y="222" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init</text>
-  <text x="368" y="222" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Keyword gap vs competitors</text>
+  <text x="120" y="222" fill="#2d3142" font-size="10" font-weight="600">04-sitemap.md</text>
+  <text x="320" y="222" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Pages, hierarchy, CTA per page</text>
 
   <line x1="88" y1="248" x2="104" y2="248" stroke="#bfc0c0" stroke-width="1"/>
   <rect x="104" y="236" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="120" y="254" fill="#2d3142" font-size="10" font-weight="600">content-cluster.html</text>
-  <rect x="312" y="236" width="44" height="28" rx="3" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
-  <text x="334" y="254" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init</text>
-  <text x="368" y="254" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Hub-and-spoke content map</text>
+  <text x="120" y="254" fill="#2d3142" font-size="10" font-weight="600">05-content/</text>
+  <text x="320" y="254" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Copy for each page</text>
 
   <line x1="88" y1="280" x2="104" y2="280" stroke="#bfc0c0" stroke-width="1"/>
   <rect x="104" y="268" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="120" y="286" fill="#2d3142" font-size="10" font-weight="600">build-priority.html</text>
-  <rect x="312" y="268" width="44" height="28" rx="3" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
-  <text x="334" y="286" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init</text>
-  <text x="368" y="286" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Action items by impact/effort</text>
+  <text x="120" y="286" fill="#2d3142" font-size="10" font-weight="600">06-tech-spec.md</text>
+  <text x="320" y="286" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Stack, CMS, components, integrations</text>
 
-  <!-- ═══ 05-CONTENT/ ══════════════════════════════════ -->
-  <line x1="56" y1="328" x2="72" y2="328" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="72" y="316" width="120" height="28" rx="4" fill="#e6f9e6" stroke="#27ae60" stroke-width="1"/>
-  <text x="88" y="334" fill="#1a8a3e" font-size="10" font-weight="600">05-content/</text>
+  <line x1="88" y1="312" x2="104" y2="312" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="104" y="300" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
+  <text x="120" y="318" fill="#2d3142" font-size="10" font-weight="600">07-seo-foundation.md</text>
+  <text x="320" y="318" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Keywords, meta, schema, linking</text>
 
-  <line x1="88" y1="344" x2="88" y2="376" stroke="#bfc0c0" stroke-width="1"/>
+  <line x1="88" y1="344" x2="104" y2="344" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="104" y="332" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
+  <text x="120" y="350" fill="#2d3142" font-size="10" font-weight="600">08-build-prompt.md</text>
+  <rect x="312" y="332" width="64" height="28" rx="3" fill="#ece9fb" stroke="#6c5ce7" stroke-width="1"/>
+  <text x="344" y="350" fill="#4b3fbf" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">paste</text>
+  <text x="392" y="350" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Everything inlined — copy-paste this one</text>
 
-  <line x1="88" y1="360" x2="104" y2="360" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="104" y="348" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="120" y="366" fill="#2d3142" font-size="10" font-weight="600">&lt;page-slug&gt;.md</text>
-  <rect x="312" y="348" width="44" height="28" rx="3" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
-  <text x="334" y="366" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init</text>
-  <text x="368" y="366" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Copy for each page</text>
-
-  <!-- ═══ RESEARCH/ ═══════════════════════════════════ -->
+  <!-- blog/ -->
   <line x1="56" y1="384" x2="72" y2="384" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="72" y="372" width="120" height="28" rx="4" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
-  <text x="88" y="390" fill="#2e5aa8" font-size="10" font-weight="600">research/</text>
+  <rect x="72" y="372" width="120" height="28" rx="4" fill="#e6f9e6" stroke="#27ae60" stroke-width="1"/>
+  <text x="88" y="390" fill="#1a8a3e" font-size="10" font-weight="600">blog/</text>
 
-  <line x1="88" y1="400" x2="88" y2="520" stroke="#bfc0c0" stroke-width="1"/>
+  <line x1="88" y1="400" x2="88" y2="448" stroke="#bfc0c0" stroke-width="1"/>
 
   <line x1="88" y1="416" x2="104" y2="416" stroke="#bfc0c0" stroke-width="1"/>
   <rect x="104" y="404" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="120" y="422" fill="#2d3142" font-size="10" font-weight="600">website-analysis.md</text>
-  <rect x="312" y="404" width="44" height="28" rx="3" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
-  <text x="334" y="422" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init</text>
-  <text x="368" y="422" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Scraped site (branch A only)</text>
+  <text x="120" y="422" fill="#2d3142" font-size="10" font-weight="600">content-plan.md</text>
+  <text x="320" y="422" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">What to publish, in what order</text>
 
   <line x1="88" y1="448" x2="104" y2="448" stroke="#bfc0c0" stroke-width="1"/>
   <rect x="104" y="436" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="120" y="454" fill="#2d3142" font-size="10" font-weight="600">competitors/*.md</text>
-  <rect x="312" y="436" width="44" height="28" rx="3" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
-  <text x="334" y="454" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init</text>
-  <text x="368" y="454" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Per-competitor analysis</text>
+  <text x="120" y="454" fill="#2d3142" font-size="10" font-weight="600">articles/</text>
+  <rect x="312" y="436" width="80" height="28" rx="3" fill="#e6f9e6" stroke="#27ae60" stroke-width="1"/>
+  <text x="352" y="454" fill="#1a8a3e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">blog-write</text>
+  <text x="408" y="454" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Written posts</text>
 
-  <line x1="88" y1="480" x2="104" y2="480" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="104" y="468" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="120" y="486" fill="#2d3142" font-size="10" font-weight="600">keywords/strategy.md</text>
-  <rect x="312" y="468" width="44" height="28" rx="3" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
-  <text x="334" y="486" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init</text>
-  <text x="368" y="486" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Keyword research + SERP analysis</text>
+  <!-- seo/ -->
+  <line x1="56" y1="488" x2="72" y2="488" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="72" y="476" width="120" height="28" rx="4" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
+  <text x="88" y="494" fill="#2e5aa8" font-size="10" font-weight="600">seo/</text>
 
-  <line x1="88" y1="512" x2="104" y2="512" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="104" y="500" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="120" y="518" fill="#2d3142" font-size="10" font-weight="600">discovery-draft.md</text>
-  <rect x="312" y="500" width="44" height="28" rx="3" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
-  <text x="334" y="518" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init</text>
-  <text x="368" y="518" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Draft to confirm (branch B only)</text>
+  <line x1="88" y1="504" x2="88" y2="616" stroke="#bfc0c0" stroke-width="1"/>
 
-  <!-- ═══ REPORTS/ ═══════════════════════════════════ -->
-  <line x1="56" y1="528" x2="72" y2="528" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="72" y="516" width="120" height="28" rx="4" fill="#fde8e0" stroke="#eb6c36" stroke-width="1"/>
-  <text x="88" y="534" fill="#c0392b" font-size="10" font-weight="600">reports/</text>
+  <line x1="88" y1="520" x2="104" y2="520" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="104" y="508" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
+  <text x="120" y="526" fill="#2d3142" font-size="10" font-weight="600">keyword-strategy.md</text>
 
-  <line x1="88" y1="544" x2="88" y2="628" stroke="#bfc0c0" stroke-width="1"/>
+  <line x1="88" y1="552" x2="104" y2="552" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="104" y="540" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
+  <text x="120" y="558" fill="#2d3142" font-size="10" font-weight="600">research/</text>
+  <text x="320" y="558" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Competitors, discourse, industry refs</text>
 
-  <line x1="88" y1="560" x2="104" y2="560" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="104" y="548" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="120" y="566" fill="#2d3142" font-size="10" font-weight="600">audit-*-{date}.html</text>
-  <rect x="312" y="548" width="64" height="28" rx="3" fill="#fde8e0" stroke="#eb6c36" stroke-width="1"/>
-  <text x="344" y="566" fill="#c0392b" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">reaudit</text>
-  <text x="392" y="566" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Full audit report (interactive)</text>
+  <line x1="88" y1="584" x2="104" y2="584" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="104" y="572" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
+  <text x="120" y="590" fill="#2d3142" font-size="10" font-weight="600">reports/</text>
+  <rect x="312" y="572" width="64" height="28" rx="3" fill="#fde8e0" stroke="#eb6c36" stroke-width="1"/>
+  <text x="344" y="590" fill="#c0392b" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">audit</text>
+  <text x="392" y="590" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Audit output</text>
 
-  <line x1="88" y1="592" x2="104" y2="592" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="104" y="580" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="120" y="598" fill="#2d3142" font-size="10" font-weight="600">technical-audit.md</text>
-  <rect x="312" y="580" width="64" height="28" rx="3" fill="#fde8e0" stroke="#eb6c36" stroke-width="1"/>
-  <text x="344" y="598" fill="#c0392b" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">reaudit</text>
-  <text x="392" y="598" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Technical SEO findings</text>
+  <line x1="88" y1="616" x2="104" y2="616" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="104" y="604" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
+  <text x="120" y="622" fill="#2d3142" font-size="10" font-weight="600">diagrams/</text>
+  <text x="320" y="622" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Keyword gap, content cluster, priority</text>
 
-  <line x1="88" y1="624" x2="104" y2="624" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="104" y="612" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="120" y="630" fill="#2d3142" font-size="10" font-weight="600">geo-audit.md</text>
-  <rect x="312" y="612" width="64" height="28" rx="3" fill="#fde8e0" stroke="#eb6c36" stroke-width="1"/>
-  <text x="344" y="630" fill="#c0392b" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">reaudit</text>
-  <text x="392" y="630" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">GEO / AI citation readiness</text>
-
-  <!-- overview.html -->
+  <!-- ads/ -->
   <line x1="56" y1="656" x2="72" y2="656" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="72" y="644" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="88" y="662" fill="#2d3142" font-size="10" font-weight="600">overview.html</text>
-  <rect x="280" y="644" width="44" height="28" rx="3" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
-  <text x="302" y="662" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init</text>
-  <text x="336" y="662" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Client-facing presentation page</text>
+  <rect x="72" y="644" width="120" height="28" rx="4" fill="#fef3e0" stroke="#f39c12" stroke-width="1"/>
+  <text x="88" y="662" fill="#b8860b" font-size="10" font-weight="600">ads/</text>
+
+  <line x1="88" y1="672" x2="88" y2="720" stroke="#bfc0c0" stroke-width="1"/>
+
+  <line x1="88" y1="688" x2="104" y2="688" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="104" y="676" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
+  <text x="120" y="694" fill="#2d3142" font-size="10" font-weight="600">ads-strategy.md</text>
+  <text x="320" y="694" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Platforms, budget, campaigns</text>
+
+  <line x1="88" y1="720" x2="104" y2="720" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="104" y="708" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
+  <text x="120" y="726" fill="#2d3142" font-size="10" font-weight="600">diagrams/</text>
+  <text x="320" y="726" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Platform fit, budget split, campaign flow</text>
+
+  <!-- notes / products / strategy -->
+  <line x1="56" y1="760" x2="72" y2="760" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="72" y="748" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
+  <text x="88" y="766" fill="#2d3142" font-size="10" font-weight="600">notes/ products/ strategy/</text>
+  <text x="320" y="766" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Research notes and reference docs</text>
 
   <!-- site/ -->
-  <line x1="56" y1="688" x2="72" y2="688" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="72" y="676" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="88" y="694" fill="#2d3142" font-size="10" font-weight="600">site/</text>
-  <rect x="280" y="676" width="72" height="28" rx="3" fill="#e6f9e6" stroke="#27ae60" stroke-width="1"/>
-  <text x="316" y="694" fill="#1a8a3e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">scaffold</text>
-  <text x="368" y="694" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Starter project from 06-tech-spec.md</text>
+  <line x1="56" y1="792" x2="72" y2="792" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="72" y="780" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
+  <text x="88" y="798" fill="#2d3142" font-size="10" font-weight="600">site/</text>
+  <rect x="280" y="780" width="72" height="28" rx="3" fill="#e6f9e6" stroke="#27ae60" stroke-width="1"/>
+  <text x="316" y="798" fill="#1a8a3e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">scaffold</text>
+  <text x="368" y="798" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Optional starter, shaped by build/06-tech-spec.md</text>
 
   <!-- Legend -->
-  <line x1="40" y1="760" x2="840" y2="760" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="40" y="780" fill="#4a69bd" font-size="9" font-family="'Geist Mono',monospace" font-weight="600" letter-spacing="0.1em">LEGEND</text>
-
-  <rect x="140" y="770" width="12" height="12" rx="2" fill="#4a69bd" stroke="none"/>
-  <text x="158" y="781" fill="#4a69bd" font-size="9" font-weight="600" font-family="'Geist Mono',monospace">init</text>
-
-  <rect x="260" y="770" width="12" height="12" rx="2" fill="#27ae60" stroke="none"/>
-  <text x="278" y="781" fill="#1a8a3e" font-size="9" font-weight="600" font-family="'Geist Mono',monospace">scaffold</text>
-
-  <rect x="420" y="770" width="12" height="12" rx="2" fill="#eb6c36" stroke="none"/>
-  <text x="438" y="781" fill="#c0392b" font-size="9" font-weight="600" font-family="'Geist Mono',monospace">audit / reaudit</text>
+  <line x1="40" y1="824" x2="840" y2="824" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="40" y="844" width="12" height="12" rx="2" fill="#ece9fb" stroke="none"/>
+  <text x="58" y="855" fill="#4b3fbf" font-size="9" font-weight="600" font-family="'Geist Mono',monospace">hand over this</text>
+  <rect x="180" y="844" width="12" height="12" rx="2" fill="#e6f9e6" stroke="none"/>
+  <text x="198" y="855" fill="#1a8a3e" font-size="9" font-weight="600" font-family="'Geist Mono',monospace">blog-write</text>
+  <rect x="300" y="844" width="12" height="12" rx="2" fill="#fde8e0" stroke="none"/>
+  <text x="318" y="855" fill="#c0392b" font-size="9" font-weight="600" font-family="'Geist Mono',monospace">audit / reaudit</text>
+  <rect x="440" y="844" width="12" height="12" rx="2" fill="#e8f0fe" stroke="none"/>
+  <text x="458" y="855" fill="#2e5aa8" font-size="9" font-weight="600" font-family="'Geist Mono',monospace">init</text>
+  <rect x="540" y="844" width="12" height="12" rx="2" fill="#fef3e0" stroke="none"/>
+  <text x="558" y="855" fill="#b8860b" font-size="9" font-weight="600" font-family="'Geist Mono',monospace">ads</text>
 </svg>
