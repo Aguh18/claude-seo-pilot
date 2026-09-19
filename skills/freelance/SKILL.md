@@ -27,7 +27,7 @@ Client web-build orchestrator. Take a client from discovery to a documented buil
 
 | Command | What It Does |
 |---------|--------------|
-| `/freelance init <name-or-url>` | Discovery → **9-document handoff bundle** + overview.html + ads strategy |
+| `/freelance init <name-or-url>` | Discovery → **9-document handoff bundle** for the build, plus overview.html, ads plan, and content plan as side outputs |
 | `/freelance blog-write <topic>` | Full pipeline → keyword research → brief → write → SEO optimize → publish |
 | `/freelance audit <url>` | Full SEO audit → technical + on-page + schema + GEO + report |
 | `/freelance reaudit <url>` | Clean old audit files → re-run full audit with fresh timestamped output |
@@ -90,6 +90,10 @@ reports, for presenting the plan to a non-technical client.
 - **`08-build-prompt.md`** is a *paste*. It inlines the full text of 01–07 and
   every `05-content/` page, so the whole spec survives one Ctrl-A → Ctrl-C into
   an AI that cannot see the filesystem.
+
+**Boundary: 08 carries the website spec only.** The ads plan (Wave 5) and the
+research reports are marketing collateral for *after* launch — they say how to
+promote the site, not how to build it. They stay out, under `ads/` and `research/`.
 
 Generate 08 **last**, after 01–07 are final. It is mechanical assembly — build
 it by reading the finished files, never by regenerating their content, or the
@@ -170,7 +174,9 @@ Example: `klien/keripikmangdedi.id/`, `klien/example.com/`
 | Bundle: tokens + sitemap | `general-purpose` | `diagram-design`, `seo-plan`, `seo-sitemap` |
 | Bundle: page copy | `general-purpose` | `seo-content-brief` |
 | Bundle: tech spec + SEO | `general-purpose` | `seo-technical`, `seo-schema`, `seo-cluster`, `seo-page` |
-| Bundle: handoff + overview | `general-purpose` | `diagram-design` |
+| Bundle: handoff (00 only, not 08) | `general-purpose` | `diagram-design` |
+| Content plan (research output, not bundle) | `general-purpose` | `blog-strategy`, `blog-cluster`, `seo-cluster` |
+| Bundle: 08-build-prompt assembly | `general-purpose` | none — verbatim concatenation only |
 | Market discovery (no site yet) | `general-purpose` | `defuddle`, `seo-content`, `blog-discourse` |
 | Discovery proposal draft | `general-purpose` | `blog-brand`, `seo-plan`, `seo-content-brief` |
 | Ads platform audit | `general-purpose` | `ads`, `ads-audit`, `ads-google`, `ads-meta` |
@@ -332,20 +338,22 @@ Agent 9: Tech spec + SEO foundation
   - 07-seo-foundation.md — keyword map, per-page meta (title + description),
     schema per page type, internal linking plan, CWV targets
 
-Agent 10: Master prompt + client overview
+Agent 10: Master prompt
   - FIRST: Load skills: "diagram-design"
   - 00-handoff.md — the master prompt: reading order of the other 7 documents,
     what to build, what is fixed vs open for the builder to decide, and
     acceptance checks. Must stand alone in a fresh session with no other
     context.
-  - overview.html — bright theme + sidebar (same spec as the audit report
-    below), presenting the plan to a non-technical client
 ```
 
-**Wave 5 (parallel) — supporting reports:**
+**Wave 5 (parallel) — side outputs: overview, ads plan, research reports.**
+
+These are NOT part of the handoff bundle. The overview is a client presentation;
+the rest is post-launch marketing collateral. None of it goes into
+`08-build-prompt.md`, and none of it goes into 01–07.
 
 ```
-Agent 5: Generate client overview report (HTML + MD)
+Agent 11: Generate client overview report (HTML + MD)
   - FIRST: Load skills: "diagram-design", "dataviz", "blog-analyze"
   - Input: all Wave 1 research
   - Output:
@@ -353,7 +361,7 @@ Agent 5: Generate client overview report (HTML + MD)
     - klien/<domain>/overview.md (markdown version for quick reference)
   - See "Report Requirements" below
 
-Agent 6: Generate SEO planning diagrams
+Agent 12: Generate SEO planning diagrams
   - FIRST: Load skills: "diagram-design", "dataviz"
   - Input: keyword + competitor data
   - Output:
@@ -361,7 +369,18 @@ Agent 6: Generate SEO planning diagrams
     - klien/<domain>/diagrams/content-cluster.html (hub-and-spoke content map)
     - klien/<domain>/diagrams/build-priority.html (action items by impact/effort)
 
-Agent 7: Ads strategy report + diagrams
+Agent 13: Content plan (research output, NOT part of the bundle)
+  - FIRST: Load skills: "blog-strategy", "blog-cluster", "seo-cluster"
+  - Input: keyword strategy, discourse questions, competitor gaps
+  - Output: klien/<domain>/research/content-plan.md
+  - Contents: the article list with publish order, target keyword and intent
+    per article, content type, and which page each links back to. Cluster the
+    articles hub-and-spoke so the internal linking in 07 has somewhere to land.
+  - This stays under `research/` and out of 08-build-prompt.md: a content
+    calendar describes what to publish after launch, not what to build now.
+    Articles are written later with `/freelance blog-write`.
+
+Agent 14: Ads strategy report + diagrams
   - FIRST: Load skills: "ads", "ads-audit", "ads-plan", "ads-budget", "ads-competitor", "diagram-design", "dataviz"
   - Input: all Wave 1 research (website analysis, competitor data, keywords)
   - Analyze: which ad platforms fit this business, budget allocation, campaign structure, competitor ad strategy
@@ -378,7 +397,7 @@ Agent 7: Ads strategy report + diagrams
 **Wave 6 (single agent):**
 
 ```
-Agent 11: Create config files + Obsidian vault
+Agent 15: Create config files + Obsidian vault
   - klien/<domain>/.freelance-project.md (client info, keywords, competitors)
   - klien/<domain>/.freelance-state.json (pipeline tracker)
   - klien/<domain>/obsidian-vault/ (knowledge base structure)
@@ -391,11 +410,15 @@ Agent 11: Create config files + Obsidian vault
 **Wave 7 (single agent) — the paste file:**
 
 ```
-Agent 12: Assemble 08-build-prompt.md
+Agent 16: Assemble 08-build-prompt.md
   - Runs LAST, after every other document is final
   - Read the finished 01-brief.md … 07-seo-foundation.md and every
     05-content/*.md file, and concatenate them verbatim
   - DO NOT regenerate any content — assembly only, or the copies drift
+  - IN SCOPE: 01–07 plus 05-content/. NOTHING ELSE.
+  - OUT OF SCOPE: the ads plan, research reports, and diagrams. Do not include
+    them — they are post-launch marketing collateral, and folding them in
+    would bury the build spec
   - Structure:
       1. Opening instruction: what this is, what to build, and the reminder
          that the sitemap defines the page list and the tech spec defines
