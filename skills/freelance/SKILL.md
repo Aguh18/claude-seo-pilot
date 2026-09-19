@@ -116,6 +116,40 @@ silently drop sections to shorten it.
 3. **`seo-content-brief` covers 9 page types but not Contact.** Write Contact
    pages from the Homepage CTA pattern: form, NAP block, map, operating hours.
 
+### Linking — the bundle is a vault, not loose files
+
+Everything under `klien/<domain>/` is one Obsidian vault, so documents link to
+each other with **`[[wiki-links]]`** — not relative paths. Wikilinks resolve by
+filename anywhere in the vault, which is why the whole set must share one root.
+
+**Rule: every document 01–07 opens with a `related:` line and carries a
+`**Related:**` line at the foot listing its wikilinks.** The convention matches
+what the existing vault output already does — a hub note listing everything,
+each note linking sideways to its siblings, and each note linking back to the
+hub. Follow that shape.
+
+| Document | Links to | Authority it holds |
+|---|---|---|
+| `00-handoff.md` | all of 01–08 — it is the entry point | reading order |
+| `01-brief.md` | `[[02-brand]]` `[[04-sitemap]]` `[[07-seo-foundation]]` | business goals, audience, offer |
+| `02-brand.md` | `[[01-brief]]` `[[03-design-tokens]]` `[[05-content]]` | voice and tone |
+| `03-design-tokens.md` | `[[02-brand]]` `[[06-tech-spec]]` | colour, type, spacing — final |
+| `04-sitemap.md` | `[[01-brief]]` `[[05-content]]` `[[07-seo-foundation]]` | **the page list — final** |
+| `05-content/*.md` | `[[02-brand]]` `[[04-sitemap]]` | the copy itself |
+| `06-tech-spec.md` | `[[03-design-tokens]]` `[[04-sitemap]]` | stack and components — final |
+| `07-seo-foundation.md` | `[[04-sitemap]]` `[[research/content-plan]]` | keywords, meta, schema |
+| `00-index.md` (hub) | every bundle doc and every note | vault navigation |
+
+**Authority matters more than the links.** Two documents can disagree —
+`05-content` might invent a page that `04-sitemap` never listed, or
+`06-tech-spec` might pick a colour that `03-design-tokens` already fixed. Each
+row above names who wins, so a builder resolves a conflict by looking it up
+rather than guessing. State the authority line explicitly in each document.
+
+`08-build-prompt.md` is the exception: it must survive being pasted somewhere
+with no folder around it, so it carries **no wikilinks and no relative paths**.
+It already inlines the content those links would have pointed at.
+
 ---
 
 
@@ -123,10 +157,15 @@ silently drop sections to shorten it.
 
 **ALL generated files go to `klien/<domain>/` folder in the project root.** Each website gets its own folder. Never scatter files.
 
+**The client folder IS the Obsidian vault.** Do not nest a separate `obsidian-vault/`
+inside it — wiki-links resolve by filename within a vault, so the bundle documents
+(top level) and the research notes (in subfolders) can only link to each other if
+they share one vault root. That shared root is `klien/<domain>/`.
+
 On first run, extract domain from URL and create:
 ```
 DOMAIN=$(echo "$URL" | sed 's|https\?://||' | sed 's|/.*||')
-mkdir -p klien/$DOMAIN/{research/{competitors,keywords,discourse},content,reports,diagrams,ads/diagrams,obsidian-vault/{notes,products,strategy}}
+mkdir -p klien/$DOMAIN/{research/{competitors,keywords,discourse},content,reports,diagrams,ads/diagrams,notes,products,strategy}
 ```
 
 Example: `klien/keripikmangdedi.id/`, `klien/example.com/`
@@ -193,7 +232,7 @@ Example: `klien/keripikmangdedi.id/`, `klien/example.com/`
 
 Set up client project. Scrapes site, researches keywords + competitors, creates SEO strategy.
 
-**First:** `mkdir -p klien/<domain>/{research/{competitors,keywords,discourse},content,reports,diagrams,ads/diagrams,obsidian-vault/{notes,products,strategy}}`
+**First:** `mkdir -p klien/<domain>/{research/{competitors,keywords,discourse},content,reports,diagrams,ads/diagrams,notes,products,strategy}`
 
 ### Branch A — existing website
 
@@ -397,11 +436,12 @@ Agent 14: Ads strategy report + diagrams
 **Wave 6 (single agent):**
 
 ```
-Agent 15: Create config files + Obsidian vault
+Agent 15: Create config files + vault hub
   - klien/<domain>/.freelance-project.md (client info, keywords, competitors)
   - klien/<domain>/.freelance-state.json (pipeline tracker)
-  - klien/<domain>/obsidian-vault/ (knowledge base structure)
-    ├── 00-index.md (hub page linking all notes)
+  - klien/<domain>/00-index.md — the vault hub. Links every bundle document
+    and every note with [[wiki-links]], grouped by section
+  - klien/<domain>/ vault folders (the client folder IS the vault root):
     ├── notes/ (research notes)
     ├── products/ (product docs)
     └── strategy/ (strategy docs)
@@ -693,7 +733,7 @@ mkdir -p klien/$DOMAIN/{reports,diagrams,ads/diagrams}
 - `.freelance-project.md` — project config (persistent)
 - `.freelance-state.json` — pipeline state (persistent)
 - `research/` — keyword & competitor research (reusable)
-- `obsidian-vault/` — knowledge base (persistent)
+- `00-index.md` + `notes/` `products/` `strategy/` — vault (persistent)
 - `diagrams/` — planning diagrams (overwritten by new ones)
 - `ads/` — ads strategy + diagrams (overwritten by new ones)
 
@@ -773,7 +813,7 @@ klien/$DOMAIN/
 ├── 05-content/                            ← KEPT (page copy)
 ├── overview.html                          ← KEPT
 ├── research/                              ← KEPT
-└── obsidian-vault/                        ← KEPT
+└── 00-index.md + notes/ products/ strategy/  ← KEPT
 ```
 
 ### Summary output
