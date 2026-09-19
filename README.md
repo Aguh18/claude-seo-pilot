@@ -1,7 +1,7 @@
 # 🧰 Freelance for Claude Code
 
 Freelance is a client web-build workflow for Claude Code — 6 commands that take a client from
-discovery to a **handoff bundle of 8 documents** any AI can read to build the website.
+discovery to a **handoff bundle of 9 documents** any AI can read to build the website.
 
 Works whether the client already has a site or only has a business name.
 
@@ -39,15 +39,27 @@ This is the deliverable. Everything else is input to it.
 | 05 | `05-content/*.md` | Copy for each page |
 | 06 | `06-tech-spec.md` | Stack, hosting, CMS, components, integrations |
 | 07 | `07-seo-foundation.md` | Keywords, meta, schema, internal linking |
+| 08 | `08-build-prompt.md` | Copy-paste version — all of the above inlined |
 
 Plus `overview.html` — a bright, sidebar-navigated page for presenting the plan to a
 non-technical client.
+
+### Two handoff formats
+
+- **`00-handoff.md`** is a *pointer*. For a builder AI that can read the folder — it opens
+  documents 01–07 in a set order.
+- **`08-build-prompt.md`** is a *paste*. It inlines the full text of 01–07 plus every page of
+  `05-content/`, so the whole spec survives one Ctrl-A → Ctrl-C into an AI that cannot see the
+  filesystem.
+
+A real bundle runs 10–20k words. If that exceeds your target AI's context window, paste in waves —
+`08` names the reading order so partial pastes still work.
 
 ## Commands
 
 | Command | What It Does |
 |---------|--------------|
-| `/freelance init <name-or-url>` | Discovery → **8-document handoff bundle** + overview.html + ads strategy |
+| `/freelance init <name-or-url>` | Discovery → **9-document handoff bundle** + overview.html + ads strategy |
 | `/freelance blog-write <topic>` | Keyword research → Brief → Outline → Write → SEO Check → Schema → Publish |
 | `/freelance audit <url>` | Technical SEO + On-Page + Schema + GEO + Content Quality → Report |
 | `/freelance reaudit <url>` | Clean old audit files → re-run full audit with fresh timestamped output |

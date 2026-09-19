@@ -2,7 +2,7 @@
 name: freelance
 description: >
   Client web-build orchestrator for freelancers. Turns a client — an existing
-  site or just a business name — into a handoff bundle of 8 documents (brief,
+  site or just a business name — into a handoff bundle of 9 documents (brief,
   brand, design tokens, sitemap, page copy, tech spec, SEO foundation, master
   prompt) that any AI can read to build the website. Also runs SEO audits,
   blog pipelines, and ads strategy on the result. Use when user says
@@ -26,7 +26,7 @@ Client web-build orchestrator. Take a client from discovery to a documented buil
 
 | Command | What It Does |
 |---------|--------------|
-| `/freelance init <name-or-url>` | Discovery → **8-document handoff bundle** + overview.html + ads strategy |
+| `/freelance init <name-or-url>` | Discovery → **9-document handoff bundle** + overview.html + ads strategy |
 | `/freelance blog-write <topic>` | Full pipeline → keyword research → brief → write → SEO optimize → publish |
 | `/freelance audit <url>` | Full SEO audit → technical + on-page + schema + GEO + report |
 | `/freelance reaudit <url>` | Clean old audit files → re-run full audit with fresh timestamped output |
@@ -38,7 +38,7 @@ Client web-build orchestrator. Take a client from discovery to a documented buil
 ## Two Ways In
 
 `init` accepts either an existing site or just a business name. Both branches
-converge on the same 8-document bundle.
+converge on the same 9-document bundle.
 
 **Branch A — the client already has a website** (`/freelance init https://...`):
 scrape it, research the market, then *translate* that material into the bundle.
@@ -61,7 +61,7 @@ there is nothing to scrape, so research first and confirm second.
 
 ## The Handoff Bundle
 
-Eight markdown documents plus one presentation page. This is the deliverable —
+Nine markdown documents plus one presentation page. This is the deliverable —
 everything else is input to it.
 
 | # | Document | Contents | Built from |
@@ -74,9 +74,30 @@ everything else is input to it.
 | 05 | `05-content/*.md` | Copy for each page | `seo-content-brief` page types |
 | 06 | `06-tech-spec.md` | Stack, hosting, CMS, components, integrations | **new** |
 | 07 | `07-seo-foundation.md` | Keywords, meta, schema, internal linking | `seo-cluster`, `seo-schema`, `seo-page` |
+| 08 | `08-build-prompt.md` | Self-contained paste — all of the above inline | **new** |
 
 Plus `overview.html` — bright theme with sidebar, same design as the audit
 reports, for presenting the plan to a non-technical client.
+
+### Two handoff formats, two consumers
+
+`00-handoff.md` and `08-build-prompt.md` solve different problems:
+
+- **`00-handoff.md`** is a *pointer*. It tells a builder that can read the folder
+  to open the other documents in a set order. Short, and the single source of
+  truth stays in documents 01–07.
+- **`08-build-prompt.md`** is a *paste*. It inlines the full text of 01–07 and
+  every `05-content/` page, so the whole spec survives one Ctrl-A → Ctrl-C into
+  an AI that cannot see the filesystem.
+
+Generate 08 **last**, after 01–07 are final. It is mechanical assembly — build
+it by reading the finished files, never by regenerating their content, or the
+two copies will drift.
+
+Known trade-off: a real client's bundle runs long (10–20k words) and may exceed
+a small context window. If that happens, tell the user to paste documents in
+waves — `08` names the reading order so partial pastes still work. Do not
+silently drop sections to shorten it.
 
 ### Three constraints that override skill defaults
 
@@ -265,7 +286,7 @@ The confirmed draft becomes the input to Wave 3 below.
 
 **Wave 4 (parallel) — the handoff bundle. THIS IS THE DELIVERABLE.**
 
-Write all 8 documents. Nothing else in this skill matters as much.
+Write all 9 documents. Nothing else in this skill matters as much.
 
 ```
 Agent 6: Brief + brand
@@ -366,7 +387,27 @@ Agent 11: Create config files + Obsidian vault
     └── strategy/ (strategy docs)
 ```
 
-**Init is NOT complete until Wave 6 finishes.**
+**Wave 7 (single agent) — the paste file:**
+
+```
+Agent 12: Assemble 08-build-prompt.md
+  - Runs LAST, after every other document is final
+  - Read the finished 01-brief.md … 07-seo-foundation.md and every
+    05-content/*.md file, and concatenate them verbatim
+  - DO NOT regenerate any content — assembly only, or the copies drift
+  - Structure:
+      1. Opening instruction: what this is, what to build, and the reminder
+         that the sitemap defines the page list and the tech spec defines
+         the stack
+      2. `---` separator, then `# 01 — BRIEF` followed by the full text of
+         01-brief.md
+      3. Repeat for 02 through 07
+      4. Then one section per page from 05-content/, headed with its URL
+  - The result must be understandable with zero access to the folder — no
+    "see 04-sitemap.md" cross-references, no relative links
+```
+
+**Init is NOT complete until Wave 7 finishes.**
 
 ### Scaffold (optional, after the bundle)
 
@@ -809,16 +850,16 @@ Read the state file + scan `research/`, `05-content/`, and the bundle documents.
 # Branch A — client already has a site
 /freelance init https://mysite.com
 # → Wave 1: scrape + competitors + keywords + questions + brand extraction
-# → Wave 4: the 8-document bundle (brief, brand, tokens, sitemap, copy, tech spec, SEO, handoff)
+# → Wave 4: the 9-document bundle (brief, brand, tokens, sitemap, copy, tech spec, SEO, handoff, build prompt)
 # → Wave 5: overview report + diagrams
-# → Wave 6: config + vault
+# → Waves 6-7: config, vault, then 08-build-prompt.md
 # → Done! Open klien/mysite.com/00-handoff.md and hand it to a builder AI
 
 # Branch B — no site yet, just a business name
 /freelance init "Warung Kopi Kenangan"
 # → Wave 1: market + demand + discourse + industry references
 # → Wave 2: drafts a proposal and STOPS for your correction
-# → Wave 4: the 8-document bundle, built from the confirmed draft
+# → Wave 4: the 9-document bundle, built from the confirmed draft
 
 /freelance blog-write "Resep Keripik Singkong Original"
 # → Keyword research → brief → write → SEO check → schema → publish
