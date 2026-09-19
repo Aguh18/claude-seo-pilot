@@ -47,9 +47,19 @@ After `init`, everything lives in `seo-pilot/`:
 
 ## Precondition
 
-`blog-write`, `audit`, `reaudit`, and `status` require `seo-pilot/` to exist. If missing:
+`blog-write`, `audit`, `reaudit`, `ads`, and `status` require `seo-pilot/` to exist. If missing:
 
 > Run `/seo-pilot init` first to set up the project.
+
+## Python Dependencies
+
+Required for SEO analysis, ads, and performance features:
+
+```bash
+pip install -r requirements.txt
+```
+
+Key dependencies: `playwright`, `beautifulsoup4`, `requests`, `Pillow`, `matplotlib`, `weasyprint`
 
 ## Built-in Skills
 

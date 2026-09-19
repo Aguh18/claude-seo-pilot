@@ -259,6 +259,10 @@ print('all_done')
             echo "     cp blog/<file>.md obsidian-vault/"
             echo "     /seo-pilot diagram"
             ;;
+        ads)
+            echo "  📢 Ads phase commands:"
+            echo "     /seo-pilot ads <url>"
+            ;;
     esac
 
     echo ""
