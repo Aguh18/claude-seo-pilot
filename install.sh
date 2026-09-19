@@ -95,17 +95,28 @@ fi
 # Install orchestrator script
 echo ""
 echo -e "${BOLD}📦 Installing orchestrator...${NC}"
-mkdir -p "$HOME/.freelance"
-if [ -f "$SRC_DIR/skills/freelance/scripts/freelance.sh" ]; then
-    cp "$SRC_DIR/skills/freelance/scripts/freelance.sh" "$HOME/.freelance/"
-    # status.py sits beside the script — freelance.sh resolves it via dirname "$0"
-    cp "$SRC_DIR/skills/freelance/scripts/status.py" "$HOME/.freelance/"
-    chmod +x "$HOME/.freelance/freelance.sh"
-    echo -e "  ${GREEN}✅${NC} freelance.sh"
+ORCH_SRC="$SRC_DIR/skills/freelance/scripts/freelance.sh"
+if [ -f "$ORCH_SRC" ]; then
+    # Refuse to overwrite a ~/.freelance that this tool did not create
+    if [ -d "$HOME/.freelance" ] && [ ! -f "$HOME/.freelance/freelance.sh" ]; then
+        echo -e "  ${RED}✖${NC} $HOME/.freelance already exists and was not created by this installer."
+        echo "     Move it aside first, then re-run."
+    else
+        mkdir -p "$HOME/.freelance"
+        cp "$ORCH_SRC" "$HOME/.freelance/"
+        # status.py sits beside the script — freelance.sh resolves it via dirname "$0"
+        cp "$SRC_DIR/skills/freelance/scripts/status.py" "$HOME/.freelance/"
+        chmod +x "$HOME/.freelance/freelance.sh"
+        echo -e "  ${GREEN}✅${NC} freelance.sh"
 
-    # Create symlink for easy access
-    mkdir -p "$HOME/.local/bin"
-    ln -sf "$HOME/.freelance/freelance.sh" "$HOME/.local/bin/freelance" 2>/dev/null || true
+        # Create symlink for easy access
+        mkdir -p "$HOME/.local/bin"
+        ln -sf "$HOME/.freelance/freelance.sh" "$HOME/.local/bin/freelance" 2>/dev/null || true
+    fi
+else
+    # A silent failure here would leave the CLI missing while still reporting success
+    echo -e "  ${RED}✖${NC} Orchestrator not found at skills/freelance/scripts/freelance.sh"
+    echo "     The skill is installed, but the standalone CLI is not."
 fi
 
 echo ""
@@ -114,7 +125,7 @@ echo ""
 echo -e "  🔄 Restart Claude Code to activate."
 echo ""
 echo -e "  ${BOLD}Quick start:${NC}"
-echo "    /freelance init <name-or-url>   Discovery → 8-document bundle"
+echo "    /freelance init <name-or-url>   Discovery → 9-document handoff bundle"
 echo "    /freelance audit <url>          Full SEO audit"
 echo "    /freelance blog-write <topic>   SEO content pipeline"
 echo "    /freelance ads <url>            Ads strategy"
