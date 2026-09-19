@@ -4,10 +4,11 @@ description: >
   Client web-build orchestrator for freelancers. Turns a client — an existing
   site or just a business name — into a handoff bundle of 9 documents (brief,
   brand, design tokens, sitemap, page copy, tech spec, SEO foundation, master
-  prompt) that any AI can read to build the website. Also runs SEO audits,
-  blog pipelines, and ads strategy on the result. Use when user says
-  "freelance", "client", "init project", "build a website for", "web untuk klien",
-  "company profile", "seo audit", "blog-write", or "reaudit".
+  prompt, and a copy-paste build prompt) that any AI can read to build the
+  website. Also runs SEO audits, blog pipelines, and ads strategy on the
+  result. Use when user says "freelance", "client", "init project", "build a
+  website for", "web untuk klien", "company profile", "handoff", "build prompt",
+  "seo audit", "blog-write", or "reaudit".
 user-invocable: true
 argument-hint: "[init|blog-write|audit|reaudit|ads|status] [name-or-url]"
 license: MIT
