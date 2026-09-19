@@ -5,8 +5,8 @@
   <rect width="880" height="800" fill="#f5f5f5"/>
 
   <!-- Title -->
-  <text x="40" y="36" fill="#2d3142" font-size="16" font-weight="600">klien/&lt;domain&gt;/</text>
-  <text x="196" y="36" fill="#7a8399" font-size="10" font-family="'Geist Mono',monospace">Per-client directory</text>
+  <text x="40" y="36" fill="#2d3142" font-size="16" font-weight="600">klien/&lt;slug&gt;/</text>
+  <text x="196" y="36" fill="#7a8399" font-size="10" font-family="'Geist Mono',monospace">Per-client directory — also the Obsidian vault root</text>
 
   <!-- ═══ ROOT FILES ═══════════════════════════════════ -->
   <line x1="56" y1="52" x2="56" y2="628" stroke="#bfc0c0" stroke-width="1"/>
@@ -19,13 +19,13 @@
   <text x="302" y="62" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init</text>
   <text x="336" y="62" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Master prompt for the builder AI</text>
 
-  <!-- 01-brief.md … 07-seo-foundation.md -->
+  <!-- 01-brief.md … 08-build-prompt.md -->
   <line x1="56" y1="88" x2="72" y2="88" stroke="#bfc0c0" stroke-width="1"/>
   <rect x="72" y="76" width="200" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="88" y="94" fill="#2d3142" font-size="10" font-weight="600">01-brief.md … 07-seo-foundation.md</text>
+  <text x="88" y="94" fill="#2d3142" font-size="10" font-weight="600">01-brief.md … 08-build-prompt.md</text>
   <rect x="280" y="76" width="44" height="28" rx="3" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
   <text x="302" y="94" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init</text>
-  <text x="336" y="94" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">The 8-document handoff bundle</text>
+  <text x="336" y="94" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">The 9-document handoff bundle</text>
 
   <!-- .freelance-project.md -->
   <line x1="56" y1="120" x2="72" y2="120" stroke="#bfc0c0" stroke-width="1"/>

@@ -68,7 +68,7 @@ A real bundle runs 10–20k words. If that exceeds your target AI's context wind
 
 ## Optional Scaffold
 
-Once `06-tech-spec.md` exists, Freelance can scaffold a starter project at `klien/<domain>/site/`.
+Once `06-tech-spec.md` exists, Freelance can scaffold a starter project at `klien/<slug>/site/`.
 **It reads the stack from the tech spec** — Next.js, Astro, or static HTML — rather than assuming
 one. Design tokens become CSS custom properties; one placeholder file is created per page in the
 sitemap. Structure only: the builder AI fills in the content from `05-content/`.
@@ -91,13 +91,13 @@ cd claude-seo-pilot
 
 ## What Gets Created
 
-After `init`, everything lives in `klien/<domain>/`:
+After `init`, everything lives in `klien/<slug>/`:
 
 ![File Structure](docs/diagrams/file-structure.svg)
 
 ## Precondition
 
-`blog-write`, `audit`, `reaudit`, `ads`, and `status` require `klien/<domain>/` to exist. If missing:
+`blog-write`, `audit`, `reaudit`, `ads`, and `status` require `klien/<slug>/` to exist. If missing:
 
 > Run `/freelance init` first to set up the project.
 

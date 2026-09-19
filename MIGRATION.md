@@ -12,7 +12,7 @@ because it lives outside the repository or needs your decision.
 |---|---|
 | `skills/seo-pilot/` | `skills/freelance/` |
 | `/seo-pilot <cmd>` | `/freelance <cmd>` |
-| `seo-pilot/<domain>/` | `klien/<domain>/` |
+| `seo-pilot/<domain>/` | `klien/<slug>/` |
 | `.seo-project.md` | `.freelance-project.md` |
 | `.seo-state.json` | `.freelance-state.json` |
 | `.seo-pilot.log` | `.freelance.log` |
@@ -85,7 +85,7 @@ mv .seo-state.json .freelance-state.json
 rm -f .seo-pilot.log
 ```
 
-Do **not** rename the output directory blindly. `seo-pilot/<domain>/` → `klien/<domain>/` is a
+Do **not** rename the output directory blindly. `seo-pilot/<domain>/` → `klien/<slug>/` is a
 different convention (per-domain inside one folder, rather than a folder per project), so a rename
 alone will not match what the skill now expects.
 
