@@ -8,7 +8,7 @@ description: >
   "init project", "build a website for", "web untuk klien", "company profile",
   "handoff", "build prompt", "seo audit", "blog-write", or "reaudit".
 user-invocable: true
-argument-hint: "[init|blog-write|audit|reaudit|ads|code-fix|status] [name-or-url]"
+argument-hint: "[init|blog-write|audit|reaudit|ads|project-fix|status] [name-or-url]"
 license: MIT
 metadata:
   author: Aguh18
@@ -30,7 +30,7 @@ Client web-build orchestrator. Take a client from discovery to a documented buil
 | `/freelance audit <url>` | Full SEO audit → technical + on-page + schema + GEO + report |
 | `/freelance reaudit <url>` | Re-run full audit → overwrite audit reports + overview with fresh data |
 | `/freelance ads <url>` | Ads audit → platform analysis → budget plan → campaign structure → report |
-| `/freelance code-fix <slug>` | Iterate all docs → fix issues by code → report what needs manual fix |
+| `/freelance project-fix <slug>` | Trace project files → fix issues based on bundle docs → report what needs manual fix |
 | `/freelance status` | Show what's done and what's next |
 
 ---
@@ -371,7 +371,7 @@ Examples: `klien/keripikmangdedi.id/`, `klien/warung-kopi-kenangan/`
 | Competitor ads analysis | `general-purpose` | `ads`, `ads-competitor`, `ads-research` |
 | Budget & campaign planning | `general-purpose` | `ads`, `ads-plan`, `ads-budget`, `ads-math` |
 | Ads strategy report | `general-purpose` | `diagram-design`, `dataviz`, `ads-report` |
-| Code-fix iteration | `general-purpose` | `diagram-design` (for vault hub) |
+| Project-fix iteration | `general-purpose` | `diagram-design` (for vault hub) |
 | Full audit (all) | multiple agents | Each agent loads its own skills per row above |
 | blog-write pipeline | multiple agents | Each wave loads its own skills per row above |
 | ads pipeline | multiple agents | Each wave loads its own skills per row above |
@@ -1157,105 +1157,112 @@ klien/<slug>/ads/
 
 ---
 
-## `/freelance code-fix <slug>`
+## `/freelance project-fix <slug>`
 
-Iterate through all documents in the client folder, fix issues that can be
-resolved by code, and report issues that require manual decision.
+Trace the actual project directory, compare against the bundle documents,
+and fix issues in the project files. This is NOT about fixing the bundle
+documents — it's about fixing the **project itself** (the website code,
+content files, config, etc.) based on what the bundle specifies.
 
-**Precondition:** `klien/<slug>/` must exist. If missing:
-> "Jalankan `/freelance init` dulu."
+**Precondition:** `klien/<slug>/` must exist with bundle documents.
+The project directory must also exist (e.g., `keripik-mang-dedi/`).
 
-### What can be fixed by code
+### How it works
 
-| Issue | Fix |
-|-------|-----|
-| Broken wikilinks (`[[target]]` → file doesn't exist) | Remove the link, or create a stub file |
-| Missing `related:` line at document top | Add it based on what the document links to |
-| Missing `**Related:**` footer | Add it based on wikilinks in the document |
-| Wrong heading levels (H1 inside H2, etc.) | Normalize to proper hierarchy |
-| Missing `Tampilan` / `SEO layer` split in `06-content/` | Add the split markers |
-| `00-index.md` missing links to existing files | Add the missing wikilinks |
-| Inconsistent file paths in docs (e.g., `build/01-brief.md` vs `01-brief.md`) | Normalize to relative paths from vault root |
-| Duplicate files (same content, different names) | Keep canonical, remove duplicate |
-| Missing `09-build-prompt.md` in Branch B | Assemble from 01–08 |
-| `ads/` references in `09-build-prompt.md` | Remove — ads is post-launch collateral |
+1. **Read the bundle** — understand what the project should be:
+   - `04-sitemap.md` → which pages should exist
+   - `06-content/*.md` → what content each page should have
+   - `07-tech-spec.md` → what stack, components, config
+   - `08-seo-foundation.md` → meta tags, schema, internal links
 
-### What CANNOT be fixed by code (report only)
+2. **Scan the project** — find the actual project directory and check:
+   - Do all pages from sitemap actually exist?
+   - Do content files match what's in `06-content/`?
+   - Are meta tags, schema, and links correct per `08-seo-foundation.md`?
+   - Does the tech stack match `07-tech-spec.md`?
+
+3. **Fix project files** — spawn parallel agents to fix each issue
+
+### What can be fixed by project-fix
+
+| Bundle Says | Project Check | Fix |
+|-------------|---------------|-----|
+| `04-sitemap.md` lists `/produk` | Page doesn't exist | Create page from `06-content/produk.md` |
+| `06-content/homepage.md` has hero text | Homepage has different text | Update homepage content |
+| `08-seo-foundation.md` says title = "..." | Actual `<title>` is different | Fix the title tag |
+| `08-seo-foundation.md` says schema = FAQPage | No schema or wrong type | Add/correct JSON-LD |
+| `07-tech-spec.md` says Next.js | Project uses different stack | Flag (needs manual decision) |
+| `08-seo-foundation.md` says internal links to X | Links are missing or broken | Fix the links |
+
+### What CANNOT be fixed (report only)
 
 | Issue | Why |
 |-------|-----|
-| Content quality / accuracy | Needs domain knowledge |
-| Missing strategic information | Needs business decision |
-| Brand voice inconsistency | Needs creative judgment |
-| SEO keyword effectiveness | Needs performance data |
-| Design token appropriateness | Needs visual review |
-| Missing competitor analysis | Needs research, not code |
+| Stack mismatch | Needs rewrite, not fix |
+| Missing pages with no content | Needs content creation |
+| Design/token mismatches | Needs visual review |
+| Performance issues | Needs optimization, not fix |
 
 ### Execution — parallel fix agents
 
-**Phase 1: Scan → identify → spawn parallel agents**
+**Phase 1: Read bundle + scan project**
 
 ```
-Agent 1: Scan and dispatch
-  - FIRST: Load skills: "diagram-design"
-  - Scan klien/<slug>/ for all .md files
-  - For each document, identify fixable issues (table above)
-  - For EACH issue found, spawn a parallel agent to fix it
-  - Example: if 00-index.md has 3 missing links, 02-brand.md has a missing
-    footer, and 06-content/homepage.md needs Tampilan split → spawn 3 agents
-  - Each spawned agent:
-    - Receives: file path + specific issue to fix
-    - Applies the fix inline (Edit tool)
-    - Returns: what was fixed
-  - After all agents complete, collect results into summary:
-    - Files fixed: list with what changed
-    - Files skipped: list with what needs manual attention
-    - Total issues: fixed X, needs manual Y
+Agent 1: Read bundle documents
+  - Read klien/<slug>/build/04-sitemap.md → page list
+  - Read klien/<slug>/build/06-content/*.md → content per page
+  - Read klien/<slug>/build/07-tech-spec.md → stack + config
+  - Read klien/<slug>/build/08-seo-foundation.md → SEO requirements
+  - Produce a checklist: what the project SHOULD have
+
+Agent 2: Scan project directory
+  - Find the project root (from .freelance-project.md or user input)
+  - Scan for all pages, components, config files
+  - Compare against Agent 1's checklist
+  - List discrepancies: missing pages, wrong content, wrong meta, etc.
 ```
 
-**Phase 2: Regenerate outputs (overwrite HTML + MD)**
-
-After all markdown fixes are applied, regenerate the final outputs so they
-reflect the corrected source documents. Always overwrite — same canonical path.
-Regenerate cross-navigation top bar links so all reports point to each other.
+**Phase 2: Fix project files (parallel)**
 
 ```
-Agent 2: Regenerate audit report
-  - FIRST: Load skills: "diagram-design", "dataviz"
-  - Input: corrected audit findings from Phase 1
-  - Overwrite:
-    - klien/<slug>/seo/reports/audit.html (with updated top nav bar links)
-    - klien/<slug>/seo/reports/audit.md
+For EACH discrepancy found, spawn a parallel agent:
+  - Receives: project file path + what's wrong + what it should be
+  - Applies the fix (Edit tool, Write tool, etc.)
+  - Returns: what was fixed
 
-Agent 3: Regenerate overview
-  - FIRST: Load skills: "diagram-design", "dataviz"
-  - Input: all corrected documents from Phase 1
-  - Overwrite:
-    - klien/<slug>/overview.html (with updated top nav bar links)
-    - klien/<slug>/overview.md
+Example: if homepage has wrong title, missing FAQ schema, and /kontak page
+doesn't exist → spawn 3 agents in parallel
+```
+
+**Phase 3: Regenerate outputs (overwrite HTML + MD)**
+
+After project fixes are applied, regenerate the audit and overview to
+reflect the corrected project state.
+
+```
+Agent: Regenerate audit report
+  - Overwrite klien/<slug>/seo/reports/audit.html + .md
+  - Overwrite klien/<slug>/overview.html + .md
 ```
 
 ### Summary output
 
 ```
-🔧 Code-fix complete for <slug>
+🔧 Project-fix complete for <slug>
 
 ✅ Fixed (X issues):
-  📄 00-index.md — added 3 missing wikilinks
-  📄 02-brand.md — added missing **Related:** footer
-  📄 06-content/homepage.md — added Tampilan/SEO layer split
-  📄 09-build-prompt.md — assembled from 01–08
+  📄 homepage.html — updated <title> to match 08-seo-foundation.md
+  📄 homepage.html — added FAQPage JSON-LD schema
+  📄 /produk/index.html — created from 06-content/produk.md
+  📄 /kontak/index.html — created from 06-content/kontak.md
 
 📁 Regenerated outputs:
   📊 seo/reports/audit.html (overwritten)
-  📄 seo/reports/audit.md (overwritten)
   🏠 overview.html (overwritten)
-  📄 overview.md (overwritten)
 
 ⚠️  Needs manual fix (Y issues):
-  📄 01-brief.md — missing target audience details
-  📄 03-design-tokens.md — colour contrast below WCAG AA
-  📄 08-seo-foundation.md — keyword strategy incomplete
+  📄 Stack mismatch — bundle says Next.js, project uses Astro
+  📄 /blog page exists but no content in 06-content/
 ```
 
 ---
@@ -1297,8 +1304,8 @@ Read the state file + scan `research/`, `06-content/`, and the bundle documents.
 /freelance audit https://mysite.com
 # → 5 audits parallel → combined report
 
-/freelance code-fix keripikmangdedi.id
-# → iterate all docs → fix broken links, missing headers, etc. → report manual fixes
+/freelance project-fix keripikmangdedi.id
+# → trace project files vs bundle docs → fix discrepancies → report manual fixes
 
 /freelance status
 ```
