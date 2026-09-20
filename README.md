@@ -102,7 +102,7 @@ A real bundle runs 10–20k words. If that exceeds your target AI's context wind
 | `/freelance audit <url>` | 5 parallel audits → audit.html + overview.html (overwrite) |
 | `/freelance reaudit <url>` | Re-run audit → overwrite audit + overview (no timestamps, no cleanup) |
 | `/freelance ads <url>` | Ads Audit + Platform Analysis + Budget Plan → ads-strategy.html |
-| `/freelance code-fix <slug>` | Scan docs → fix by code (parallel) → regenerate HTML outputs |
+| `/freelance project-fix <slug>` | Trace project files → fix code (parallel) → regenerate HTML outputs |
 | `/freelance status` | Show pipeline progress |
 
 ## Optional Scaffold
