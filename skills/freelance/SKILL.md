@@ -781,10 +781,17 @@ in the content from `06-content/`.
 
 #### Cross-Navigation (MANDATORY)
 
-All HTML reports must link to each other via a **top navigation bar** — NOT in
-the sidebar. Each report already has its own sidebar for internal sections.
-The cross-nav bar sits above the content, below the page title, as a horizontal
-strip of links to all other HTML files.
+All HTML reports must link to each other via a **shared cross-navigation component**.
+This is a single `<nav>` element that is included in every HTML file, providing
+consistent navigation across all reports.
+
+**Component: `cross-nav.html`**
+
+Create a reusable HTML snippet at `klien/<slug>/components/cross-nav.html` that
+all reports include. This ensures:
+- Consistent styling across all reports
+- Easy maintenance (update once, applies everywhere)
+- Automatic link generation based on which files exist
 
 **Top bar layout:**
 
@@ -792,6 +799,19 @@ strip of links to all other HTML files.
 ┌──────────────────────────────────────────────────────────────────────┐
 │  🏠 Overview  │  📊 Audit  │  📈 Keywords  │  💰 Ads  │  🕸️ Cluster │
 └──────────────────────────────────────────────────────────────────────┘
+```
+
+**Implementation:**
+
+Each HTML report includes the cross-nav component:
+```html
+<!-- Cross-navigation bar (shared component) -->
+<nav class="cross-nav" data-cross-nav>
+  <a href="../overview.html" class="nav-item">🏠 Overview</a>
+  <a href="audit.html" class="nav-item active">📊 Audit</a>
+  <a href="../seo/diagrams/keyword-gap.html" class="nav-item">📈 Keywords</a>
+  <!-- Only include links to files that exist -->
+</nav>
 ```
 
 **Rules:**
@@ -802,6 +822,7 @@ strip of links to all other HTML files.
 - If a report doesn't exist yet, omit it from the bar
 - Branch A (existing site) omits `build/` references; Branch B includes them
 - The sidebar remains untouched — it only has internal section links
+- **All reports share the same cross-nav component** — update once, applies everywhere
 
 #### Design Requirements (MANDATORY)
 
@@ -824,7 +845,7 @@ strip of links to all other HTML files.
 **Layout:**
 ```
 ┌──────────────┬────────────────────────────────┐
-│   SIDEBAR    │  📁 Cross-Nav Bar              │
+│   SIDEBAR    │  📁 Cross-Nav (shared)         │
 │              │  Overview │ Audit │ Ads │ ...   │
 │ 🏠 Summary   ├────────────────────────────────┤
 │ 📊 Scores    │                                │
@@ -835,6 +856,17 @@ strip of links to all other HTML files.
 │ 📖 Content   │                                │
 │ ✅ Actions   │                                │
 └──────────────┴────────────────────────────────┘
+```
+
+**Cross-nav component location:**
+```
+klien/<slug>/
+├── components/
+│   └── cross-nav.html        ← shared navigation snippet
+├── overview.html              ← includes cross-nav
+├── seo/reports/audit.html     ← includes cross-nav
+├── seo/diagrams/*.html        ← includes cross-nav
+└── ads/ads-strategy.html      ← includes cross-nav
 ```
 
 **Sections:**
