@@ -24,7 +24,7 @@
   <text x="88" y="94" fill="#2d3142" font-size="10" font-weight="600">overview.html + overview.md</text>
   <rect x="280" y="76" width="80" height="28" rx="3" fill="#e8f0fe" stroke="#4a69bd" stroke-width="1"/>
   <text x="320" y="94" fill="#4a69bd" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">init / audit</text>
-  <text x="372" y="94" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Client presentation — updated by init, audit, reaudit, code-fix</text>
+  <text x="372" y="94" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Client presentation — updated by init, audit, reaudit, project-fix</text>
 
   <!-- build/ (Branch B only) -->
   <line x1="56" y1="120" x2="72" y2="120" stroke="#bfc0c0" stroke-width="1"/>
