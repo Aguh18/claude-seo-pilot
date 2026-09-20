@@ -155,18 +155,26 @@
   <text x="88" y="834" fill="#2d3142" font-size="10" font-weight="600">notes/ products/ strategy/</text>
   <text x="320" y="834" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Research notes and reference docs</text>
 
-  <!-- site/ (Branch B only) -->
+  <!-- components/ -->
   <line x1="56" y1="860" x2="72" y2="860" stroke="#bfc0c0" stroke-width="1"/>
-  <rect x="72" y="848" width="280" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
-  <text x="88" y="866" fill="#2d3142" font-size="10" font-weight="600">site/ (Branch B only, optional)</text>
-  <rect x="360" y="848" width="72" height="28" rx="3" fill="#e6f9e6" stroke="#27ae60" stroke-width="1"/>
-  <text x="396" y="866" fill="#1a8a3e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">scaffold</text>
-  <text x="444" y="866" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Optional starter, shaped by build/07-tech-spec.md</text>
+  <rect x="72" y="848" width="280" height="28" rx="4" fill="#d9f2f0" stroke="#16a085" stroke-width="1"/>
+  <text x="88" y="866" fill="#0e7a67" font-size="10" font-weight="600">components/</text>
+  <rect x="360" y="848" width="72" height="28" rx="3" fill="#d9f2f0" stroke="#16a085" stroke-width="1"/>
+  <text x="396" y="866" fill="#0e7a67" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">shared</text>
+  <text x="444" y="866" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">cross-nav.html — shared navigation for all HTML reports</text>
+
+  <!-- site/ (Branch B only) -->
+  <line x1="56" y1="892" x2="72" y2="892" stroke="#bfc0c0" stroke-width="1"/>
+  <rect x="72" y="880" width="280" height="28" rx="4" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
+  <text x="88" y="898" fill="#2d3142" font-size="10" font-weight="600">site/ (Branch B only, optional)</text>
+  <rect x="360" y="880" width="72" height="28" rx="3" fill="#e6f9e6" stroke="#27ae60" stroke-width="1"/>
+  <text x="396" y="898" fill="#1a8a3e" font-size="8" font-family="'Geist Mono',monospace" text-anchor="middle">scaffold</text>
+  <text x="444" y="898" fill="#7a8399" font-size="9" font-family="'Geist Mono',monospace">Optional starter, shaped by build/07-tech-spec.md</text>
 
   <!-- Cross-nav note -->
-  <line x1="40" y1="896" x2="840" y2="896" stroke="#16a085" stroke-width="1" stroke-dasharray="4,4"/>
-  <text x="440" y="916" fill="#16a085" font-size="10" text-anchor="middle" font-weight="600">All HTML reports cross-link via sidebar navigation</text>
-  <text x="440" y="932" fill="#7a8399" font-size="9" text-anchor="middle">overview.html ↔ audit.html ↔ diagrams/*.html ↔ ads-strategy.html</text>
+  <line x1="40" y1="928" x2="840" y2="928" stroke="#16a085" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="440" y="948" fill="#16a085" font-size="10" text-anchor="middle" font-weight="600">All HTML reports include components/cross-nav.html for navigation</text>
+  <text x="440" y="964" fill="#7a8399" font-size="9" text-anchor="middle">overview.html ↔ audit.html ↔ diagrams/*.html ↔ ads-strategy.html</text>
 
   <!-- Legend -->
   <line x1="40" y1="948" x2="840" y2="948" stroke="#bfc0c0" stroke-width="1"/>
