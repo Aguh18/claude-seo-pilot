@@ -195,28 +195,42 @@
   <rect x="392" y="700" width="260" height="28" rx="4" fill="#e6f9e6" stroke="#27ae60" stroke-width="0.8"/>
   <text x="522" y="718" fill="#2d3142" font-size="9" text-anchor="middle">audit.html + overview.html (overwrite)</text>
 
-  <!-- ═══ CODE-FIX ═══════════════════════════════════════ -->
+  <!-- ═══ PROJECT-FIX ═══════════════════════════════════════ -->
   <rect x="24" y="740" width="832" height="100" rx="6" fill="#ffffff" stroke="#16a085" stroke-width="1.5"/>
   <rect x="24" y="740" width="6" height="100" rx="3" fill="#16a085"/>
 
   <text x="44" y="768" fill="#16a085" font-size="14" font-weight="600">/freelance project-fix</text>
-  <text x="240" y="768" fill="#7a8399" font-size="10" font-family="'Geist Mono',monospace">Scan docs → fix by code (parallel) → regenerate outputs</text>
+  <text x="260" y="768" fill="#7a8399" font-size="10" font-family="'Geist Mono',monospace">Trace project → fix code → update bundle docs → regenerate</text>
 
-  <text x="44" y="792" fill="#bfc0c0" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.1em">PHASE 1 — SCAN + PARALLEL FIX</text>
-  <text x="440" y="792" fill="#bfc0c0" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.1em">PHASE 2 — REGENERATE</text>
+  <text x="44" y="792" fill="#bfc0c0" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.1em">PHASE 1</text>
+  <text x="180" y="792" fill="#bfc0c0" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.1em">PHASE 2</text>
+  <text x="420" y="792" fill="#bfc0c0" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.1em">PHASE 3</text>
+  <text x="600" y="792" fill="#bfc0c0" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.1em">PHASE 4</text>
 
-  <!-- Phase 1: scan + fix -->
-  <rect x="44" y="800" width="380" height="28" rx="4" fill="#d9f2f0" stroke="#16a085" stroke-width="0.8"/>
-  <text x="234" y="818" fill="#2d3142" font-size="9" text-anchor="middle">Scan all .md → spawn parallel agents per issue → fix inline</text>
+  <!-- Phase 1: scan -->
+  <rect x="44" y="800" width="128" height="28" rx="4" fill="#d9f2f0" stroke="#16a085" stroke-width="0.8"/>
+  <text x="108" y="818" fill="#2d3142" font-size="9" text-anchor="middle">Scan project</text>
 
-  <text x="434" y="818" fill="#16a085" font-size="14">→</text>
+  <text x="180" y="818" fill="#16a085" font-size="14">→</text>
 
-  <!-- Phase 2: regenerate -->
-  <rect x="452" y="800" width="220" height="28" rx="4" fill="#e6f9e6" stroke="#27ae60" stroke-width="0.8"/>
-  <text x="562" y="818" fill="#2d3142" font-size="9" text-anchor="middle">Overwrite audit.html + overview.html</text>
+  <!-- Phase 2: parallel fix -->
+  <rect x="196" y="800" width="212" height="28" rx="4" fill="#d9f2f0" stroke="#16a085" stroke-width="0.8"/>
+  <text x="302" y="818" fill="#2d3142" font-size="9" text-anchor="middle">Fix project code (parallel)</text>
+
+  <text x="416" y="818" fill="#16a085" font-size="14">→</text>
+
+  <!-- Phase 3: update bundle -->
+  <rect x="432" y="800" width="156" height="28" rx="4" fill="#e6f9e6" stroke="#27ae60" stroke-width="0.8"/>
+  <text x="510" y="818" fill="#2d3142" font-size="9" text-anchor="middle">Update bundle docs ✅</text>
+
+  <text x="596" y="818" fill="#16a085" font-size="14">→</text>
+
+  <!-- Phase 4: regenerate -->
+  <rect x="612" y="800" width="180" height="28" rx="4" fill="#e6f9e6" stroke="#27ae60" stroke-width="0.8"/>
+  <text x="702" y="818" fill="#2d3142" font-size="9" text-anchor="middle">Regenerate HTML outputs</text>
 
   <!-- Output -->
-  <text x="684" y="818" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace">→ fixed .md + regenerated HTML</text>
+  <text x="44" y="844" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace">OUTPUT: fixed project code + ✅ in bundle docs + regenerated audit/overview</text>
 
   <!-- ═══ ADS ═══════════════════════════════════════ -->
   <rect x="24" y="860" width="832" height="80" rx="6" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
