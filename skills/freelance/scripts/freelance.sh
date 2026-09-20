@@ -55,7 +55,7 @@ check_project() {
 
 check_state() {
     if [ ! -f "$STATE_FILE" ]; then
-        echo '{"project":"","last_updated":"","steps":{"discovery":{"research":"pending","interview":"pending","confirm":"pending"},"bundle":{"brief":"pending","brand":"pending","tokens":"pending","sitemap":"pending","content":"pending","tech_spec":"pending","seo":"pending","handoff":"pending","build_prompt":"pending"},"research":{"competitor":"pending","keywords":"pending","serp":"pending","market_analysis":"pending"},"content":{"brief":"pending","outline":"pending","write":"pending","review":"pending"},"seo":{"onpage":"pending","technical":"pending","geo":"pending","schema":"pending"},"ads":{"platform_audit":"pending","competitor_ads":"pending","budget_plan":"pending","strategy_report":"pending"},"publish":{"obsidian":"pending","blog":"pending","social_media":"pending"}},"history":[]}' > "$STATE_FILE"
+        echo '{"project":"","last_updated":"","steps":{"discovery":{"research":"pending","interview":"pending","confirm":"pending"},"bundle":{"brief":"pending","brand":"pending","tokens":"pending","sitemap":"pending","content":"pending","tech_spec":"pending","seo":"pending","layout":"pending","handoff":"pending","build_prompt":"pending"},"research":{"competitor":"pending","keywords":"pending","serp":"pending","market_analysis":"pending"},"content":{"brief":"pending","outline":"pending","write":"pending","review":"pending"},"seo":{"onpage":"pending","technical":"pending","geo":"pending","schema":"pending"},"ads":{"platform_audit":"pending","competitor_ads":"pending","budget_plan":"pending","strategy_report":"pending"},"publish":{"obsidian":"pending","blog":"pending","social_media":"pending"}},"history":[]}' > "$STATE_FILE"
     fi
 }
 
@@ -157,7 +157,7 @@ EOF
   "last_updated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "steps": {
     "discovery": { "research": "pending", "interview": "pending", "confirm": "pending" },
-    "bundle": { "brief": "pending", "brand": "pending", "tokens": "pending", "sitemap": "pending", "content": "pending", "tech_spec": "pending", "seo": "pending", "handoff": "pending", "build_prompt": "pending" },
+    "bundle": { "brief": "pending", "brand": "pending", "tokens": "pending", "sitemap": "pending", "layout": "pending", "content": "pending", "tech_spec": "pending", "seo": "pending", "handoff": "pending", "build_prompt": "pending" },
     "research": { "competitor": "pending", "keywords": "pending", "serp": "pending", "market_analysis": "pending" },
     "content": { "brief": "pending", "outline": "pending", "write": "pending", "review": "pending" },
     "seo": { "onpage": "pending", "technical": "pending", "geo": "pending", "schema": "pending" },
@@ -174,7 +174,7 @@ EOF
     echo "   📄 $PROJECT_FILE"
     echo "   📊 $STATE_FILE"
     echo ""
-    echo "   Next: /freelance init runs discovery, then drafts the 9-document bundle"
+    echo "   Next: /freelance init runs discovery, then drafts the 10-document bundle"
     echo ""
 }
 
@@ -233,12 +233,12 @@ print('all_done')
             echo "     /blog discourse <topic>"
             ;;
         bundle)
-            echo "  📦 Bundle phase — the 9 client handoff documents:"
+            echo "  📦 Bundle phase — the 10 client handoff documents:"
             echo "     00-handoff.md        01-brief.md"
             echo "     02-brand.md          03-design-tokens.md"
-            echo "     04-sitemap.md        05-content/*.md"
-            echo "     06-tech-spec.md      07-seo-foundation.md"
-            echo "     08-build-prompt.md"
+            echo "     04-sitemap.md        05-layout.md"
+            echo "     06-content/*.md      07-tech-spec.md"
+            echo "     08-seo-foundation.md 09-build-prompt.md"
             ;;
         research)
             echo "  📋 Research phase commands:"

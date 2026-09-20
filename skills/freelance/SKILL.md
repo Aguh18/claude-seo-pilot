@@ -2,7 +2,7 @@
 name: freelance
 description: >
   Client web-build orchestrator for freelancers. Turns a client — an existing
-  site or just a business name — into a handoff bundle of 9 documents (brief,
+  site or just a business name — into a handoff bundle of 10 documents (brief,
   brand, design tokens, sitemap, page copy, tech spec, SEO foundation, master
   prompt, and a copy-paste build prompt) that any AI can read to build the
   website. Also runs SEO audits, blog pipelines, and ads strategy on the
@@ -27,7 +27,7 @@ Client web-build orchestrator. Take a client from discovery to a documented buil
 
 | Command | What It Does |
 |---------|--------------|
-| `/freelance init <name-or-url>` | Discovery → **9-document handoff bundle** for the build, plus overview.html, ads plan, and content plan as side outputs |
+| `/freelance init <name-or-url>` | Discovery → **10-document handoff bundle** for the build, plus overview.html, ads plan, and content plan as side outputs |
 | `/freelance blog-write <topic>` | Full pipeline → keyword research → brief → write → SEO optimize → publish |
 | `/freelance audit <url>` | Full SEO audit → technical + on-page + schema + GEO + report |
 | `/freelance reaudit <url>` | Clean old audit files → re-run full audit with fresh timestamped output |
@@ -39,7 +39,7 @@ Client web-build orchestrator. Take a client from discovery to a documented buil
 ## Two Ways In
 
 `init` accepts either an existing site or just a business name. Both branches
-converge on the same 9-document bundle.
+converge on the same 10-document bundle.
 
 **Branch A — the client already has a website** (`/freelance init https://...`):
 scrape it, research the market, then *translate* that material into the bundle.
@@ -62,7 +62,7 @@ there is nothing to scrape, so research first and confirm second.
 
 ## The Handoff Bundle
 
-Nine markdown documents plus one presentation page. This is the deliverable —
+Ten markdown documents plus one presentation page. This is the deliverable —
 everything else is input to it.
 
 | # | Document | Contents | Built from |
@@ -72,30 +72,31 @@ everything else is input to it.
 | 02 | `02-brand.md` | Voice, tone, personality | `blog-brand`, `blog-persona` |
 | 03 | `03-design-tokens.md` | **Visual direction** + colour, typography, spacing, radii | `high-end-visual-design`, `design-taste-frontend`, `diagram-design` |
 | 04 | `04-sitemap.md` | Pages, hierarchy, navigation, CTA per page | `seo-plan` Step 3, `seo-sitemap` |
-| 05 | `05-content/*.md` | Copy for each page | `seo-content-brief` page types |
-| 06 | `06-tech-spec.md` | Stack, hosting, CMS, components, integrations | **new** |
-| 07 | `07-seo-foundation.md` | Keywords, meta, schema, internal linking | `seo-cluster`, `seo-schema`, `seo-page` |
-| 08 | `08-build-prompt.md` | Self-contained paste — all of the above inline | **new** |
+| 05 | `05-layout.md` | **Per page: section order, visual weight, text budget** | **new** |
+| 05 | `06-content/*.md` | Copy for each page | `seo-content-brief` page types |
+| 06 | `07-tech-spec.md` | Stack, hosting, CMS, components, integrations | **new** |
+| 07 | `08-seo-foundation.md` | Keywords, meta, schema, internal linking | `seo-cluster`, `seo-schema`, `seo-page` |
+| 08 | `09-build-prompt.md` | Self-contained paste — all of the above inline | **new** |
 
 Plus `overview.html` — bright theme with sidebar, same design as the audit
 reports, for presenting the plan to a non-technical client.
 
 ### Two handoff formats, two consumers
 
-`00-handoff.md` and `08-build-prompt.md` solve different problems:
+`00-handoff.md` and `09-build-prompt.md` solve different problems:
 
 - **`00-handoff.md`** is a *pointer*. It tells a builder that can read the folder
   to open the rest of `build/` in a set order. Short, and the single source of
   truth stays in the other seven documents.
-- **`08-build-prompt.md`** is a *paste*. It inlines the full text of 01–07 and
-  every `05-content/` page, so the whole spec survives one Ctrl-A → Ctrl-C into
+- **`09-build-prompt.md`** is a *paste*. It inlines the full text of 01–08 and
+  every `06-content/` page, so the whole spec survives one Ctrl-A → Ctrl-C into
   an AI that cannot see the filesystem.
 
 **Boundary: 08 carries the website spec only.** The ads plan (Wave 5) and the
 research reports are marketing collateral for *after* launch — they say how to
 promote the site, not how to build it. They stay out — in `ads/`, `blog/`, and `seo/`.
 
-Generate 08 **last**, after 01–07 are final. It is mechanical assembly — build
+Generate 08 **last**, after 01–08 are final. It is mechanical assembly — build
 it by reading the finished files, never by regenerating their content, or the
 two copies will drift.
 
@@ -119,7 +120,32 @@ silently drop sections to shorten it.
    bundle with good copy and a colour palette but no visual direction produces
    a page that ranks and looks templated — centred hero, three feature cards,
    stock footer. `03-design-tokens.md` therefore carries visual direction, and
-   `08-build-prompt.md` carries the anti-slop rules. See below.
+   `09-build-prompt.md` carries the anti-slop rules. See below.
+
+### Why 05-layout exists
+
+A bundle that is rich in prose and silent on layout produces a text-heavy page.
+That is not the builder's fault: it receives seven documents of writing plus
+page copy, and no hierarchy, so it gives every section equal weight.
+
+`05-layout.md` is the answer. It is the authority on how each page is composed:
+
+- **Section order** per page, taken from `04-sitemap`'s page list.
+- **Visual weight** per section — full-screen, half, or thin strip. Say which
+  one section carries the page.
+- **Text budget** per section, in words. This is a cap, not a target.
+- **Media** per section — image, diagram, or none, and how much room it takes.
+- **Whitespace** — where the page is allowed to breathe heavily.
+
+**`06-content` must fit inside the budget `05-layout` sets.** The copy engine
+writes SEO-dense prose by design — 40-60 word snippet answers, one definition
+box per service — and left unconstrained it fills every section until the page
+is a wall of text. Visual hierarchy and SEO density pull opposite ways; the
+layout document is where the tie is broken, deliberately, per section.
+
+The rule: a section with a two-line budget gets two lines on the page. Anything
+longer belongs in the SEO layer (meta description, schema, an FAQ section), not
+in the hero.
 
 ### Linking — the bundle is a vault, not loose files
 
@@ -127,7 +153,7 @@ Everything under `klien/<slug>/` is one Obsidian vault, so documents link to
 each other with **`[[wiki-links]]`** — not relative paths. Wikilinks resolve by
 filename anywhere in the vault, which is why the whole set must share one root.
 
-**Rule: every document 01–07 opens with a `related:` line and carries a
+**Rule: every document 01–08 opens with a `related:` line and carries a
 `**Related:**` line at the foot listing its wikilinks.** The convention matches
 what the existing vault output already does — a hub note listing everything,
 each note linking sideways to its siblings, and each note linking back to the
@@ -136,22 +162,23 @@ hub. Follow that shape.
 | Document | Links to | Authority it holds |
 |---|---|---|
 | `00-handoff.md` | all of 01–08 — it is the entry point | reading order |
-| `01-brief.md` | `[[02-brand]]` `[[04-sitemap]]` `[[07-seo-foundation]]` | business goals, audience, offer |
-| `02-brand.md` | `[[01-brief]]` `[[03-design-tokens]]` `[[05-content]]` | voice and tone |
-| `03-design-tokens.md` | `[[02-brand]]` `[[06-tech-spec]]` | **visual direction** + colour, type, spacing — final |
-| `04-sitemap.md` | `[[01-brief]]` `[[05-content]]` `[[07-seo-foundation]]` | **the page list — final** |
-| `05-content/*.md` | `[[02-brand]]` `[[04-sitemap]]` | the copy itself |
-| `06-tech-spec.md` | `[[03-design-tokens]]` `[[04-sitemap]]` | stack and components — final |
-| `07-seo-foundation.md` | `[[04-sitemap]]` `[[research/content-plan]]` | keywords, meta, schema |
+| `01-brief.md` | `[[02-brand]]` `[[04-sitemap]]` `[[08-seo-foundation]]` | business goals, audience, offer |
+| `02-brand.md` | `[[01-brief]]` `[[03-design-tokens]]` `[[06-content]]` | voice and tone |
+| `03-design-tokens.md` | `[[02-brand]]` `[[07-tech-spec]]` | **visual direction** + colour, type, spacing — final |
+| `04-sitemap.md` | `[[01-brief]]` `[[06-content]]` `[[08-seo-foundation]]` | **the page list — final** |
+| `05-layout.md` | `[[03-design-tokens]]` `[[04-sitemap]]` `[[06-content]]` | **how each page is composed — final** |
+| `06-content/*.md` | `[[02-brand]]` `[[04-sitemap]]` | the copy itself |
+| `07-tech-spec.md` | `[[03-design-tokens]]` `[[04-sitemap]]` | stack and components — final |
+| `08-seo-foundation.md` | `[[04-sitemap]]` `[[research/content-plan]]` | keywords, meta, schema |
 | `00-index.md` (hub) | every bundle doc and every note | vault navigation |
 
 **Authority matters more than the links.** Two documents can disagree —
-`05-content` might invent a page that `04-sitemap` never listed, or
-`06-tech-spec` might pick a colour that `03-design-tokens` already fixed. Each
+`06-content` might invent a page that `04-sitemap` never listed, or
+`07-tech-spec` might pick a colour that `03-design-tokens` already fixed. Each
 row above names who wins, so a builder resolves a conflict by looking it up
 rather than guessing. State the authority line explicitly in each document.
 
-`08-build-prompt.md` is the exception: it must survive being pasted somewhere
+`09-build-prompt.md` is the exception: it must survive being pasted somewhere
 with no folder around it, so it carries **no wikilinks and no relative paths**.
 It already inlines the content those links would have pointed at.
 
@@ -227,10 +254,10 @@ klien/<slug>/
 │   ├── 02-brand.md
 │   ├── 03-design-tokens.md
 │   ├── 04-sitemap.md
-│   ├── 05-content/          copy for each page
-│   ├── 06-tech-spec.md
-│   ├── 07-seo-foundation.md
-│   └── 08-build-prompt.md   paste this, or hand over the whole build/
+│   ├── 06-content/          copy for each page
+│   ├── 07-tech-spec.md
+│   ├── 08-seo-foundation.md
+│   └── 09-build-prompt.md   paste this, or hand over the whole build/
 ├── blog/
 │   ├── content-plan.md      what to publish, in what order
 │   └── articles/            written posts
@@ -242,14 +269,14 @@ klien/<slug>/
 ├── ads/
 │   ├── ads-strategy.md
 │   └── diagrams/
-├── site/                    optional scaffold, shaped by build/06-tech-spec.md
+├── site/                    optional scaffold, shaped by build/07-tech-spec.md
 ├── notes/                   research notes
 ├── products/                product and service docs
 └── strategy/                positioning, roadmap
 ```
 
 **`build/` is the unit you hand over.** It is complete on its own: those eight
-files are everything a builder needs, and `08-build-prompt.md` is the flattened
+files are everything a builder needs, and `09-build-prompt.md` is the flattened
 version of the other seven for pasting somewhere with no filesystem.
 
 Derive the slug, then create the tree:
@@ -259,7 +286,7 @@ if [ -n "$URL" ]; then
 else
     SLUG=$(echo "$NAME" | tr '[:upper:]' '[:lower:]' | sed 's|[^a-z0-9]|-|g' | sed 's|--*|-|g' | sed 's|^-||;s|-$||')
 fi
-mkdir -p klien/$SLUG/{build,build/05-content,blog,blog/articles,seo,seo/research,seo/reports,seo/diagrams,ads,ads/diagrams,notes,products,strategy}
+mkdir -p klien/$SLUG/{build,build/06-content,blog,blog/articles,seo,seo/research,seo/reports,seo/diagrams,ads,ads/diagrams,notes,products,strategy}
 ```
 
 Examples: `klien/keripikmangdedi.id/`, `klien/warung-kopi-kenangan/`
@@ -305,11 +332,12 @@ Examples: `klien/keripikmangdedi.id/`, `klien/warung-kopi-kenangan/`
 | Brand docs | `general-purpose` | `blog-brand`, `blog-persona`, `blog-style` |
 | Bundle: brief + brand | `general-purpose` | `seo-plan`, `blog-brand`, `blog-persona` |
 | Bundle: tokens + sitemap | `general-purpose` | `high-end-visual-design`, `design-taste-frontend`, `frontend-design`, `diagram-design`, `seo-plan`, `seo-sitemap` |
+| Bundle: layout | `general-purpose` | `high-end-visual-design`, `design-taste-frontend`, `diagram-design` |
 | Bundle: page copy | `general-purpose` | `seo-content-brief` |
 | Bundle: tech spec + SEO | `general-purpose` | `seo-technical`, `seo-schema`, `seo-cluster`, `seo-page` |
 | Bundle: handoff (00 only, not 08) | `general-purpose` | `diagram-design` |
 | Content plan (research output, not bundle) | `general-purpose` | `blog-strategy`, `blog-cluster`, `seo-cluster` |
-| Bundle: 08-build-prompt assembly | `general-purpose` | none — verbatim concatenation only |
+| Bundle: 09-build-prompt assembly | `general-purpose` | none — verbatim concatenation only |
 | Market discovery (no site yet) | `general-purpose` | `defuddle`, `seo-content`, `blog-discourse` |
 | Discovery proposal draft | `general-purpose` | `blog-brand`, `seo-plan`, `seo-content-brief` |
 | Ads platform audit | `general-purpose` | `ads`, `ads-audit`, `ads-google`, `ads-meta` |
@@ -326,7 +354,7 @@ Examples: `klien/keripikmangdedi.id/`, `klien/warung-kopi-kenangan/`
 
 Set up client project. Scrapes site, researches keywords + competitors, creates SEO strategy.
 
-**First:** `mkdir -p klien/<slug>/{build,build/05-content,blog,blog/articles,seo,seo/research,seo/reports,seo/diagrams,ads,ads/diagrams,notes,products,strategy}`
+**First:** `mkdir -p klien/<slug>/{build,build/06-content,blog,blog/articles,seo,seo/research,seo/reports,seo/diagrams,ads,ads/diagrams,notes,products,strategy}`
 
 ### Branch A — existing website
 
@@ -426,7 +454,7 @@ The confirmed draft becomes the input to Wave 3 below.
 
 **Wave 4 (parallel) — the handoff bundle. THIS IS THE DELIVERABLE.**
 
-Write all 9 documents. Nothing else in this skill matters as much.
+Write all 10 documents. Nothing else in this skill matters as much.
 
 ```
 Agent 6: Brief + brand
@@ -450,9 +478,7 @@ Agent 7: Design tokens + sitemap
       2. Layout archetype per page — for each page in 04-sitemap, which
          structural pattern it uses. Vary them; the homepage and the services
          page must not share one skeleton.
-      3. Section compositions — the sections each page is built from, in
-         order, and what each carries.
-      4. The tokens — semantic roles (paper, paper-2, ink, muted, rule,
+      3. The tokens — semantic roles (paper, paper-2, ink, muted, rule,
          accent, link) in light + dark, the type ramp, the 4px spacing grid,
          radii, breakpoints, elevation. Carry over the brand fidelity receipt
          from onboarding.md Step 4 so the client can see what was sampled.
@@ -465,26 +491,59 @@ Agent 7: Design tokens + sitemap
     its purpose, primary CTA, and target keyword. Start from the matching
     tree in seo-plan/assets/<industry>.md.
 
-Agent 8: Page copy
+Agent 8: Layout
+  - FIRST: Load skills: "high-end-visual-design", "design-taste-frontend",
+    "diagram-design"
+  - 05-layout.md — one section per page, and for each page a table of its
+    sections in render order:
+      | # | Section | Visual weight | Text budget | Media |
+    - Visual weight: full-screen / half / thin strip. Exactly one section per
+      page carries it — the hero on a homepage, the service list on a services
+      page. Everything else is subordinate to that one.
+    - Text budget: a word CAP per section, not a target. A hero gets roughly
+      8-12 words for its headline and one CTA. A card gets a title plus one
+      line. If a section cannot be said in its budget, the section is wrong,
+      not the budget.
+    - Media: image, diagram, or none, and how much room it takes.
+    - Note where the page breathes: which gaps are deliberately large.
+  - Then a short typographic hierarchy per page: what is H1, what is body,
+    what is a caption, and the relative scale between them.
+  - THIS DOCUMENT OWNS SECTION ORDER AND TEXT LENGTH. Agent 9 must fit inside
+    it. Derive the sections from 04-sitemap's page list and 03-design-tokens'
+    archetypes, but the budget is yours to set — and you must set one.
+  - The failure this prevents: a page where every section carries equal weight
+    and full SEO paragraphs, which reads as a wall of text no matter how good
+    the copy is.
+
+Agent 9: Page copy
   - FIRST: Load skills: "seo-content-brief"
-  - 05-content/<page-slug>.md — one file per page from 04-sitemap.md
+  - 06-content/<page-slug>.md — one file per page from 04-sitemap.md
   - Follow the 9 page types in
     seo-content-brief/references/page-type-templates.md
+  - OBEY 05-layout.md's text budget for every section. This is a hard cap.
+    The page-type templates specify SEO-dense formats (40-60 word snippet
+    answers, definition boxes); those belong in the SEO layer, not in a
+    section whose budget is two lines
+  - Split each page file in two:
+      ## Tampilan   — exactly the text that renders, within budget
+      ## SEO layer  — meta description, schema, the long-form answers that
+                      index but never appear on the page
+    A builder renders Tampilan and uses SEO layer for head tags and markup
   - Contact is NOT among them — write it from the Homepage CTA pattern:
     form, NAP block, map, operating hours
   - Respect the Website Relevance Rule: every claim must be something this
     client can credibly say about its actual offer
 
-Agent 9: Tech spec + SEO foundation
+Agent 10: Tech spec + SEO foundation
   - FIRST: Load skills: "seo-technical", "seo-schema", "seo-cluster", "seo-page"
-  - 06-tech-spec.md — stack, rendering strategy per page type (SSR for
+  - 07-tech-spec.md — stack, rendering strategy per page type (SSR for
     dynamic/SEO pages, SSG for static, CSR for authenticated only), hosting,
     CMS, component inventory, forms, analytics, integrations. State the stack
     explicitly: the scaffold step reads this file to decide what to generate.
-  - 07-seo-foundation.md — keyword map, per-page meta (title + description),
+  - 08-seo-foundation.md — keyword map, per-page meta (title + description),
     schema per page type, internal linking plan, CWV targets
 
-Agent 10: Master prompt
+Agent 11: Master prompt
   - FIRST: Load skills: "diagram-design"
   - 00-handoff.md — the master prompt: reading order of the other 7 documents,
     what to build, what is fixed vs open for the builder to decide, and
@@ -496,10 +555,10 @@ Agent 10: Master prompt
 
 These are NOT part of the handoff bundle. The overview is a client presentation;
 the rest is post-launch marketing collateral. None of it goes into
-`08-build-prompt.md`, and none of it goes into 01–07.
+`09-build-prompt.md`, and none of it goes into 01–08.
 
 ```
-Agent 11: Generate client overview report (HTML + MD)
+Agent 12: Generate client overview report (HTML + MD)
   - FIRST: Load skills: "diagram-design", "dataviz", "blog-analyze"
   - Input: all Wave 1 research
   - Output:
@@ -507,7 +566,7 @@ Agent 11: Generate client overview report (HTML + MD)
     - klien/<slug>/overview.md (markdown version for quick reference)
   - See "Report Requirements" below
 
-Agent 12: Generate SEO planning diagrams
+Agent 13: Generate SEO planning diagrams
   - FIRST: Load skills: "diagram-design", "dataviz"
   - Input: keyword + competitor data
   - Output:
@@ -515,18 +574,18 @@ Agent 12: Generate SEO planning diagrams
     - klien/<slug>/seo/diagrams/content-cluster.html (hub-and-spoke content map)
     - klien/<slug>/seo/diagrams/build-priority.html (action items by impact/effort)
 
-Agent 13: Content plan (research output, NOT part of the bundle)
+Agent 14: Content plan (research output, NOT part of the bundle)
   - FIRST: Load skills: "blog-strategy", "blog-cluster", "seo-cluster"
   - Input: keyword strategy, discourse questions, competitor gaps
   - Output: klien/<slug>/blog/content-plan.md
   - Contents: the article list with publish order, target keyword and intent
     per article, content type, and which page each links back to. Cluster the
     articles hub-and-spoke so the internal linking in 07 has somewhere to land.
-  - This stays under `blog/` and out of 08-build-prompt.md: a content
+  - This stays under `blog/` and out of 09-build-prompt.md: a content
     calendar describes what to publish after launch, not what to build now.
     Articles are written later with `/freelance blog-write`.
 
-Agent 14: Ads strategy report + diagrams
+Agent 15: Ads strategy report + diagrams
   - FIRST: Load skills: "ads", "ads-audit", "ads-plan", "ads-budget", "ads-competitor", "diagram-design", "dataviz"
   - Input: all Wave 1 research (website analysis, competitor data, keywords)
   - Analyze: which ad platforms fit this business, budget allocation, campaign structure, competitor ad strategy
@@ -543,15 +602,15 @@ Agent 14: Ads strategy report + diagrams
 **Wave 6 (single agent):**
 
 ```
-Agent 15: Config files + vault hub
+Agent 16: Config files + vault hub
   - .freelance-project.md at the client root (client info, keywords, competitors)
   - klien/<slug>/.freelance-state.json (pipeline tracker)
   - klien/<slug>/00-index.md — the vault hub, and the ONLY index in the vault.
     It links out to everything with [[wiki-links]], grouped by the same
     function folders the files live in:
       Build      → [[01-brief]] [[02-brand]] [[03-design-tokens]] [[04-sitemap]]
-                   the pages in [[05-content]] [[06-tech-spec]]
-                   [[07-seo-foundation]] [[08-build-prompt]]
+                   the pages in [[06-content]] [[07-tech-spec]]
+                   [[08-seo-foundation]] [[09-build-prompt]]
       Blog       → [[content-plan]] and each article
       SEO        → [[keyword-strategy]], the audit reports, the diagrams
       Ads        → [[ads-strategy]], the ads diagrams
@@ -564,30 +623,35 @@ Agent 15: Config files + vault hub
 **Wave 7 (single agent) — the paste file:**
 
 ```
-Agent 16: Assemble 08-build-prompt.md
+Agent 17: Assemble 09-build-prompt.md
   - Runs LAST, after every other document is final
-  - Read the finished 01-brief.md … 07-seo-foundation.md and every
-    05-content/*.md file, and concatenate them verbatim
+  - Read the finished 01-brief.md … 08-seo-foundation.md and every
+    06-content/*.md file, and concatenate them verbatim
   - DO NOT regenerate any content — assembly only, or the copies drift
-  - IN SCOPE: 01–07 plus 05-content/. NOTHING ELSE.
+  - IN SCOPE: 01–08 plus 06-content/. NOTHING ELSE.
   - OUT OF SCOPE: the ads plan, research reports, and diagrams. Do not include
     them — they are post-launch marketing collateral, and folding them in
     would bury the build spec
   - MUST ALSO CARRY the anti-slop rules inline, as a section near the front,
-    before the inlined documents. This is the one thing 08 adds rather than
+    before the inlined documents. This is the one thing 09 adds rather than
     copies: a builder receiving only this paste has no access to the vendored
     design skills, and without these rules it will produce a centred hero over
     three feature cards. Include the banned lists (fonts, layouts, borders and
     shadows, motion), the whitespace floor, and the pre-output checklist the
     builder should tick before delivering
   - Structure:
-      1. Opening instruction: what this is, what to build, and the reminder
-         that the sitemap defines the page list and the tech spec defines
-         the stack
+      1. Opening instruction: what this is, what to build, and the two rules a
+         builder must not get wrong — **05-layout governs section order,
+         visual weight and text length**; and a section's budget is a cap, so
+         do not pour the full copy into it. The sitemap defines the page list,
+         the tech spec defines the stack
       2. `---` separator, then `# 01 — BRIEF` followed by the full text of
          01-brief.md
-      3. Repeat for 02 through 07
-      4. Then one section per page from 05-content/, headed with its URL
+      3. Repeat for 02 through 08, so 05-layout lands in sequence and reads as
+         binding rather than optional
+      4. Then one section per page from 06-content/, headed with its URL, and
+         carrying BOTH of that file's parts — Tampilan (what renders) and SEO
+         layer. State plainly which one the builder renders
   - The result must be understandable with zero access to the folder — no
     "see 04-sitemap.md" cross-references, no relative links
 ```
@@ -596,11 +660,11 @@ Agent 16: Assemble 08-build-prompt.md
 
 ### Scaffold (optional, after the bundle)
 
-Once `06-tech-spec.md` exists, offer to scaffold the starter project at
+Once `07-tech-spec.md` exists, offer to scaffold the starter project at
 `klien/<slug>/site/`. **Read the stack from the tech spec** — do not assume
 Next.js.
 
-| `06-tech-spec.md` says | Generate |
+| `07-tech-spec.md` says | Generate |
 |---|---|
 | `next` / `nextjs` | `app/` route dir, `layout.tsx`, `globals.css`, `tailwind.config.ts` |
 | `astro` | `src/pages/`, `src/layouts/`, `src/styles/`, `astro.config.mjs` |
@@ -610,7 +674,7 @@ Next.js.
 In every case: write `03-design-tokens.md`'s values out as CSS custom
 properties in the token stylesheet, and create one placeholder file per page
 listed in `04-sitemap.md`. Scaffolding is structure only — the builder AI fills
-in the content from `05-content/`.
+in the content from `06-content/`.
 
 ### Report Requirements
 
@@ -739,7 +803,7 @@ Agent 5: Write article
   - FIRST: Load skills: "blog-write", "blog-style", "blog-persona"
   - (blog-writer agent self-loads blog-write)
   - Input: brief + outline + klien/<slug>/build/02-brand.md
-  - Output: klien/<slug>/build/05-content/<page-slug>.md
+  - Output: klien/<slug>/build/06-content/<page-slug>.md
 ```
 
 **Wave 4 (parallel):**
@@ -849,8 +913,8 @@ mkdir -p klien/$SLUG/{reports,diagrams}
 **Do NOT delete:**
 - `build/` — the whole handoff bundle (01–08), untouched
 - `overview.html` — the client-facing presentation
-- `05-content/` — page copy
-- `06-tech-spec.md` — stack decisions the scaffold depends on
+- `06-content/` — page copy
+- `07-tech-spec.md` — stack decisions the scaffold depends on
 - `.freelance-project.md` — project config (persistent)
 - `.freelance-state.json` — pipeline state (persistent)
 - `research/` — keyword & competitor research (reusable)
@@ -1025,7 +1089,7 @@ klien/<slug>/ads/
 
 **Load skills:** `blog-analyze` (for content scoring if content exists)
 
-Read the state file + scan `research/`, `05-content/`, and the bundle documents. Report: done, in progress, pending.
+Read the state file + scan `research/`, `06-content/`, and the bundle documents. Report: done, in progress, pending.
 
 ---
 
@@ -1035,16 +1099,16 @@ Read the state file + scan `research/`, `05-content/`, and the bundle documents.
 # Branch A — client already has a site
 /freelance init https://mysite.com
 # → Wave 1: scrape + competitors + keywords + questions + brand extraction
-# → Wave 4: the 9-document bundle (brief, brand, tokens, sitemap, copy, tech spec, SEO, handoff, build prompt)
+# → Wave 4: the 10-document bundle (brief, brand, tokens, sitemap, copy, tech spec, SEO, handoff, build prompt)
 # → Wave 5: overview report + diagrams
-# → Waves 6-7: config, vault, then 08-build-prompt.md
-# → Done! Open klien/mysite.com/build/00-handoff.md, or paste 08-build-prompt.md
+# → Waves 6-7: config, vault, then 09-build-prompt.md
+# → Done! Open klien/mysite.com/build/00-handoff.md, or paste 09-build-prompt.md
 
 # Branch B — no site yet, just a business name
 /freelance init "Warung Kopi Kenangan"
 # → Wave 1: market + demand + discourse + industry references
 # → Wave 2: drafts a proposal and STOPS for your correction
-# → Wave 4: the 9-document bundle, built from the confirmed draft
+# → Wave 4: the 10-document bundle, built from the confirmed draft
 
 /freelance blog-write "Resep Keripik Singkong Original"
 # → Keyword research → brief → write → SEO check → schema → publish

@@ -1,7 +1,7 @@
 # 🧰 Freelance for Claude Code
 
 Freelance is a client web-build workflow for Claude Code — 6 commands that take a client from
-discovery to a **handoff bundle of 9 documents** any AI can read to build the website.
+discovery to a **handoff bundle of 10 documents** any AI can read to build the website.
 
 Works whether the client already has a site or only has a business name.
 
@@ -36,10 +36,11 @@ This is the deliverable. Everything else is input to it.
 | 02 | `02-brand.md` | Voice, tone, personality |
 | 03 | `03-design-tokens.md` | Colour, typography, spacing, radii |
 | 04 | `04-sitemap.md` | Pages, hierarchy, navigation, CTA per page |
-| 05 | `05-content/*.md` | Copy for each page |
-| 06 | `06-tech-spec.md` | Stack, hosting, CMS, components, integrations |
-| 07 | `07-seo-foundation.md` | Keywords, meta, schema, internal linking |
-| 08 | `08-build-prompt.md` | Copy-paste version — all of the above inlined |
+| 05 | `05-layout.md` | **Per page: section order, visual weight, text budget** |
+| 06 | `06-content/*.md` | Copy for each page — rendering text plus an SEO layer |
+| 07 | `07-tech-spec.md` | Stack, hosting, CMS, components, integrations |
+| 08 | `08-seo-foundation.md` | Keywords, meta, schema, internal linking |
+| 09 | `09-build-prompt.md` | Copy-paste version — all of the above inlined |
 
 Plus `overview.html` — a bright, sidebar-navigated page for presenting the plan to a
 non-technical client.
@@ -63,15 +64,15 @@ klien/<slug>/
 └── notes/ products/ strategy/
 ```
 
-`build/` is the unit you hand over: eight files, complete on their own, with `08-build-prompt.md`
+`build/` is the unit you hand over: eight files, complete on their own, with `09-build-prompt.md`
 as the flattened paste version.
 
 ### Two handoff formats
 
 - **`00-handoff.md`** is a *pointer*. For a builder AI that can read the folder — it opens
-  documents 01–07 in a set order.
-- **`08-build-prompt.md`** is a *paste*. It inlines the full text of 01–07 plus every page of
-  `05-content/`, so the whole spec survives one Ctrl-A → Ctrl-C into an AI that cannot see the
+  documents 01–08 in a set order.
+- **`09-build-prompt.md`** is a *paste*. It inlines the full text of 01–08 plus every page of
+  `06-content/`, so the whole spec survives one Ctrl-A → Ctrl-C into an AI that cannot see the
   filesystem.
 
 A real bundle runs 10–20k words. If that exceeds your target AI's context window, paste in waves —
@@ -81,7 +82,7 @@ A real bundle runs 10–20k words. If that exceeds your target AI's context wind
 
 | Command | What It Does |
 |---------|--------------|
-| `/freelance init <name-or-url>` | Discovery → **9-document handoff bundle** + overview.html + ads strategy |
+| `/freelance init <name-or-url>` | Discovery → **10-document handoff bundle** + overview.html + ads strategy |
 | `/freelance blog-write <topic>` | Keyword research → Brief → Outline → Write → SEO Check → Schema → Publish |
 | `/freelance audit <url>` | Technical SEO + On-Page + Schema + GEO + Content Quality → Report |
 | `/freelance reaudit <url>` | Clean old audit files → re-run full audit with fresh timestamped output |
@@ -90,10 +91,10 @@ A real bundle runs 10–20k words. If that exceeds your target AI's context wind
 
 ## Optional Scaffold
 
-Once `06-tech-spec.md` exists, Freelance can scaffold a starter project at `klien/<slug>/site/`.
+Once `07-tech-spec.md` exists, Freelance can scaffold a starter project at `klien/<slug>/site/`.
 **It reads the stack from the tech spec** — Next.js, Astro, or static HTML — rather than assuming
 one. Design tokens become CSS custom properties; one placeholder file is created per page in the
-sitemap. Structure only: the builder AI fills in the content from `05-content/`.
+sitemap. Structure only: the builder AI fills in the content from `06-content/`.
 
 ## Install
 
