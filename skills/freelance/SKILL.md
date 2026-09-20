@@ -458,11 +458,11 @@ Agent 1: Combined audit report (HTML + MD) + overview update
   - FIRST: Load skills: "diagram-design", "dataviz"
   - Input: all 5 audit results from Wave 2
   - Output:
-    - klien/<slug>/seo/reports/audit.html (interactive HTML, bright theme + sidebar + cross-nav)
+    - klien/<slug>/seo/reports/audit.html (interactive HTML, bright theme + sidebar + top nav bar)
     - klien/<slug>/seo/reports/audit.md
-    - klien/<slug>/overview.html (overwrite — merge new audit scores into existing overview + cross-nav)
+    - klien/<slug>/overview.html (overwrite — merge new audit scores into existing overview + top nav bar)
     - klien/<slug>/overview.md (overwrite)
-  - See "Report Requirements" below — all HTML reports must include cross-navigation sidebar
+  - See "Report Requirements" below — all HTML reports must include cross-navigation top bar
 
 Agent 2: SEO planning diagrams
   - FIRST: Load skills: "diagram-design", "dataviz"
@@ -781,32 +781,27 @@ in the content from `06-content/`.
 
 #### Cross-Navigation (MANDATORY)
 
-All HTML reports must link to each other. Every report's sidebar includes a
-**"Reports"** section with links to all other HTML files in the client folder.
-This lets the user jump between overview, audit, diagrams, and ads without
-leaving the browser.
+All HTML reports must link to each other via a **top navigation bar** — NOT in
+the sidebar. Each report already has its own sidebar for internal sections.
+The cross-nav bar sits above the content, below the page title, as a horizontal
+strip of links to all other HTML files.
 
-**Sidebar "Reports" section layout:**
+**Top bar layout:**
 
 ```
-📁 Reports
-  🏠 Overview
-  📊 SEO Audit
-  📈 Keyword Gap
-  🕸️ Content Cluster
-  🎯 Build Priority
-  💰 Ads Strategy
-  🎛️ Platform Fit
-  🍩 Budget Split
-  🔀 Campaign Flow
+┌──────────────────────────────────────────────────────────────────────┐
+│  🏠 Overview  │  📊 Audit  │  📈 Keywords  │  💰 Ads  │  🕸️ Cluster │
+└──────────────────────────────────────────────────────────────────────┘
 ```
 
 **Rules:**
+- Top bar is a horizontal `<nav>` element, fixed below the page header
 - Each report links only to files that **exist** in `klien/<slug>/`
-- The current report is highlighted (not a link)
+- The current report is highlighted (not a link), uses accent color
 - Links use **relative paths** (e.g., `../overview.html`, `seo/reports/audit.html`)
-- If a report doesn't exist yet, omit it from the list
+- If a report doesn't exist yet, omit it from the bar
 - Branch A (existing site) omits `build/` references; Branch B includes them
+- The sidebar remains untouched — it only has internal section links
 
 #### Design Requirements (MANDATORY)
 
@@ -829,22 +824,16 @@ leaving the browser.
 **Layout:**
 ```
 ┌──────────────┬────────────────────────────────┐
-│   SIDEBAR    │         MAIN CONTENT           │
-│              │                                │
-│ 🏠 Summary   │  [Hero Section]                │
-│ 📊 Scores    │  [Score Cards]                 │
-│ 🔧 Technical │  [Category Details]            │
-│ 📝 On-page   │                                │
-│ 🏷️ Schema    │                                │
+│   SIDEBAR    │  📁 Cross-Nav Bar              │
+│              │  Overview │ Audit │ Ads │ ...   │
+│ 🏠 Summary   ├────────────────────────────────┤
+│ 📊 Scores    │                                │
+│ 🔧 Technical │  [Hero Section]                │
+│ 📝 On-page   │  [Score Cards]                 │
+│ 🏷️ Schema    │  [Category Details]            │
 │ 🤖 GEO       │                                │
 │ 📖 Content   │                                │
 │ ✅ Actions   │                                │
-│──────────────│                                │
-│ 📁 Reports   │                                │
-│ 🏠 Overview  │                                │
-│ 📊 Audit     │                                │
-│ 📈 Keywords  │                                │
-│ 💰 Ads       │                                │
 └──────────────┴────────────────────────────────┘
 ```
 
@@ -1003,9 +992,9 @@ Agent 6: Combined audit report (HTML + MD) + overview update
   - FIRST: Load skills: "diagram-design", "dataviz"
   - Input: all 5 audit results
   - Output:
-    - klien/<slug>/seo/reports/audit.html (interactive HTML report, BRIGHT theme with sidebar + cross-nav)
+    - klien/<slug>/seo/reports/audit.html (interactive HTML report, BRIGHT theme with sidebar + top nav bar)
     - klien/<slug>/seo/reports/audit.md (markdown version for quick reference)
-    - klien/<slug>/overview.html (overwrite — merge new audit scores into existing overview + cross-nav)
+    - klien/<slug>/overview.html (overwrite — merge new audit scores into existing overview + top nav bar)
     - klien/<slug>/overview.md (overwrite)
   - Prioritized: Critical → High → Medium → Low
   - HTML MUST include:
@@ -1060,12 +1049,12 @@ Agent 6: Combined audit report (HTML + MD) + overview update
   - FIRST: Load skills: "diagram-design", "dataviz"
   - Input: all 5 audit results from Phase 1
   - Output:
-    - klien/<slug>/seo/reports/audit.html (overwrite — BRIGHT theme with sidebar navigation + cross-nav)
+    - klien/<slug>/seo/reports/audit.html (overwrite — BRIGHT theme with sidebar navigation + top nav bar)
     - klien/<slug>/seo/reports/audit.md (overwrite)
-    - klien/<slug>/overview.html (overwrite — merge new audit scores into existing overview + cross-nav)
+    - klien/<slug>/overview.html (overwrite — merge new audit scores into existing overview + top nav bar)
     - klien/<slug>/overview.md (overwrite)
   - Include: health scores, pass/fail checklist, priority actions, per-category breakdowns
-  - See "Report Requirements" above for full design spec (sidebar, bright theme, collapsible sections, cross-navigation)
+  - See "Report Requirements" above for full design spec (sidebar, bright theme, collapsible sections, cross-navigation top bar)
 ```
 
 ### Overwritten files
@@ -1228,21 +1217,21 @@ Agent 1: Scan and dispatch
 
 After all markdown fixes are applied, regenerate the final outputs so they
 reflect the corrected source documents. Always overwrite — same canonical path.
-Regenerate cross-navigation links so all reports point to each other.
+Regenerate cross-navigation top bar links so all reports point to each other.
 
 ```
 Agent 2: Regenerate audit report
   - FIRST: Load skills: "diagram-design", "dataviz"
   - Input: corrected audit findings from Phase 1
   - Overwrite:
-    - klien/<slug>/seo/reports/audit.html (with updated cross-nav links)
+    - klien/<slug>/seo/reports/audit.html (with updated top nav bar links)
     - klien/<slug>/seo/reports/audit.md
 
 Agent 3: Regenerate overview
   - FIRST: Load skills: "diagram-design", "dataviz"
   - Input: all corrected documents from Phase 1
   - Overwrite:
-    - klien/<slug>/overview.html (with updated cross-nav links)
+    - klien/<slug>/overview.html (with updated top nav bar links)
     - klien/<slug>/overview.md
 ```
 
