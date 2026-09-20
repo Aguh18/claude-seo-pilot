@@ -1,9 +1,10 @@
 # 🧰 Freelance for Claude Code
 
-Freelance is a client web-build workflow for Claude Code — 6 commands that take a client from
-discovery to a **handoff bundle of 10 documents** any AI can read to build the website.
+Freelance is a client web-build workflow for Claude Code — 7 commands that take a client from
+discovery to a documented build spec.
 
-Works whether the client already has a site or only has a business name.
+- **Client has a website** → research + SEO audit + marketing collateral
+- **No website yet** → 10-document handoff bundle for building
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Skills-blue)
@@ -17,17 +18,18 @@ Freelance runs tasks in parallel where possible, then chains dependent steps tog
 
 ## Two Ways In
 
-`init` accepts either an existing site or just a business name. Both converge on the same bundle.
+`init` accepts either an existing site or just a business name. The paths diverge:
 
-- **Client already has a website** — `/freelance init https://klien.com`. Scrapes it, researches
-  the market, then translates that material into the bundle. Existing tokens, page structure, and
-  audit findings feed documents 03, 04, and 07.
+- **Client already has a website** — `/freelance init https://klien.com`. Scrapes it, runs a full
+  SEO audit, and produces marketing collateral (ads strategy, content plan). **No build bundle** —
+  the website already exists.
 - **No website yet** — `/freelance init "Warung Kopi Kenangan"`. Nothing to scrape, so it researches
-  the market first, drafts a proposal, and **stops for your correction** before writing anything.
+  the market first, drafts a proposal, and **stops for your correction** before writing the
+  10-document handoff bundle.
 
-## The Handoff Bundle
+## The Handoff Bundle (Branch B only)
 
-This is the deliverable. Everything else is input to it.
+This is the deliverable for clients without a website. Everything else is input to it.
 
 | # | Document | Contents |
 |---|----------|----------|
@@ -53,10 +55,23 @@ document with `[[wiki-links]]`, across all the folders.
 Each folder holds both the documents that plan the work and the output that work produces, so
 `blog/` is everything about content rather than half of it.
 
+**Branch A (existing site):**
+```
+klien/<slug>/
+├── 00-index.md        vault hub — links everything
+├── overview.html      client presentation (updated by init/audit/reaudit)
+├── blog/              content plan + written articles
+├── seo/               keyword strategy, research, reports, diagrams
+├── ads/               ads strategy + diagrams
+└── notes/ products/ strategy/
+```
+
+**Branch B (no site):**
 ```
 klien/<slug>/
 ├── 00-index.md        vault hub — links everything
 ├── build/             the handoff bundle — hand this folder over
+├── overview.html      client presentation
 ├── blog/              content plan + written articles
 ├── seo/               keyword strategy, research, reports, diagrams
 ├── ads/               ads strategy + diagrams
@@ -82,11 +97,12 @@ A real bundle runs 10–20k words. If that exceeds your target AI's context wind
 
 | Command | What It Does |
 |---------|--------------|
-| `/freelance init <name-or-url>` | Discovery → **10-document handoff bundle** + overview.html + ads strategy |
+| `/freelance init <name-or-url>` | **Branch A (existing site):** research + SEO audit + ads. **Branch B (no site):** research → confirm → 10-document bundle + overview + ads |
 | `/freelance blog-write <topic>` | Keyword research → Brief → Outline → Write → SEO Check → Schema → Publish |
-| `/freelance audit <url>` | Technical SEO + On-Page + Schema + GEO + Content Quality → Report |
-| `/freelance reaudit <url>` | Clean old audit files → re-run full audit with fresh timestamped output |
-| `/freelance ads <url>` | Ads Audit + Platform Analysis + Budget Plan + Campaign Structure → Report |
+| `/freelance audit <url>` | 5 parallel audits → audit.html + overview.html (overwrite) |
+| `/freelance reaudit <url>` | Re-run audit → overwrite audit + overview (no timestamps, no cleanup) |
+| `/freelance ads <url>` | Ads Audit + Platform Analysis + Budget Plan → ads-strategy.html |
+| `/freelance code-fix <slug>` | Scan docs → fix by code (parallel) → regenerate HTML outputs |
 | `/freelance status` | Show pipeline progress |
 
 ## Optional Scaffold
