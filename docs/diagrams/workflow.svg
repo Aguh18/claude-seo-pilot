@@ -200,16 +200,16 @@
   <rect x="24" y="740" width="6" height="100" rx="3" fill="#16a085"/>
 
   <text x="44" y="768" fill="#16a085" font-size="14" font-weight="600">/freelance project-fix</text>
-  <text x="260" y="768" fill="#7a8399" font-size="10" font-family="'Geist Mono',monospace">Trace project → fix code → update bundle docs → regenerate</text>
+  <text x="260" y="768" fill="#7a8399" font-size="10" font-family="'Geist Mono',monospace">Audit report → fix project code → update bundle → regenerate</text>
 
   <text x="44" y="792" fill="#bfc0c0" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.1em">PHASE 1</text>
   <text x="180" y="792" fill="#bfc0c0" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.1em">PHASE 2</text>
   <text x="420" y="792" fill="#bfc0c0" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.1em">PHASE 3</text>
   <text x="600" y="792" fill="#bfc0c0" font-size="8" font-family="'Geist Mono',monospace" letter-spacing="0.1em">PHASE 4</text>
 
-  <!-- Phase 1: scan -->
+  <!-- Phase 1: read audit -->
   <rect x="44" y="800" width="128" height="28" rx="4" fill="#d9f2f0" stroke="#16a085" stroke-width="0.8"/>
-  <text x="108" y="818" fill="#2d3142" font-size="9" text-anchor="middle">Scan project</text>
+  <text x="108" y="818" fill="#2d3142" font-size="9" text-anchor="middle">Read audit report</text>
 
   <text x="180" y="818" fill="#16a085" font-size="14">→</text>
 
@@ -230,7 +230,7 @@
   <text x="702" y="818" fill="#2d3142" font-size="9" text-anchor="middle">Regenerate HTML outputs</text>
 
   <!-- Output -->
-  <text x="44" y="844" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace">OUTPUT: fixed project code + ✅ in bundle docs + regenerated audit/overview</text>
+  <text x="44" y="844" fill="#4f5d75" font-size="8" font-family="'Geist Mono',monospace">OUTPUT: fixed project code (from audit issues) + ✅ in bundle docs + regenerated HTML</text>
 
   <!-- ═══ ADS ═══════════════════════════════════════ -->
   <rect x="24" y="860" width="832" height="80" rx="6" fill="#ffffff" stroke="#bfc0c0" stroke-width="1"/>
