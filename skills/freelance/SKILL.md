@@ -1222,16 +1222,27 @@ Agent 2: Scan project directory
   - List discrepancies: missing pages, wrong content, wrong meta, etc.
 ```
 
-**Phase 2: Fix project files (parallel)**
+**Phase 2: Fix project code (parallel)**
+
+For EVERY issue found, spawn a dedicated agent to fix the actual code.
+Each agent reads the project file, understands the codebase context,
+and applies the fix using Edit/Write tools.
 
 ```
 For EACH discrepancy found, spawn a parallel agent:
   - Receives: project file path + what's wrong + what it should be
-  - Applies the fix (Edit tool, Write tool, etc.)
-  - Returns: what was fixed
+  - Reads the full project file to understand codebase context
+  - Applies the fix to the actual code (Edit tool, Write tool)
+  - Example fixes:
+    - Missing page → create component/page file from 06-content/
+    - Wrong <title> → edit the actual HTML/JSX/meta tag
+    - Missing schema → add JSON-LD script to the page
+    - Broken internal links → fix href/src in the code
+    - Wrong meta description → update the meta tag
+  - Returns: file path + what was changed
 
 Example: if homepage has wrong title, missing FAQ schema, and /kontak page
-doesn't exist → spawn 3 agents in parallel
+doesn't exist → spawn 3 agents, each fixing the actual project code
 ```
 
 **Phase 3: Regenerate outputs (overwrite HTML + MD)**
