@@ -213,11 +213,11 @@
   </style>
 </head>
 <body>
-  <div class="frame" data-motion-root data-motion-mode="reveal" data-step-count="6" data-frame="static">
+  <div class="frame" data-motion-root data-motion-mode="reveal" data-step-count="8" data-frame="static">
 
     <p class="eyebrow">Workflow · Diagram Design</p>
     <h1>Freelance — Command Workflows</h1>
-    <p class="subtitle">5 commands, parallel subagents, multi-skill loading. Click Play to watch the pipeline unfold.</p>
+    <p class="subtitle">7 commands, parallel subagents, multi-skill loading. Click Play to watch the pipeline unfold.</p>
 
     <div class="motion-controls" data-motion-controls>
       <button data-motion-action="play" aria-pressed="false">Play</button>
@@ -228,35 +228,50 @@
       <span class="step-indicator" role="status" aria-live="polite" aria-atomic="true"></span>
     </div>
 
-    <!-- INIT — Step 1 -->
+    <!-- INIT (Branch A) — Step 1 -->
     <div class="cmd" data-motion-item data-step="1">
-      <div class="cmd-title"><code>/freelance init</code><span class="cmd-desc">Full project setup — research, competitors, keywords, strategy report</span></div>
+      <div class="cmd-title"><code>/freelance init</code><span class="cmd-desc">Branch A (existing site) — no build bundle</span></div>
       <div class="waves">
         <div class="wave">
-          <div class="wave-label">Wave 1 <span class="para-badge">PARALLEL</span></div>
+          <div class="wave-label">Wave 1 <span class="para-badge">5 PARALLEL</span></div>
           <div class="wave-box para">
             <div class="agent agent-parallel"><div class="agent-name">Scrape Site</div><div class="agent-skills">SEO data + content</div></div>
             <div class="agent agent-parallel"><div class="agent-name">Competitors</div><div class="agent-skills">top 5 analysis</div></div>
             <div class="agent agent-parallel"><div class="agent-name">Keywords</div><div class="agent-skills">volume + intent</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Questions</div><div class="agent-skills">blog-discourse</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Brand Extract</div><div class="agent-skills">design tokens</div></div>
           </div>
         </div>
         <div class="arrow">&rarr;</div>
         <div class="wave">
-          <div class="wave-label">Wave 2 <span class="para-badge">PARALLEL</span></div>
+          <div class="wave-label">Wave 2 <span class="para-badge">5 PARALLEL</span></div>
           <div class="wave-box para">
-            <div class="agent agent-parallel"><div class="agent-name">Strategy Report</div><div class="agent-skills">diagram-design + dataviz</div></div>
-            <div class="agent agent-parallel"><div class="agent-name">3 Diagrams</div><div class="agent-skills">keyword-gap · cluster · priority</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Technical</div><div class="agent-skills">seo-technical</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">On-Page</div><div class="agent-skills">seo-content</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Schema</div><div class="agent-skills">seo-schema</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">GEO/AI</div><div class="agent-skills">seo-geo</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Content</div><div class="agent-skills">blog-analyze</div></div>
           </div>
         </div>
         <div class="arrow">&rarr;</div>
         <div class="wave">
-          <div class="wave-label">Wave 3</div>
+          <div class="wave-label">Wave 3 <span class="para-badge">4 PARALLEL</span></div>
+          <div class="wave-box para">
+            <div class="agent agent-parallel"><div class="agent-name">Audit Report</div><div class="agent-skills">audit.html + overview.html</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Diagrams</div><div class="agent-skills">3 SEO diagrams</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Content Plan</div><div class="agent-skills">blog/content-plan.md</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Ads Strategy</div><div class="agent-skills">ads-strategy.html</div></div>
+          </div>
+        </div>
+        <div class="arrow">&rarr;</div>
+        <div class="wave">
+          <div class="wave-label">Wave 4</div>
           <div class="wave-box single">
-            <div class="agent agent-single"><div class="agent-name">Config Files</div><div class="agent-skills">.seo-project.md + .seo-state.json</div></div>
+            <div class="agent agent-single"><div class="agent-name">Config</div><div class="agent-skills">.seo-project + 00-index.md</div></div>
           </div>
         </div>
       </div>
-      <div class="note">Output: seo-strategy.html + diagrams + research + config</div>
+      <div class="note">Output: audit.html + overview.html + diagrams + ads + content plan (no build/)</div>
     </div>
 
     <!-- BLOG-WRITE — Step 2 -->
@@ -306,7 +321,7 @@
 
     <!-- AUDIT — Step 3 -->
     <div class="cmd cmd-link" data-motion-item data-step="3">
-      <div class="cmd-title"><code>/freelance audit</code><span class="cmd-desc">Full SEO audit — 5 parallel agents, combined report</span></div>
+      <div class="cmd-title"><code>/freelance audit</code><span class="cmd-desc">Full SEO audit — 5 parallel agents, combined report + overview update</span></div>
       <div class="waves">
         <div class="wave" style="flex:2.5">
           <div class="wave-label">Wave 1 <span class="para-badge">5 PARALLEL AUDITS</span></div>
@@ -322,64 +337,105 @@
         <div class="wave" style="flex:1">
           <div class="wave-label">Wave 2</div>
           <div class="wave-box single">
-            <div class="agent agent-single"><div class="agent-name">Combined Report</div><div class="agent-skills">audit-domain-date.html + .md</div></div>
+            <div class="agent agent-single"><div class="agent-name">Report + Overview</div><div class="agent-skills">audit.html + overview.html (overwrite)</div></div>
           </div>
         </div>
       </div>
-      <div class="note">Skills: seo-technical · seo-performance · seo-content · seo-page · seo-schema · seo-geo · seo-flow · blog-analyze · blog-schema</div>
+      <div class="note">Output: audit.html + overview.html (overwrite) — cross-linked via sidebar</div>
     </div>
 
     <!-- REAUDIT — Step 4 -->
     <div class="cmd cmd-accent" data-motion-item data-step="4">
-      <div class="cmd-title"><code>/freelance reaudit</code><span class="cmd-desc">Clean old files + re-run full audit with fresh timestamp</span></div>
+      <div class="cmd-title"><code>/freelance reaudit</code><span class="cmd-desc">Re-run audit → overwrite all files (no timestamps, no cleanup)</span></div>
       <div class="waves">
-        <div class="wave">
-          <div class="wave-label">Phase 0</div>
-          <div class="wave-box clean">
-            <div class="agent agent-clean"><div class="agent-name">Delete Old Files</div><div class="agent-skills">rm reports/*.{html,md} + diagrams/*.html</div></div>
-          </div>
-        </div>
-        <div class="arrow">&rarr;</div>
         <div class="wave" style="flex:2">
           <div class="wave-label">Phase 1 <span class="para-badge">5 PARALLEL</span></div>
-          <div class="wave-box para" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0.4rem">
+          <div class="wave-box para" style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:0.4rem">
             <div class="agent agent-parallel"><div class="agent-name">Technical</div><div class="agent-skills">seo-technical, seo-performance</div></div>
             <div class="agent agent-parallel"><div class="agent-name">On-Page</div><div class="agent-skills">seo-content, seo-page</div></div>
             <div class="agent agent-parallel"><div class="agent-name">Schema</div><div class="agent-skills">seo-schema, blog-schema</div></div>
             <div class="agent agent-parallel"><div class="agent-name">GEO/AI</div><div class="agent-skills">seo-geo, seo-flow</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Content</div><div class="agent-skills">seo-content, blog-analyze</div></div>
+          </div>
+        </div>
+        <div class="arrow">&rarr;</div>
+        <div class="wave" style="flex:1">
+          <div class="wave-label">Phase 2</div>
+          <div class="wave-box single">
+            <div class="agent agent-single"><div class="agent-name">Overwrite All</div><div class="agent-skills">audit.html + overview.html (same path)</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="note">Output: audit.html + overview.html overwritten (canonical path, no timestamps)</div>
+    </div>
+
+    <!-- CODE-FIX — Step 5 -->
+    <div class="cmd" data-motion-item data-step="5" style="border-color: #16a085;">
+      <div class="cmd-title"><code>/freelance code-fix</code><span class="cmd-desc">Scan docs → fix by code (parallel) → regenerate outputs</span></div>
+      <div class="waves">
+        <div class="wave" style="flex:2">
+          <div class="wave-label">Phase 1 <span class="para-badge">SCAN + PARALLEL FIX</span></div>
+          <div class="wave-box para">
+            <div class="agent agent-parallel"><div class="agent-name">Scan All .md</div><div class="agent-skills">identify fixable issues</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Spawn Agents</div><div class="agent-skills">1 agent per issue → fix inline</div></div>
+          </div>
+        </div>
+        <div class="arrow">&rarr;</div>
+        <div class="wave" style="flex:1">
+          <div class="wave-label">Phase 2</div>
+          <div class="wave-box single">
+            <div class="agent agent-single"><div class="agent-name">Regenerate</div><div class="agent-skills">audit.html + overview.html (overwrite)</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="note">Fixes: broken links, missing headers, file paths. Reports: content issues needing manual fix.</div>
+    </div>
+
+    <!-- ADS — Step 6 -->
+    <div class="cmd" data-motion-item data-step="6">
+      <div class="cmd-title"><code>/freelance ads</code><span class="cmd-desc">Ads platform audit → strategy report</span></div>
+      <div class="waves">
+        <div class="wave">
+          <div class="wave-label">Wave 1 <span class="para-badge">3 PARALLEL</span></div>
+          <div class="wave-box para">
+            <div class="agent agent-parallel"><div class="agent-name">Platform Audit</div><div class="agent-skills">ads-audit, ads-google, ads-meta</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Competitor Ads</div><div class="agent-skills">ads-competitor, ads-research</div></div>
+            <div class="agent agent-parallel"><div class="agent-name">Budget Plan</div><div class="agent-skills">ads-plan, ads-budget</div></div>
           </div>
         </div>
         <div class="arrow">&rarr;</div>
         <div class="wave">
-          <div class="wave-label">Phase 2</div>
+          <div class="wave-label">Wave 2</div>
           <div class="wave-box single">
-            <div class="agent agent-single"><div class="agent-name">Fresh Report</div><div class="agent-skills">audit-domain-YYYY-MM-DD-HHmm.html</div></div>
+            <div class="agent agent-single"><div class="agent-name">Ads Report</div><div class="agent-skills">ads-strategy.html + diagrams</div></div>
           </div>
         </div>
       </div>
-      <div class="note">Output: timestamped reports replacing old files. Config, research, content preserved.</div>
+      <div class="note">Output: ads-strategy.html + platform-fit + budget-split + campaign-flow diagrams</div>
     </div>
 
-    <!-- STATUS — Step 5 -->
-    <div class="cmd" data-motion-item data-step="5">
+    <!-- STATUS — Step 7 -->
+    <div class="cmd" data-motion-item data-step="7">
       <div class="cmd-title"><code>/freelance status</code><span class="cmd-desc">Show pipeline progress — what's done, what's next</span></div>
       <div class="waves">
         <div class="wave">
           <div class="wave-box single">
-            <div class="agent agent-single"><div class="agent-name">Read Pipeline State</div><div class="agent-skills">.seo-state.json + scan content/ and research/</div></div>
+            <div class="agent agent-single"><div class="agent-name">Read Pipeline State</div><div class="agent-skills">.seo-state.json + scan research/ + content/</div></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Summary — Step 6 -->
-    <div class="cmd" data-motion-item data-step="6" style="background: rgba(45,49,66,0.03); border-style: dashed;">
+    <!-- Summary — Step 8 -->
+    <div class="cmd" data-motion-item data-step="8" style="background: rgba(45,49,66,0.03); border-style: dashed;">
       <div class="cmd-title" style="font-size:0.85rem; color: var(--muted);">Quick Reference</div>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.75rem;">
-        <div><code style="font-family:'Geist Mono',monospace;font-size:0.7rem;background:rgba(45,49,66,0.04);padding:0.1rem 0.3rem;border-radius:2px;">/freelance init</code> Research → Strategy → Diagrams</div>
+        <div><code style="font-family:'Geist Mono',monospace;font-size:0.7rem;background:rgba(45,49,66,0.04);padding:0.1rem 0.3rem;border-radius:2px;">/freelance init</code> Branch A: Research → Audit → Ads | Branch B: Bundle</div>
         <div><code style="font-family:'Geist Mono',monospace;font-size:0.7rem;background:rgba(45,49,66,0.04);padding:0.1rem 0.3rem;border-radius:2px;">/freelance blog-write</code> Keywords → Brief → Write → SEO → Publish</div>
-        <div><code style="font-family:'Geist Mono',monospace;font-size:0.7rem;background:rgba(45,49,66,0.04);padding:0.1rem 0.3rem;border-radius:2px;">/freelance audit</code> 5 parallel audits → Combined report</div>
-        <div><code style="font-family:'Geist Mono',monospace;font-size:0.7rem;background:rgba(235,108,54,0.08);padding:0.1rem 0.3rem;border-radius:2px;border:1px solid rgba(235,108,54,0.3);">/freelance reaudit</code> Clean → Fresh audit → Timestamp</div>
+        <div><code style="font-family:'Geist Mono',monospace;font-size:0.7rem;background:rgba(45,49,66,0.04);padding:0.1rem 0.3rem;border-radius:2px;">/freelance audit</code> 5 audits → audit.html + overview.html</div>
+        <div><code style="font-family:'Geist Mono',monospace;font-size:0.7rem;background:rgba(235,108,54,0.08);padding:0.1rem 0.3rem;border-radius:2px;border:1px solid rgba(235,108,54,0.3);">/freelance reaudit</code> Overwrite audit + overview (no timestamps)</div>
+        <div><code style="font-family:'Geist Mono',monospace;font-size:0.7rem;background:rgba(22,160,133,0.08);padding:0.1rem 0.3rem;border-radius:2px;border:1px solid rgba(22,160,133,0.3);">/freelance code-fix</code> Scan → Fix parallel → Regenerate HTML</div>
+        <div><code style="font-family:'Geist Mono',monospace;font-size:0.7rem;background:rgba(184,134,11,0.08);padding:0.1rem 0.3rem;border-radius:2px;border:1px solid rgba(184,134,11,0.3);">/freelance ads</code> Platform audit → Strategy report</div>
       </div>
     </div>
 
