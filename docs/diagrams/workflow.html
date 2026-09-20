@@ -369,26 +369,39 @@
       <div class="note">Output: audit.html + overview.html overwritten (canonical path, no timestamps)</div>
     </div>
 
-    <!-- CODE-FIX — Step 5 -->
+    <!-- PROJECT-FIX — Step 5 -->
     <div class="cmd" data-motion-item data-step="5" style="border-color: #16a085;">
-      <div class="cmd-title"><code>/freelance project-fix</code><span class="cmd-desc">Trace project files → fix code (parallel) → regenerate outputs</span></div>
+      <div class="cmd-title"><code>/freelance project-fix</code><span class="cmd-desc">Trace project files → fix code → update bundle docs → regenerate</span></div>
       <div class="waves">
-        <div class="wave" style="flex:2">
-          <div class="wave-label">Phase 1 <span class="para-badge">SCAN + PARALLEL FIX</span></div>
-          <div class="wave-box para">
-            <div class="agent agent-parallel"><div class="agent-name">Scan All .md</div><div class="agent-skills">identify fixable issues</div></div>
-            <div class="agent agent-parallel"><div class="agent-name">Spawn Agents</div><div class="agent-skills">1 agent per issue → fix inline</div></div>
+        <div class="wave">
+          <div class="wave-label">Phase 1</div>
+          <div class="wave-box single">
+            <div class="agent agent-single"><div class="agent-name">Scan Project</div><div class="agent-skills">read bundle + compare vs project</div></div>
           </div>
         </div>
         <div class="arrow">&rarr;</div>
-        <div class="wave" style="flex:1">
-          <div class="wave-label">Phase 2</div>
+        <div class="wave" style="flex:2">
+          <div class="wave-label">Phase 2 <span class="para-badge">PARALLEL FIX</span></div>
+          <div class="wave-box para">
+            <div class="agent agent-parallel"><div class="agent-name">Spawn Agents</div><div class="agent-skills">1 per issue → fix project code</div></div>
+          </div>
+        </div>
+        <div class="arrow">&rarr;</div>
+        <div class="wave">
+          <div class="wave-label">Phase 3</div>
           <div class="wave-box single">
-            <div class="agent agent-single"><div class="agent-name">Regenerate</div><div class="agent-skills">audit.html + overview.html (overwrite)</div></div>
+            <div class="agent agent-single"><div class="agent-name">Update Bundle</div><div class="agent-skills">mark fixes as ✅ in 04-08</div></div>
+          </div>
+        </div>
+        <div class="arrow">&rarr;</div>
+        <div class="wave">
+          <div class="wave-label">Phase 4</div>
+          <div class="wave-box single">
+            <div class="agent agent-single"><div class="agent-name">Regenerate</div><div class="agent-skills">audit.html + overview.html</div></div>
           </div>
         </div>
       </div>
-      <div class="note">Fixes: broken links, missing headers, file paths. Reports: content issues needing manual fix.</div>
+      <div class="note">Fixes project code + updates bundle docs with ✅ checkmarks. Reports: issues needing manual fix.</div>
     </div>
 
     <!-- ADS — Step 6 -->
