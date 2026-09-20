@@ -1245,9 +1245,29 @@ Example: if homepage has wrong title, missing FAQ schema, and /kontak page
 doesn't exist → spawn 3 agents, each fixing the actual project code
 ```
 
-**Phase 3: Regenerate outputs (overwrite HTML + MD)**
+**Phase 3: Update bundle documents (mark as done)**
 
-After project fixes are applied, regenerate the audit and overview to
+After project fixes are applied, update the bundle documents to mark
+which issues have been resolved. This keeps the bundle in sync with the
+actual project state — a checklist that reflects reality.
+
+```
+For EACH fix applied in Phase 2, update the corresponding bundle doc:
+  - 04-sitemap.md → mark pages as ✅ created/fixed
+  - 06-content/*.md → mark content as ✅ applied to project
+  - 07-tech-spec.md → mark config as ✅ implemented
+  - 08-seo-foundation.md → mark meta/schema/links as ✅ applied
+
+Format in bundle docs:
+  ## Homepage
+  - [x] Title tag: "Keripik Mang Dedi — Original" ✅ applied
+  - [x] FAQPage schema: added ✅ applied
+  - [ ] Internal links to /produk: needs review
+```
+
+**Phase 4: Regenerate outputs (overwrite HTML + MD)**
+
+After bundle docs are updated, regenerate the audit and overview to
 reflect the corrected project state.
 
 ```
@@ -1266,6 +1286,11 @@ Agent: Regenerate audit report
   📄 homepage.html — added FAQPage JSON-LD schema
   📄 /produk/index.html — created from 06-content/produk.md
   📄 /kontak/index.html — created from 06-content/kontak.md
+
+📋 Bundle docs updated:
+  ✅ 08-seo-foundation.md — marked 2 meta tags as applied
+  ✅ 04-sitemap.md — marked /produk and /kontak as created
+  ✅ 06-content/homepage.md — marked hero text as applied
 
 📁 Regenerated outputs:
   📊 seo/reports/audit.html (overwritten)
