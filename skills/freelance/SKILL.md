@@ -1,16 +1,14 @@
 ---
 name: freelance
 description: >
-  Client web-build orchestrator for freelancers. Turns a client — an existing
-  site or just a business name — into a handoff bundle of 10 documents (brief,
-  brand, design tokens, sitemap, page copy, tech spec, SEO foundation, master
-  prompt, and a copy-paste build prompt) that any AI can read to build the
-  website. Also runs SEO audits, blog pipelines, and ads strategy on the
-  result. Use when user says "freelance", "client", "init project", "build a
-  website for", "web untuk klien", "company profile", "handoff", "build prompt",
-  "seo audit", "blog-write", or "reaudit".
+  Client web-build orchestrator for freelancers. Branch A (existing site):
+  research, SEO audit, and marketing collateral. Branch B (no site yet):
+  10-document handoff bundle for building the website. Also runs blog pipelines,
+  audits, and ads strategy. Use when user says "freelance", "client",
+  "init project", "build a website for", "web untuk klien", "company profile",
+  "handoff", "build prompt", "seo audit", "blog-write", or "reaudit".
 user-invocable: true
-argument-hint: "[init|blog-write|audit|reaudit|ads|status] [name-or-url]"
+argument-hint: "[init|blog-write|audit|reaudit|ads|code-fix|status] [name-or-url]"
 license: MIT
 metadata:
   author: Aguh18
@@ -21,32 +19,36 @@ metadata:
 # Freelance
 
 Client web-build orchestrator. Take a client from discovery to a documented build spec.
-6 commands, parallel subagents.
+7 commands, parallel subagents.
 
 ## Commands
 
 | Command | What It Does |
 |---------|--------------|
-| `/freelance init <name-or-url>` | Discovery → **10-document handoff bundle** for the build, plus overview.html, ads plan, and content plan as side outputs |
+| `/freelance init <name-or-url>` | **Branch A (existing site):** research + SEO audit + ads strategy. **Branch B (no site):** research → confirm → **10-document handoff bundle** + overview + ads |
 | `/freelance blog-write <topic>` | Full pipeline → keyword research → brief → write → SEO optimize → publish |
 | `/freelance audit <url>` | Full SEO audit → technical + on-page + schema + GEO + report |
-| `/freelance reaudit <url>` | Clean old audit files → re-run full audit with fresh timestamped output |
+| `/freelance reaudit <url>` | Re-run full audit → overwrite audit reports + overview with fresh data |
 | `/freelance ads <url>` | Ads audit → platform analysis → budget plan → campaign structure → report |
+| `/freelance code-fix <slug>` | Iterate all docs → fix issues by code → report what needs manual fix |
 | `/freelance status` | Show what's done and what's next |
 
 ---
 
 ## Two Ways In
 
-`init` accepts either an existing site or just a business name. Both branches
-converge on the same 10-document bundle.
+`init` accepts either an existing site or just a business name. The paths
+diverge: an existing site gets research + audit + marketing; a new site
+gets a handoff bundle for building.
 
 **Branch A — the client already has a website** (`/freelance init https://...`):
-scrape it, research the market, then *translate* that material into the bundle.
-Existing design tokens, page structure, and audit findings feed documents 03, 04, and 07.
+scrape it, research the market, run a full SEO audit, and produce marketing
+collateral (ads strategy, content plan). **No build bundle** — the website
+already exists; the deliverable is the audit and marketing plan.
 
 **Branch B — no website yet** (`/freelance init "Warung Kopi Kenangan"`):
-there is nothing to scrape, so research first and confirm second.
+there is nothing to scrape, so research first and confirm second, then
+produce the 10-document handoff bundle.
 
 1. **Research** (parallel agents): market and competitors from the name given;
    search demand and keywords; discourse and real questions; visual references
@@ -246,6 +248,35 @@ Inside it, everything is grouped **by function**, the same way this repo groups
 its skills. A folder holds both the documents that plan the work and the output
 that work produces, so `blog/` is everything about content, not half of it.
 
+### Branch A — existing website (no build bundle)
+
+```
+klien/<slug>/
+├── 00-index.md              vault hub — links everything
+├── blog/
+│   ├── content-plan.md      what to publish, in what order
+│   └── articles/            written posts
+├── seo/
+│   ├── keyword-strategy.md
+│   ├── research/            competitor + discourse analysis
+│   ├── reports/             audit output
+│   └── diagrams/
+├── ads/
+│   ├── ads-strategy.md
+│   └── diagrams/
+├── notes/                   research notes
+├── products/                product and service docs
+└── strategy/                positioning, roadmap
+```
+
+Derive the slug, then create the tree:
+```
+SLUG=$(echo "$URL" | sed -E 's|^https?://||; s|^www\.||; s|/.*||' | tr '[:upper:]' '[:lower:]')
+mkdir -p klien/$SLUG/{blog,blog/articles,seo,seo/research,seo/reports,seo/diagrams,ads,ads/diagrams,notes,products,strategy}
+```
+
+### Branch B — no website yet (with build bundle)
+
 ```
 klien/<slug>/
 ├── 00-index.md              vault hub — links everything
@@ -281,11 +312,7 @@ version of the other seven for pasting somewhere with no filesystem.
 
 Derive the slug, then create the tree:
 ```
-if [ -n "$URL" ]; then
-    SLUG=$(echo "$URL" | sed -E 's|^https?://||; s|^www\.||; s|/.*||' | tr '[:upper:]' '[:lower:]')
-else
-    SLUG=$(echo "$NAME" | tr '[:upper:]' '[:lower:]' | sed 's|[^a-z0-9]|-|g' | sed 's|--*|-|g' | sed 's|^-||;s|-$||')
-fi
+SLUG=$(echo "$NAME" | tr '[:upper:]' '[:lower:]' | sed 's|[^a-z0-9]|-|g' | sed 's|--*|-|g' | sed 's|^-||;s|-$||')
 mkdir -p klien/$SLUG/{build,build/06-content,blog,blog/articles,seo,seo/research,seo/reports,seo/diagrams,ads,ads/diagrams,notes,products,strategy}
 ```
 
@@ -344,6 +371,7 @@ Examples: `klien/keripikmangdedi.id/`, `klien/warung-kopi-kenangan/`
 | Competitor ads analysis | `general-purpose` | `ads`, `ads-competitor`, `ads-research` |
 | Budget & campaign planning | `general-purpose` | `ads`, `ads-plan`, `ads-budget`, `ads-math` |
 | Ads strategy report | `general-purpose` | `diagram-design`, `dataviz`, `ads-report` |
+| Code-fix iteration | `general-purpose` | `diagram-design` (for vault hub) |
 | Full audit (all) | multiple agents | Each agent loads its own skills per row above |
 | blog-write pipeline | multiple agents | Each wave loads its own skills per row above |
 | ads pipeline | multiple agents | Each wave loads its own skills per row above |
@@ -354,14 +382,14 @@ Examples: `klien/keripikmangdedi.id/`, `klien/warung-kopi-kenangan/`
 
 Set up client project. Scrapes site, researches keywords + competitors, creates SEO strategy.
 
-**First:** `mkdir -p klien/<slug>/{build,build/06-content,blog,blog/articles,seo,seo/research,seo/reports,seo/diagrams,ads,ads/diagrams,notes,products,strategy}`
-
 ### Branch A — existing website
 
-Scrape and research as before, then feed the findings into the bundle rather
-than treating them as the deliverable.
+**No build bundle.** The website already exists; the deliverable is research,
+audit, and marketing collateral.
 
-**Wave 1 (parallel):**
+**First:** `mkdir -p klien/<slug>/{blog,blog/articles,seo,seo/research,seo/reports,seo/diagrams,ads,ads/diagrams,notes,products,strategy}`
+
+**Wave 1 (parallel) — research:**
 
 ```
 Agent 1: Scrape target website
@@ -395,16 +423,88 @@ Agent 5: Extract brand + design tokens from the live site
   - FIRST: Load skills: "diagram-design", "blog-brand"
   - Follow diagram-design/references/onboarding.md § URL: fetch 2-3 pages,
     map detected colours to semantic roles, trace every font to its source
-  - Produce the brand fidelity receipt (Step 4) — it becomes 03-design-tokens.md
+  - Produce the brand fidelity receipt (Step 4)
   - Save to klien/<slug>/seo/research/brand-extraction.md
+```
+
+**Wave 2 (5 parallel) — SEO audit:**
+
+```
+Agent 1: Technical SEO
+  - FIRST: Load skills: "seo-technical", "seo-performance"
+  - Crawlability, indexability, robots.txt, sitemap, CWV, page speed, mobile, security headers
+
+Agent 2: On-page SEO
+  - FIRST: Load skills: "seo-content", "seo-page", "blog-analyze"
+  - Title tags, meta descriptions, headings, internal/external links, images, URL structure
+
+Agent 3: Schema validation
+  - FIRST: Load skills: "seo-schema", "blog-schema"
+  - Detect existing, validate against Google requirements, recommend missing
+
+Agent 4: GEO / AI citation
+  - FIRST: Load skills: "seo-geo", "seo-flow"
+  - AI crawlers, llms.txt, passage citability, ChatGPT/Perplexity/Gemini readiness
+
+Agent 5: Content quality
+  - FIRST: Load skills: "seo-content", "blog-analyze", "seo-content-brief"
+  - E-E-A-T, readability, depth, freshness, thin content detection
+```
+
+**Wave 3 (parallel) — reports + strategy:**
+
+```
+Agent 1: Combined audit report (HTML + MD) + overview update
+  - FIRST: Load skills: "diagram-design", "dataviz"
+  - Input: all 5 audit results from Wave 2
+  - Output:
+    - klien/<slug>/seo/reports/audit.html (interactive HTML, bright theme + sidebar + cross-nav)
+    - klien/<slug>/seo/reports/audit.md
+    - klien/<slug>/overview.html (overwrite — merge new audit scores into existing overview + cross-nav)
+    - klien/<slug>/overview.md (overwrite)
+  - See "Report Requirements" below — all HTML reports must include cross-navigation sidebar
+
+Agent 2: SEO planning diagrams
+  - FIRST: Load skills: "diagram-design", "dataviz"
+  - Input: keyword + competitor data from Wave 1
+  - Output:
+    - klien/<slug>/seo/diagrams/keyword-gap.html
+    - klien/<slug>/seo/diagrams/content-cluster.html
+    - klien/<slug>/seo/diagrams/build-priority.html
+
+Agent 3: Content plan
+  - FIRST: Load skills: "blog-strategy", "blog-cluster", "seo-cluster"
+  - Input: keyword strategy, discourse questions, competitor gaps
+  - Output: klien/<slug>/blog/content-plan.md
+
+Agent 4: Ads strategy report + diagrams
+  - FIRST: Load skills: "ads", "ads-audit", "ads-plan", "ads-budget", "ads-competitor", "diagram-design", "dataviz"
+  - Input: all Wave 1 research
+  - Output:
+    - klien/<slug>/ads/ads-strategy.html (interactive HTML, bright theme + sidebar)
+    - klien/<slug>/ads/ads-strategy.md
+    - klien/<slug>/ads/diagrams/platform-fit.html
+    - klien/<slug>/ads/diagrams/budget-split.html
+    - klien/<slug>/ads/diagrams/campaign-flow.html
+```
+
+**Wave 4 (single agent) — config:**
+
+```
+Agent 1: Config files + vault hub
+  - .seo-project.md at the client root (client info, keywords, competitors)
+  - klien/<slug>/.seo-state.json (pipeline tracker)
+  - klien/<slug>/00-index.md — the vault hub, linking everything with [[wiki-links]]
 ```
 
 ### Branch B — no website yet
 
-Nothing to scrape. Research the market the business lives in, then present a
-draft for correction. Do **not** write the bundle before the user confirms.
+**With build bundle.** Nothing to scrape; research first, confirm second,
+then produce the handoff bundle.
 
-**Wave 1 (parallel):**
+**First:** `mkdir -p klien/<slug>/{build,build/06-content,blog,blog/articles,seo,seo/research,seo/reports,seo/diagrams,ads,ads/diagrams,notes,products,strategy}`
+
+**Wave 1 (parallel) — research:**
 
 ```
 Agent 1: Market + competitor discovery
@@ -452,7 +552,7 @@ Agent 5: Draft the discovery proposal
 
 The confirmed draft becomes the input to Wave 3 below.
 
-**Wave 4 (parallel) — the handoff bundle. THIS IS THE DELIVERABLE.**
+**Wave 3 (parallel) — the handoff bundle. THIS IS THE DELIVERABLE.**
 
 Write all 10 documents. Nothing else in this skill matters as much.
 
@@ -465,8 +565,7 @@ Agent 6: Brief + brand
     voice samples, taboo phrases
   - Brand ALWAYS at klien/<slug>/build/02-brand.md — never BRAND.md, never
     the project root (blog-brand's default is wrong for this skill)
-  - Branch A: derive from website-analysis.md
-  - Branch B: derive from the confirmed discovery-draft.md
+  - Derive from the confirmed discovery-draft.md
 
 Agent 7: Design tokens + sitemap
   - FIRST: Load skills: "high-end-visual-design", "design-taste-frontend",
@@ -551,7 +650,7 @@ Agent 11: Master prompt
     context.
 ```
 
-**Wave 5 (parallel) — side outputs: overview, ads plan, research reports.**
+**Wave 4 (parallel) — side outputs: overview, ads plan, research reports.**
 
 These are NOT part of the handoff bundle. The overview is a client presentation;
 the rest is post-launch marketing collateral. None of it goes into
@@ -599,7 +698,7 @@ Agent 15: Ads strategy report + diagrams
   - Design: same bright theme + sidebar as overview.html
 ```
 
-**Wave 6 (single agent):**
+**Wave 5 (single agent):**
 
 ```
 Agent 16: Config files + vault hub
@@ -620,7 +719,7 @@ Agent 16: Config files + vault hub
     index, a separate obsidian-vault/ folder, or per-folder index files.
 ```
 
-**Wave 7 (single agent) — the paste file:**
+**Wave 6 (single agent) — the paste file:**
 
 ```
 Agent 17: Assemble 09-build-prompt.md
@@ -656,9 +755,9 @@ Agent 17: Assemble 09-build-prompt.md
     "see 04-sitemap.md" cross-references, no relative links
 ```
 
-**Init is NOT complete until Wave 7 finishes.**
+**Init is NOT complete until Wave 6 finishes.**
 
-### Scaffold (optional, after the bundle)
+### Scaffold (Branch B only, optional, after the bundle)
 
 Once `07-tech-spec.md` exists, offer to scaffold the starter project at
 `klien/<slug>/site/`. **Read the stack from the tech spec** — do not assume
@@ -676,9 +775,38 @@ properties in the token stylesheet, and create one placeholder file per page
 listed in `04-sitemap.md`. Scaffolding is structure only — the builder AI fills
 in the content from `06-content/`.
 
-### Report Requirements
+### Report Requirements (Branch A primary output, Branch B side output)
 
 `klien/<slug>/overview.html` — single self-contained HTML, **bright theme with sidebar navigation**, charts as inline SVG/CSS.
+
+#### Cross-Navigation (MANDATORY)
+
+All HTML reports must link to each other. Every report's sidebar includes a
+**"Reports"** section with links to all other HTML files in the client folder.
+This lets the user jump between overview, audit, diagrams, and ads without
+leaving the browser.
+
+**Sidebar "Reports" section layout:**
+
+```
+📁 Reports
+  🏠 Overview
+  📊 SEO Audit
+  📈 Keyword Gap
+  🕸️ Content Cluster
+  🎯 Build Priority
+  💰 Ads Strategy
+  🎛️ Platform Fit
+  🍩 Budget Split
+  🔀 Campaign Flow
+```
+
+**Rules:**
+- Each report links only to files that **exist** in `klien/<slug>/`
+- The current report is highlighted (not a link)
+- Links use **relative paths** (e.g., `../overview.html`, `seo/reports/audit.html`)
+- If a report doesn't exist yet, omit it from the list
+- Branch A (existing site) omits `build/` references; Branch B includes them
 
 #### Design Requirements (MANDATORY)
 
@@ -711,6 +839,12 @@ in the content from `06-content/`.
 │ 🤖 GEO       │                                │
 │ 📖 Content   │                                │
 │ ✅ Actions   │                                │
+│──────────────│                                │
+│ 📁 Reports   │                                │
+│ 🏠 Overview  │                                │
+│ 📊 Audit     │                                │
+│ 📈 Keywords  │                                │
+│ 💰 Ads       │                                │
 └──────────────┴────────────────────────────────┘
 ```
 
@@ -865,12 +999,14 @@ Agent 5: Content quality
 **Wave 2:**
 
 ```
-Agent 6: Combined audit report (HTML + MD)
+Agent 6: Combined audit report (HTML + MD) + overview update
   - FIRST: Load skills: "diagram-design", "dataviz"
   - Input: all 5 audit results
   - Output:
-    - klien/<slug>/seo/reports/audit.html (interactive HTML report, BRIGHT theme with sidebar)
+    - klien/<slug>/seo/reports/audit.html (interactive HTML report, BRIGHT theme with sidebar + cross-nav)
     - klien/<slug>/seo/reports/audit.md (markdown version for quick reference)
+    - klien/<slug>/overview.html (overwrite — merge new audit scores into existing overview + cross-nav)
+    - klien/<slug>/overview.md (overwrite)
   - Prioritized: Critical → High → Medium → Low
   - HTML MUST include:
     - Fixed sidebar navigation with section links
@@ -887,52 +1023,13 @@ Agent 6: Combined audit report (HTML + MD)
 
 ## `/freelance reaudit <url>`
 
-**Full re-audit: clean slate.** Deletes old audit artifacts, then re-runs the complete audit from scratch with fresh timestamped files.
+**Full re-audit: overwrite.** Re-runs the complete audit and overwrites all audit
+files with fresh data. Single canonical path — no timestamps, no duplicates.
 
 **Precondition:** `klien/<slug>/` must exist. If missing:
 > "Jalankan `/freelance init` dulu."
 
-### Phase 0: CLEAN — Remove stale files
-
-```bash
-SLUG=$(echo "$URL" | sed -E 's|^https?://||; s|^www\.||; s|/.*||' | tr '[:upper:]' '[:lower:]')
-
-# Delete all old audit reports (HTML, MD)
-rm -f klien/$SLUG/reports/audit-*.html
-rm -f klien/$SLUG/reports/audit-*.md
-rm -f klien/$SLUG/reports/technical-audit.md
-rm -f klien/$SLUG/reports/onpage-audit.md
-rm -f klien/$SLUG/reports/schema-audit.md
-rm -f klien/$SLUG/reports/geo-audit.md
-rm -f klien/$SLUG/reports/content-quality-audit.md
-
-# The handoff bundle is NOT touched — reaudit refreshes audit output only
-mkdir -p klien/$SLUG/{reports,diagrams}
-```
-
-**Do NOT delete:**
-- `build/` — the whole handoff bundle (01–08), untouched
-- `overview.html` — the client-facing presentation
-- `06-content/` — page copy
-- `07-tech-spec.md` — stack decisions the scaffold depends on
-- `.freelance-project.md` — project config (persistent)
-- `.freelance-state.json` — pipeline state (persistent)
-- `research/` — keyword & competitor research (reusable)
-- `00-index.md` + `notes/` `products/` `strategy/` — vault (persistent)
-- `diagrams/` — planning diagrams (overwritten by new ones)
-- `ads/` — ads strategy + diagrams (overwritten by new ones)
-
-**Log what was deleted:**
-```
-🗑️  Cleaned 7 old files from klien/$SLUG/reports/
-🔄  Diagrams & ads strategy will be overwritten with fresh data
-```
-
 ### Phase 1: AUDIT — Fresh 5-agent parallel audit
-
-Generate timestamp: `TIMESTAMP=$(date +"%Y-%m-%d-%H%M")` (e.g., `2026-08-31-1430`)
-
-All output files use format: `audit-<slug>-<TIMESTAMP>.html` / `.md`
 
 ```
 Agent 1: Technical SEO
@@ -956,49 +1053,40 @@ Agent 5: Content quality
   - E-E-A-T, readability, depth, freshness, thin content detection
 ```
 
-### Phase 2: REPORT — Combined report
+### Phase 2: REPORT — Combined report + overview update
 
 ```
-Agent 6: Combined audit report (HTML + MD)
+Agent 6: Combined audit report (HTML + MD) + overview update
   - FIRST: Load skills: "diagram-design", "dataviz"
   - Input: all 5 audit results from Phase 1
   - Output:
-    - klien/<slug>/seo/reports/audit.html (BRIGHT theme with sidebar navigation)
-    - klien/<slug>/seo/reports/audit.md
+    - klien/<slug>/seo/reports/audit.html (overwrite — BRIGHT theme with sidebar navigation + cross-nav)
+    - klien/<slug>/seo/reports/audit.md (overwrite)
+    - klien/<slug>/overview.html (overwrite — merge new audit scores into existing overview + cross-nav)
+    - klien/<slug>/overview.md (overwrite)
   - Include: health scores, pass/fail checklist, priority actions, per-category breakdowns
-  - See "Report Requirements" above for full design spec (sidebar, bright theme, collapsible sections)
+  - See "Report Requirements" above for full design spec (sidebar, bright theme, collapsible sections, cross-navigation)
 ```
 
-### Output files (fresh, timestamped)
+### Overwritten files
 
 ```
 klien/$SLUG/
-├── reports/
-│   ├── audit-<slug>-<TIMESTAMP>.html    ← NEW (replaces old)
-│   ├── audit-<slug>-<TIMESTAMP>.md      ← NEW (replaces old)
-│   ├── technical-audit.md                 ← NEW
-│   ├── onpage-audit.md                    ← NEW
-│   ├── schema-audit.md                    ← NEW
-│   ├── geo-audit.md                       ← NEW
-│   └── content-quality-audit.md           ← NEW
-├── diagrams/
-│   ├── keyword-gap.html                   ← OVERWRITTEN
-│   ├── content-cluster.html               ← OVERWRITTEN
-│   └── build-priority.html                ← OVERWRITTEN
-├── ads/
-│   ├── ads-strategy.html                  ← OVERWRITTEN
-│   ├── ads-strategy.md                    ← OVERWRITTEN
-│   └── diagrams/
-│       ├── platform-fit.html              ← OVERWRITTEN
-│       ├── budget-split.html              ← OVERWRITTEN
-│       └── campaign-flow.html             ← OVERWRITTEN
-├── .freelance-project.md                  ← KEPT
-├── .freelance-state.json                  ← KEPT
-├── build/                                 ← KEPT (the handoff bundle)
-├── blog/                                  ← KEPT (plan + articles)
-├── overview.html                          ← KEPT
-├── research/                              ← KEPT
-└── 00-index.md + notes/ products/ strategy/  ← KEPT
+├── seo/reports/
+│   ├── audit.html                          ← OVERWRITTEN
+│   ├── audit.md                            ← OVERWRITTEN
+│   ├── technical-audit.md                  ← OVERWRITTEN
+│   ├── onpage-audit.md                     ← OVERWRITTEN
+│   ├── schema-audit.md                     ← OVERWRITTEN
+│   ├── geo-audit.md                        ← OVERWRITTEN
+│   └── content-quality-audit.md            ← OVERWRITTEN
+├── overview.html                           ← OVERWRITTEN
+├── overview.md                             ← OVERWRITTEN
+├── seo/diagrams/
+│   ├── keyword-gap.html                    ← OVERWRITTEN
+│   ├── content-cluster.html                ← OVERWRITTEN
+│   └── build-priority.html                 ← OVERWRITTEN
+└── ads/                                    ← NOT TOUCHED (use /freelance ads for that)
 ```
 
 ### Summary output
@@ -1006,17 +1094,15 @@ klien/$SLUG/
 ```
 🔄 Re-audit complete for <slug>
 
-🗑️  Cleaned: 7 old reports, 3 old diagrams
-🆕 Generated: 2026-08-31 14:30 WIB
-
-Files:
-  📊 reports/audit-<slug>-2026-08-31-1430.html  (open in browser)
-  📄 reports/audit-<slug>-2026-08-31-1430.md
-  🔧 reports/technical-audit.md
-  📝 reports/onpage-audit.md
-  🏷️  reports/schema-audit.md
-  🤖 reports/geo-audit.md
-  📖 reports/content-quality-audit.md
+📁 Overwritten:
+  📊 seo/reports/audit.html
+  📄 seo/reports/audit.md
+  🔧 seo/reports/technical-audit.md
+  📝 seo/reports/onpage-audit.md
+  🏷️  seo/reports/schema-audit.md
+  🤖 seo/reports/geo-audit.md
+  📖 seo/reports/content-quality-audit.md
+  🏠 overview.html + overview.md
 
 Health Score: XX/100
 Critical: X | High: X | Medium: X | Low: X
@@ -1082,6 +1168,109 @@ klien/<slug>/ads/
 
 ---
 
+## `/freelance code-fix <slug>`
+
+Iterate through all documents in the client folder, fix issues that can be
+resolved by code, and report issues that require manual decision.
+
+**Precondition:** `klien/<slug>/` must exist. If missing:
+> "Jalankan `/freelance init` dulu."
+
+### What can be fixed by code
+
+| Issue | Fix |
+|-------|-----|
+| Broken wikilinks (`[[target]]` → file doesn't exist) | Remove the link, or create a stub file |
+| Missing `related:` line at document top | Add it based on what the document links to |
+| Missing `**Related:**` footer | Add it based on wikilinks in the document |
+| Wrong heading levels (H1 inside H2, etc.) | Normalize to proper hierarchy |
+| Missing `Tampilan` / `SEO layer` split in `06-content/` | Add the split markers |
+| `00-index.md` missing links to existing files | Add the missing wikilinks |
+| Inconsistent file paths in docs (e.g., `build/01-brief.md` vs `01-brief.md`) | Normalize to relative paths from vault root |
+| Duplicate files (same content, different names) | Keep canonical, remove duplicate |
+| Missing `09-build-prompt.md` in Branch B | Assemble from 01–08 |
+| `ads/` references in `09-build-prompt.md` | Remove — ads is post-launch collateral |
+
+### What CANNOT be fixed by code (report only)
+
+| Issue | Why |
+|-------|-----|
+| Content quality / accuracy | Needs domain knowledge |
+| Missing strategic information | Needs business decision |
+| Brand voice inconsistency | Needs creative judgment |
+| SEO keyword effectiveness | Needs performance data |
+| Design token appropriateness | Needs visual review |
+| Missing competitor analysis | Needs research, not code |
+
+### Execution — parallel fix agents
+
+**Phase 1: Scan → identify → spawn parallel agents**
+
+```
+Agent 1: Scan and dispatch
+  - FIRST: Load skills: "diagram-design"
+  - Scan klien/<slug>/ for all .md files
+  - For each document, identify fixable issues (table above)
+  - For EACH issue found, spawn a parallel agent to fix it
+  - Example: if 00-index.md has 3 missing links, 02-brand.md has a missing
+    footer, and 06-content/homepage.md needs Tampilan split → spawn 3 agents
+  - Each spawned agent:
+    - Receives: file path + specific issue to fix
+    - Applies the fix inline (Edit tool)
+    - Returns: what was fixed
+  - After all agents complete, collect results into summary:
+    - Files fixed: list with what changed
+    - Files skipped: list with what needs manual attention
+    - Total issues: fixed X, needs manual Y
+```
+
+**Phase 2: Regenerate outputs (overwrite HTML + MD)**
+
+After all markdown fixes are applied, regenerate the final outputs so they
+reflect the corrected source documents. Always overwrite — same canonical path.
+Regenerate cross-navigation links so all reports point to each other.
+
+```
+Agent 2: Regenerate audit report
+  - FIRST: Load skills: "diagram-design", "dataviz"
+  - Input: corrected audit findings from Phase 1
+  - Overwrite:
+    - klien/<slug>/seo/reports/audit.html (with updated cross-nav links)
+    - klien/<slug>/seo/reports/audit.md
+
+Agent 3: Regenerate overview
+  - FIRST: Load skills: "diagram-design", "dataviz"
+  - Input: all corrected documents from Phase 1
+  - Overwrite:
+    - klien/<slug>/overview.html (with updated cross-nav links)
+    - klien/<slug>/overview.md
+```
+
+### Summary output
+
+```
+🔧 Code-fix complete for <slug>
+
+✅ Fixed (X issues):
+  📄 00-index.md — added 3 missing wikilinks
+  📄 02-brand.md — added missing **Related:** footer
+  📄 06-content/homepage.md — added Tampilan/SEO layer split
+  📄 09-build-prompt.md — assembled from 01–08
+
+📁 Regenerated outputs:
+  📊 seo/reports/audit.html (overwritten)
+  📄 seo/reports/audit.md (overwritten)
+  🏠 overview.html (overwritten)
+  📄 overview.md (overwritten)
+
+⚠️  Needs manual fix (Y issues):
+  📄 01-brief.md — missing target audience details
+  📄 03-design-tokens.md — colour contrast below WCAG AA
+  📄 08-seo-foundation.md — keyword strategy incomplete
+```
+
+---
+
 ## `/freelance status`
 
 **Precondition:** `.freelance-state.json` (or legacy `.seo-state.json`) must exist. If missing:
@@ -1096,25 +1285,31 @@ Read the state file + scan `research/`, `06-content/`, and the bundle documents.
 ## Example
 
 ```bash
-# Branch A — client already has a site
+# Branch A — client already has a site (no build bundle)
 /freelance init https://mysite.com
 # → Wave 1: scrape + competitors + keywords + questions + brand extraction
-# → Wave 4: the 10-document bundle (brief, brand, tokens, sitemap, copy, tech spec, SEO, handoff, build prompt)
-# → Wave 5: overview report + diagrams
-# → Waves 6-7: config, vault, then 09-build-prompt.md
-# → Done! Open klien/mysite.com/build/00-handoff.md, or paste 09-build-prompt.md
+# → Wave 2: 5 audit agents (technical, on-page, schema, GEO, content)
+# → Wave 3: audit report + diagrams + content plan + ads strategy
+# → Wave 4: config files + vault hub
+# → Done! Open klien/mysite.com/seo/reports/ for audit, or ads/ for ads strategy
 
-# Branch B — no site yet, just a business name
+# Branch B — no site yet, just a business name (with build bundle)
 /freelance init "Warung Kopi Kenangan"
 # → Wave 1: market + demand + discourse + industry references
 # → Wave 2: drafts a proposal and STOPS for your correction
-# → Wave 4: the 10-document bundle, built from the confirmed draft
+# → Wave 3: the 10-document bundle, built from the confirmed draft
+# → Wave 4: overview report + diagrams + content plan + ads strategy
+# → Wave 5: config files + vault hub
+# → Wave 6: assemble 09-build-prompt.md
 
 /freelance blog-write "Resep Keripik Singkong Original"
 # → Keyword research → brief → write → SEO check → schema → publish
 
 /freelance audit https://mysite.com
 # → 5 audits parallel → combined report
+
+/freelance code-fix keripikmangdedi.id
+# → iterate all docs → fix broken links, missing headers, etc. → report manual fixes
 
 /freelance status
 ```
