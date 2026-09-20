@@ -1169,19 +1169,23 @@ The project directory must also exist (e.g., `keripik-mang-dedi/`).
 
 ### How it works
 
-1. **Read the bundle** — understand what the project should be:
+1. **Read the audit report** (PRIMARY) — this is what's wrong:
+   - `seo/reports/audit.html` or `audit.md` → all issues by priority
+   - Critical and High priority = MUST fix
+   - Medium = SHOULD fix
+   - Low = NICE to fix
+
+2. **Read the bundle docs** (REFERENCE) — this is what it should be:
    - `04-sitemap.md` → which pages should exist
    - `06-content/*.md` → what content each page should have
    - `07-tech-spec.md` → what stack, components, config
    - `08-seo-foundation.md` → meta tags, schema, internal links
 
-2. **Scan the project** — find the actual project directory and check:
-   - Do all pages from sitemap actually exist?
-   - Do content files match what's in `06-content/`?
-   - Are meta tags, schema, and links correct per `08-seo-foundation.md`?
-   - Does the tech stack match `07-tech-spec.md`?
+3. **Scan the project** — map audit issues to actual files:
+   - Find which project files correspond to each audit issue
+   - Check if the fix is possible (code change vs needs rewrite)
 
-3. **Fix project files** — spawn parallel agents to fix each issue
+4. **Fix project files** — spawn parallel agents to fix each issue
 
 ### What can be fixed by project-fix
 
@@ -1205,21 +1209,30 @@ The project directory must also exist (e.g., `keripik-mang-dedi/`).
 
 ### Execution — parallel fix agents
 
-**Phase 1: Read bundle + scan project**
+**Phase 1: Read audit + bundle + scan project**
+
+The audit report is the PRIMARY input — it tells us what's wrong.
+The bundle docs tell us what the project SHOULD look like.
 
 ```
-Agent 1: Read bundle documents
+Agent 1: Read audit report (PRIMARY INPUT)
+  - Read klien/<slug>/seo/reports/audit.html or audit.md
+  - Extract all issues by priority: Critical → High → Medium → Low
+  - Each issue has: what's wrong, where, how to fix
+  - This is the FIX LIST — the starting point for Phase 2
+
+Agent 2: Read bundle documents (REFERENCE)
   - Read klien/<slug>/build/04-sitemap.md → page list
   - Read klien/<slug>/build/06-content/*.md → content per page
   - Read klien/<slug>/build/07-tech-spec.md → stack + config
   - Read klien/<slug>/build/08-seo-foundation.md → SEO requirements
-  - Produce a checklist: what the project SHOULD have
+  - Cross-reference with audit findings for context
 
-Agent 2: Scan project directory
+Agent 3: Scan project directory
   - Find the project root (from .freelance-project.md or user input)
   - Scan for all pages, components, config files
-  - Compare against Agent 1's checklist
-  - List discrepancies: missing pages, wrong content, wrong meta, etc.
+  - Map audit issues to actual project files
+  - List: which file needs which fix
 ```
 
 **Phase 2: Fix project code (parallel)**
